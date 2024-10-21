@@ -1,0 +1,574 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Region Agnostic Service Model",
+    "description": "The document representation of the generic service modeling of an Azure Service.",
+    "type": "object",
+    "properties": {
+        "contentVersion": {
+            "description": "The version of the schema that a document conforms to.",
+            "type": "string",
+            "pattern": "^([0-9]+\\.)?([0-9]+\\.)?([0-9]+\\.)?([0-9]+){1}$"
+        },
+
+        "serviceMetadata": {
+            "description": "An entity that contains information that can be used to uniquely identify an Azure service.",
+            "type": "object",
+            "properties": {
+                "serviceIdentifier": {
+                    "description": "The service tree identifier for the Azure service.",
+                    "type": "string",
+                    "minLength": 36
+                },
+                "serviceGroup": {
+                    "description": "The human-readable name of this Azure service. If multiple services share the same service tree identifier, serviceGroup can be used to differentiate individual services.",
+                    "type": "string",
+                    "minLength": 4
+                },
+                "displayName": {
+                    "description": "The name to be used for displaying information about the Azure service.",
+                    "type": "string",
+                    "minLength": 5
+                },
+                "serviceSpecificationPath": {
+                    "description": "The path to the service specification file. This enables automated registration of a service if not already registered, when using client tools.",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "tenantId": {
+                    "description": "The identifier of the tenant to which all the subscriptions and resources in the service model belong to, configuration store settings can be used to parameterize this property.",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "environment": {
+                    "description": "The environment that this particular service is operating in, configuration store settings can be used to parameterize this property.",
+                    "type": "string"
+                },
+                "buildout": {
+                    "description": "The properties that corresponds to the build-out of the service.",
+                    "type": "object",
+                    "properties": {
+                        "isForAutomatedBuildout": {
+                            "description": "The flag to pick up this service for automated buildout.",
+                            "type": "string"
+                        },
+                        "enables": {
+                            "type": "array",
+                            "description": "The list of resource capabilities enabled by this service.",
+                            "items": {
+                                "type": "object",
+                                "description": "The item with resource capabilities enabled by this service.",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "description": "The type of the enabled capability.",
+                                        "pattern": "(?i)(^ArmResourceProvider$)"
+                                    },
+                                    "properties": {
+                                        "type": "object",
+                                        "description": "The properties for the armResourceProvider type.",
+                                        "properties": {
+                                            "namespace": {
+                                                "type": "string",
+                                                "description": "The namespace of the ARM resource provider enabled by this service."
+                                            },
+                                            "resourceTypes": {
+                                                "type": "array",
+                                                "description": "The list of ARM resource types enabled by this service",
+                                                "items": {
+                                                    "type": "object",
+                                                    "description": "The ARM resource types enabled by this service",
+                                                    "properties": {
+                                                        "name": {
+                                                            "type": "string",
+                                                            "description": "The name of the ARM resource type. Wildcard character * is supported after a '/'."
+                                                        },
+                                                        "apiVersions": {
+                                                            "type": "array",
+                                                            "description": "The list API versions of supported for the ARM resource type",
+                                                            "items": {
+                                                                "type": "string",
+                                                                "description": "The API versions of supported for the ARM resource type as specified in the ARM manifest"
+                                                            }
+                                                        }
+                                                    },
+                                                    "required": [ "name" ]
+                                                },
+                                                "minItems": 1
+                                            }
+                                        },
+                                        "required": [ "namespace", "resourceTypes" ]
+                                    }
+                                },
+                                "required": [ "type" ]
+                            }
+                        },
+                        "dependencies": {
+                            "type": "array",
+                            "description": "The list of dependent services that should be available before this service can be built in an Azure region.",
+                            "items": {
+                                "type": "object",
+                                "description": "The information that identifies the dependency.",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "The name given to refer to this dependency."
+                                    },
+                                    "serviceIdentifier": {
+                                        "type": "string",
+                                        "description": "The service tree identifier of the dependency."
+                                    },
+                                    "serviceGroup": {
+                                        "type": "string",
+                                        "description": "The service group name of the dependency."
+                                    },
+                                    "displayName": {
+                                        "type": "string",
+                                        "description": "The name to be used to display information about this dependency."
+                                    }
+                                }
+                            }
+                        },
+                        "phase": {
+                            "type": "string",
+                            "description": "The phase of the service buildout. Only accepted values are 'Pre', 'Core' and 'Post'."
+                        }
+                    }
+                }
+            },
+            "required": [
+                "serviceIdentifier",
+                "serviceGroup",
+                "displayName",
+                "environment"
+            ]
+        },
+
+        "subscriptionProvisioning": {
+            "type": "object",
+            "description": "The information on how to create and configure subscriptions.",
+            "properties": {
+                "rolloutParametersPath": {
+                    "type": "string",
+                    "description": "The path to the rollout parameters file that defines the parameters for provisioning subscriptions."
+                },
+                "roleAssignment": {
+                    "type": "object",
+                    "description": "The role assignment configurations for the subscriptions.",
+                    "properties": {
+                        "armTemplatePath": {
+                            "type": "string",
+                            "description": "The path to the ARM template file which declares role assignments that are required to be configured on the subscription."
+                        },
+                        "armParametersPath": {
+                            "type": "string",
+                            "description": "The path to the ARM parameters file that corresponds to the role assignments ARM template."
+                        }
+                    },
+                    "required": [ "armTemplatePath", "armParametersPath" ]
+                },
+                "scopeTags": {
+                    "type": "array",
+                    "description": "The list of scope tags for subscription provisioning parameters files",
+                    "items": {
+                        "type": "object",
+                        "description": "Defines the scope tag",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "The scope tag name"
+                            }
+                        }
+                    }
+                }
+            },
+            "required": [ "rolloutParametersPath" ]
+        },
+
+        "assistedIdentity": {
+            "type": "object",
+            "description": "Defines an assisted identity for service deployments.",
+            "properties": {
+                "rolloutParametersPath": {
+                    "type": "string",
+                    "description": "The path to the rollout parameters file that defines the parameters for provisioning assisted identity."
+                },
+                "scopeTags": {
+                    "type": "array",
+                    "description": "The list of scope tags for assisted identity rollout parameter file.",
+                    "items": {
+                        "type": "object",
+                        "description": "Defines the scope tag",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "The scope tag name"
+                            }
+                        }
+                    }
+                }
+            },
+            "required": [ "rolloutParametersPath" ]
+        },
+
+        "serviceResourceGroupDefinitions": {
+            "description": "",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "description": "The enumeration of the various resource group definitions that represent how to construct the resource groups that constitute this cloud service.",
+                "properties": {
+                    "name": {
+                        "description": "The human-readable name of the definition.",
+                        "type": "string"
+                    },
+                    "subscriptionKey": {
+                        "description": "The key to refer to a specific subscription. Declaring the same subscriptionKey across different ServiceResourceGroupDefinitions will deploy those resources to the same subscription. Configuration store settings can be used to parameterize this property.",
+                        "type": "string"
+                    },
+                    "azureResourceGroupName": {
+                        "description": "The Azure Resource Group name. System variables and configuration store settings can be used to parameterize this property for different locations, clouds. If not provided, an auto-generated name based on the ServiceResourceGroupDefinition name, the buildout location and stamp would be used.",
+                        "type": "string"
+                    },
+                    "managementGroupId": {
+                        "description": "The ID of the management group that management-group-level resources created from this service resource group definition will be deployed to. Can be parameterized (see docs).",
+                        "type": "string"
+                    },
+                    "executionConstraint": {
+                        "description": "The constraint defining the scope at which the service resource group and the resources defined should be deployed.",
+                        "type": "object",
+                        "properties": {
+                            "level": {
+                                "description": "The execution constraint scope level",
+                                "type": "string",
+                                "pattern": "(?i)(^Cloud$|^Region$)"
+                            },
+                            "quantifier": {
+                                "description": "The quantifier to decide if already deployed resources can be redeployed or not.",
+                                "type": "string",
+                                "pattern": "(?i)(^Always$|^Once$)"
+                            },
+                            "regions": {
+                                "description": "The specified regions to deploy to. Format is string array or configuration store settings can be used to parameterize this property.",
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                ]
+                            },
+                            "isInCloud": {
+                                "description": "The flag to represent if resources should be deployed to current cloud. Format is boolean or configuration store settings can be used to parameterize this property.",
+                                "anyOf": [
+                                    { "type": "string" },
+                                    { "type": "boolean" }
+                                ]
+                            }
+                        },
+                        "required": [ "level", "quantifier" ]
+                    },
+                    "stamps": {
+                        "type": "object",
+                        "description": "The information about the stamps that should be created for this service resource group definition.",
+                        "properties": {
+                            "count": {
+                                "type": "integer",
+                                "description": "The count of the number of stamps to provision for this service resource group definition in a location. Configuration store settings can be used to parameterize this property.",
+                                "default": 1,
+                                "minimum": 1
+                            }
+                        }
+                    },
+                    "scopeTags": {
+                        "type": "array",
+                        "description": "The list of scope tags for the service resource group definition.",
+                        "items": {
+                            "type": "object",
+                            "description": "Defines the scope tag",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "The scope tag name"
+                                }
+                            }
+                        }
+                    },
+                    "policy": {
+                        "description": "The policy information.",
+                        "type": "object",
+                        "properties": {
+                            "skipSafeRolloutPolicyCheck": {
+                                "description": "Determines if safe rollout policy should be applied on this resource group definition.",
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "serviceResourceDefinitions": {
+                        "type": "array",
+                        "description": "The enumeration of the various resource definitions that represent how to construct the resources that constitute this resource group definition.",
+                        "items": {
+                            "type": "object",
+                            "description": "The object representation of the definition of a particular resource in the Cloud Service Model.",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "The human-readable name of the definition."
+                                },
+                                "scopeTags": {
+                                    "type": "array",
+                                    "description": "The list of scope tags for the service resource definition.",
+                                    "items": {
+                                        "type": "object",
+                                        "description": "Defines the scope tag",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "description": "The scope tag name"
+                                            }
+                                        }
+                                    }
+                                },
+                                "policy": {
+                                    "description": "The policy information.",
+                                    "type": "object",
+                                    "properties": {
+                                        "skipSafeRolloutPolicyCheck": {
+                                            "description": "Determines if safe rollout policy should be applied on this resource definition.",
+                                            "type": "boolean"
+                                        }
+                                    }
+                                },
+                                "composedOf": {
+                                    "type": "object",
+                                    "description": "Resource composition parts which apply to this resource definition",
+                                    "properties": {
+                                        "arm": {
+                                            "type": "object",
+                                            "description": "Arm Composition Part",
+                                            "properties": {
+                                                "templatePath": {
+                                                    "type": "string",
+                                                    "description": "The path to the ARM template file for this particular definition."
+                                                },
+                                                "parametersPath": {
+                                                    "type": "string",
+                                                    "description": "The path to the ARM parameters file for this particular definition."
+                                                },
+                                                "deploymentLevel": {
+                                                    "type": "string",
+                                                    "description": "The deployment level for the ARM templates."
+                                                }
+                                            }
+                                        },
+                                        "extension": {
+                                            "type": "object",
+                                            "description": "Extension Composition Part",
+                                            "properties": {
+                                                "rolloutParametersPath": {
+                                                    "type": "string",
+                                                    "description": "The path to the rollout parameters file for this particular definition."
+                                                },
+                                                "allowedTypes": {
+                                                    "type": "array",
+                                                    "description": "The allowed Http extension types.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "description": "",
+                                                        "properties": {
+                                                            "Type": {
+                                                                "type": "string",
+                                                                "description": "Full extension name, e.g. 'ExtenionNamespace/ExtentionType'"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "shell": {
+                                                    "type": "array",
+                                                    "description": "Shell extensions.",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "description": "",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string",
+                                                                "description": "The shell extension name, e.g. 'MySimpleShell'"
+                                                            },
+                                                            "properties": {
+                                                                "type": "object",
+                                                                "description": "The shell extension definition properties.",
+                                                                "properties": {
+                                                                    "imageName": {
+                                                                        "type": "string",
+                                                                        "description": "Shell image name. Must end in -l for linux images and -w for windows images. e.g. adm-ubuntu-1804-l",
+                                                                        "pattern": "^adm-[a-z]+[-0-9]*-[l|w]$"
+                                                                    },
+                                                                    "imageVersion": {
+                                                                        "type": "string",
+                                                                        "description": "Shell image version. Must begin with v. e.g. v16",
+                                                                        "pattern": "^v[0-9]*$"
+                                                                    },
+                                                                    "cpu": {
+                                                                        "type": "string",
+                                                                        "description": "The CPU core count as a string with integer value e.g. 2",
+                                                                        "pattern": "^[0-9]+$"
+                                                                    },
+                                                                    "memoryInGB": {
+                                                                        "type": "string",
+                                                                        "description": "The memory in GB as a string with decimal value e.g. 2.0",
+                                                                        "pattern": "^[0-9]+(.)[0-9]+$"
+                                                                    }
+                                                                },
+                                                                "required": [ "imageName", "imageVersion" ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "application": {
+                                            "type": "object",
+                                            "description": "Application Composition Part",
+                                            "properties": {
+                                                "names": {
+                                                    "description": "The list of the application definition names.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "description": "The application definition name.",
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [ "name", "composedOf" ]
+                        },
+                        "minLength": 1,
+                        "uniqueItems": true
+                    }
+                },
+                "required": [ "name", "serviceResourceDefinitions", "subscriptionKey" ]
+            },
+            "minLength": 1,
+            "uniqueItems": true
+        },
+        "applicationDefinitions": {
+            "description": "",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "description": "The enumeration of the various application definitions that represent how to construct the applications.",
+                "properties": {
+                    "name": {
+                        "description": "The human-readable name of the definition.",
+                        "type": "string"
+                    },
+                    "armResourceName": {
+                        "type": "string",
+                        "description": "The arm resource name."
+                    },
+                    "rollbackOnFailure": {
+                        "type": "string",
+                        "description": "The flag whether to rollback on failure."
+                    },
+                    "azureKubernetesService": {
+                        "type": "object",
+                        "description": "The AKS application properties.",
+                        "properties": {
+                            "specPath": {
+                                "description": "The AKS spec path.",
+                                "type": "string"
+                            },
+                            "namespace": {
+                                "description": "The AKS namespace.",
+                                "type": "string"
+                            },
+                            "releaseName": {
+                                "description": "The helm chart name.",
+                                "type": "string"
+                            },
+                            "chart": {
+                                "description": "The helm package.",
+                                "type": "object",
+                                "properties": {
+                                    "reference": {
+                                        "description": "The reference for helm chart.",
+                                        "type": "object",
+                                        "properties": {
+                                            "path": {
+                                                "description": "The path to helm zip artifacts",
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "acrImagePath": {
+                                        "description": "The ACR image path.",
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "valuesPath": {
+                                "description": "The helm values path.",
+                                "type": "string"
+                            },
+                            "valuesPaths": {
+                                "description": "The helm values paths.",
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "description": "The helm values path."
+                                }
+                            },
+                            "tools": {
+                                "description": "The application tools.",
+                                "type": "object",
+                                "properties": {
+                                    "helm": {
+                                        "description": "The helm tool",
+                                        "type": "object",
+                                        "properties": {
+                                            "version": {
+                                                "description": "The version of helm to use",
+                                                "type": "string"
+                                            },
+                                            "arguments": {
+                                                "description": "The helm arguments",
+                                                "type": "object",
+                                                "properties": {
+                                                    "timeout": {
+                                                        "description": "The helm timeout",
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "kubectl": {
+                                        "description": "The kubectl tool",
+                                        "type": "object",
+                                        "properties": {
+                                            "version": {
+                                                "description": "The version of kubectl to use",
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "required": [
+        "contentVersion",
+        "serviceMetadata",
+        "serviceResourceGroupDefinitions"
+    ]
+}

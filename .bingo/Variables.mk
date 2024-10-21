@@ -23,6 +23,12 @@ $(BINGO): $(BINGO_DIR)/bingo.mod
 	@echo "(re)installing $(GOBIN)/bingo-v0.9.0"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=bingo.mod -o=$(GOBIN)/bingo-v0.9.0 "github.com/bwplotka/bingo"
 
+GO_JSONSCHEMA := $(GOBIN)/go-jsonschema-v0.16.0
+$(GO_JSONSCHEMA): $(BINGO_DIR)/go-jsonschema.mod
+	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
+	@echo "(re)installing $(GOBIN)/go-jsonschema-v0.16.0"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=go-jsonschema.mod -o=$(GOBIN)/go-jsonschema-v0.16.0 "github.com/atombender/go-jsonschema"
+
 GOIMPORTS := $(GOBIN)/goimports-v0.26.0
 $(GOIMPORTS): $(BINGO_DIR)/goimports.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
