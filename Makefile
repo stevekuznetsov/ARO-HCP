@@ -33,5 +33,12 @@ _output/RegionAgnosticServiceModel.json _output/RegionAgnosticRolloutSpecificati
 _output/service_model.go: _output/RegionAgnosticServiceModel.json $(GO_JSONSCHEMA)
 	$(GO_JSONSCHEMA) _output/RegionAgnosticServiceModel.json --output _output/service_model.go --package github.com/ARO-HCP/_output
 
-_output/rollout_spec.go: _output/RegionAgnosticRolloutSpecification.json $(GO_JSONSCHEMA)
-	$(GO_JSONSCHEMA) _output/RegionAgnosticRolloutSpecification.json --output _output/rollout_spec.go --package github.com/ARO-HCP/_output
+_output/onFailure: _output/RegionAgnosticRolloutSpecification.json
+	jq --raw-output '.properties.onFailure' <_output/RegionAgnosticRolloutSpecification.json >_output/onFailure
+
+_output/RegionAgnosticRolloutSpecification.modified.json: _output/onFailure
+	jq --slurpfile onFailure _output/onFailure '.["$$defs"]["onFailure"]=$$onFailure[0]' <_output/RegionAgnosticRolloutSpecification.json >_output/RegionAgnosticRolloutSpecification.modified.json
+	sed -i 's|#/properties/onFailure|#/$$defs/onFailure|g' _output/RegionAgnosticRolloutSpecification.modified.json
+
+_output/rollout_spec.go: _output/RegionAgnosticRolloutSpecification.modified.json $(GO_JSONSCHEMA)
+	$(GO_JSONSCHEMA) _output/RegionAgnosticRolloutSpecification.modified.json --output _output/rollout_spec.go --package github.com/ARO-HCP/_output

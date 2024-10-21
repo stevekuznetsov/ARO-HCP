@@ -1,0 +1,68 @@
+{
+  "description": "The action to be taken upon failure.",
+  "type": "object",
+  "properties": {
+    "retry": {
+      "description": "The properties to define retry upon failure.",
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "description": "Error conditions on which retry should be triggered.",
+          "type": "object",
+          "properties": {
+            "errorsContainAny": {
+              "description": "The list of error conditions on which rollout should be retried.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "errorsContainAny"
+          ]
+        },
+        "maxRetryAttempts": {
+          "description": "Max number of retries to be attempted.",
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 1
+        },
+        "waitDurationBetweenRetry": {
+          "description": "The wait duration between each retry in ISO8601 format.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "conditions",
+        "maxRetryAttempts",
+        "waitDurationBetweenRetry"
+      ]
+    },
+    "continue": {
+      "description": "The properties to define continue upon failure.",
+      "type": "object",
+      "properties": {
+        "conditions": {
+          "description": "Error conditions on which continue should be triggered.",
+          "type": "object",
+          "properties": {
+            "errorsContainAny": {
+              "description": "The list of error conditions on which rollout should be continued.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "errorsContainAny"
+          ]
+        }
+      },
+      "required": [
+        "conditions"
+      ]
+    }
+  }
+}
