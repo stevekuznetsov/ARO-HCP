@@ -17,6 +17,7 @@ defaults:
   subnetPrefix: "10.128.8.0/21"
   podSubnetPrefix: "10.128.64.0/18"
   aksName: aro-hcp-aks
+  acrPullImageDigest: sha256:8e214e820975bdfb24843c6eb24d7b970f20b4064b8968fbd3e2d573177cea27 #v0.1.6
 
   # Hypershift
   hypershift:
