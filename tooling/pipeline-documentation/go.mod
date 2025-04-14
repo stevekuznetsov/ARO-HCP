@@ -1,0 +1,17 @@
+module github.com/Azure/ARO-HCP/tooling/pipeline-documentation
+
+go 1.24.1
+
+require (
+	github.com/Azure/ARO-Tools v0.0.0-20250408000404-9cb5abc88512
+	github.com/dusted-go/logging v1.3.0
+	github.com/go-logr/logr v1.4.2
+	github.com/spf13/cobra v1.9.1
+)
+
+require (
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/spf13/pflag v1.0.6 // indirect
+	k8s.io/apimachinery v0.32.3 // indirect
+	sigs.k8s.io/yaml v1.4.0 // indirect
+)

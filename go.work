@@ -11,5 +11,6 @@ use (
 	./tooling/mcerepkg
 	./tooling/secret-sync
 	./tooling/templatize
-	tooling/prometheus-rules
+	./tooling/prometheus-rules
+	./tooling/pipeline-documentation
 )
