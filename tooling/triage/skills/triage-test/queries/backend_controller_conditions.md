@@ -1,0 +1,3 @@
+# RP Backend Controller Conditions
+
+This query fetches controller statuses for the RP Backend emitted while ensuring the cluster is provisioned and running for the customer. Controllers each enforce some subset of the state we care about - if any are having issues, they will post unhappy status and should be investigated. Today, some of the provisioning for the clusters is done by clusters-service, so if no controllers in the backend are having issues, check the clusters-service logs to see if there's an issue at a deeper layer of the stack.

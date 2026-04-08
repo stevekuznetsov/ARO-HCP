@@ -1,0 +1,3 @@
+# HyperShift HostedCluster Status
+
+This query divulges the ongoing status updates from HyperShift, a component which runs on the management cluster and turns a request for a cluster (a HostedCluster CR) into the running OpenShift control plane. The logs in this query are dumped from the back-channel from Maestro, so if we see anything here, we know that Maestro is shipping state & status back and forth. The query shows conditions on the HostedCluster, which should pinpoint which part of cluster provisioning is having issues. In addition to this view, check the Kubernetes events for the Pods that make up the HostedCluster.
