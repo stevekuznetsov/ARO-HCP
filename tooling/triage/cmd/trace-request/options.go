@@ -40,6 +40,9 @@ type querySpec struct {
 	// in the templateData. Queries whose ready function returns false are skipped.
 	// A nil ready function means the query has no prerequisites.
 	ready func(templateData) bool
+	// prerequisites is a human-readable description of the data this query requires
+	// (e.g. "ResourceID"). Used in the summary to explain why a query was skipped.
+	prerequisites string
 	// storeResult is called with the first column of every row in the query's result.
 	// It stores the values into the appropriate field(s) on templateData so downstream
 	// queries can reference them. A nil storeResult means the query's output is not
@@ -96,6 +99,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.AsyncOperationPath != ""
 		},
+		prerequisites: "AsyncOperationPath",
 	},
 	{
 		component:    "frontend",
@@ -111,6 +115,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.AsyncOperationId != ""
 		},
+		prerequisites: "AsyncOperationId",
 	},
 	{
 		component:    "backend",
@@ -120,6 +125,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.ResourceID != ""
 		},
+		prerequisites: "ResourceID",
 	},
 	{
 		component:    "backend",
@@ -129,6 +135,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.ResourceGroup != "" && d.ResourceType != ""
 		},
+		prerequisites: "ResourceGroup, ResourceType",
 	},
 	{
 		component:    "backend",
@@ -138,6 +145,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.ResourceGroup != "" && d.ServiceProviderResourceType != ""
 		},
+		prerequisites: "ResourceGroup, ServiceProviderResourceType",
 	},
 	{
 		component:    "backend",
@@ -147,6 +155,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.ResourceGroup != "" && d.ResourceType != ""
 		},
+		prerequisites: "ResourceGroup, ResourceType",
 		storeResult: func(d *templateData, results []string) {
 			d.InternalID = results[0]
 		},
@@ -165,6 +174,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.ResourceID != ""
 		},
+		prerequisites: "ResourceID",
 		storeResult: func(d *templateData, results []string) {
 			d.ClusterID = results[0]
 		},
@@ -182,6 +192,7 @@ var queries = []querySpec{
 			return rt == "microsoft.redhatopenshift/hcpopenshiftclusters" ||
 				rt == "microsoft.redhatopenshift/hcpopenshiftclusters/nodepools"
 		},
+		prerequisites: "ResourceID, ResourceType is cluster or nodepool",
 	},
 	{
 		component:    "clustersService",
@@ -191,6 +202,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.ResourceGroup != "" && strings.EqualFold(d.ResourceType, "microsoft.redhatopenshift/hcpopenshiftclusters")
 		},
+		prerequisites: "ResourceGroup, ResourceType is cluster",
 	},
 	{
 		component:    "clustersService",
@@ -200,6 +212,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.ResourceID != ""
 		},
+		prerequisites: "ResourceID",
 		storeResult: func(d *templateData, results []string) {
 			d.BundleIDs = results
 		},
@@ -224,6 +237,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return len(d.BundleIDs) > 0
 		},
+		prerequisites: "BundleIDs",
 	},
 	{
 		component:    "maestro",
@@ -233,6 +247,40 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return len(d.BundleIDs) > 0
 		},
+		prerequisites: "BundleIDs",
+	},
+	{
+		component:    "hypershift",
+		queryName:    "hostedClusterNamespace",
+		templatePath: "queries/hypershift/hostedClusterNamespace/query.kql",
+		database:     "service",
+		ready: func(d templateData) bool {
+			return d.ResourceGroup != "" && d.ResourceName != "" && strings.EqualFold(d.ResourceType, "microsoft.redhatopenshift/hcpopenshiftclusters")
+		},
+		prerequisites: "ResourceGroup, ResourceName, ResourceType is cluster",
+		storeResult: func(d *templateData, results []string) {
+			d.HostedClusterNamespace = results[0]
+		},
+	},
+	{
+		component:    "hypershift",
+		queryName:    "events",
+		templatePath: "queries/hypershift/events/query.kql",
+		database:     "service",
+		ready: func(d templateData) bool {
+			return d.HostedClusterNamespace != ""
+		},
+		prerequisites: "HostedClusterNamespace",
+	},
+	{
+		component:    "hypershift",
+		queryName:    "controlPlaneEvents",
+		templatePath: "queries/hypershift/controlPlaneEvents/query.kql",
+		database:     "service",
+		ready: func(d templateData) bool {
+			return d.HostedClusterNamespace != ""
+		},
+		prerequisites: "HostedClusterNamespace",
 	},
 	{
 		component:    "hypershift",
@@ -240,8 +288,9 @@ var queries = []querySpec{
 		templatePath: "queries/hypershift/pkiOperatorEvents/query.kql",
 		database:     "service",
 		ready: func(d templateData) bool {
-			return d.ClusterID != "" && strings.EqualFold(d.ResourceType, "microsoft.redhatopenshift/hcpopenshiftclusters/requestadmincredential")
+			return d.HostedClusterNamespace != "" && strings.EqualFold(d.ResourceType, "microsoft.redhatopenshift/hcpopenshiftclusters/requestadmincredential")
 		},
+		prerequisites: "HostedClusterNamespace, ResourceType is requestAdminCredential",
 	},
 	{
 		component:    "hypershift",
@@ -251,6 +300,7 @@ var queries = []querySpec{
 		ready: func(d templateData) bool {
 			return d.ResourceGroup != "" && d.ResourceName != "" && strings.EqualFold(d.ResourceType, "microsoft.redhatopenshift/hcpopenshiftclusters")
 		},
+		prerequisites: "ResourceGroup, ResourceName, ResourceType is cluster",
 	},
 }
 
@@ -292,6 +342,9 @@ type templateData struct {
 	// ClusterID is the internal Cluster Service identifier for the cluster, populated
 	// by the clustersService/cid query.
 	ClusterID string
+	// HostedClusterNamespace is the namespace-name identifier for the HostedCluster
+	// resource on the management cluster, populated by the hypershift/hostedClusterNamespace query.
+	HostedClusterNamespace string
 }
 
 // serviceProviderResourceType maps an ARM resource type to its corresponding service
@@ -448,6 +501,13 @@ type kustoQueryRequest struct {
 	CSL string `json:"csl"`
 }
 
+// skippedQuery records a query that was not executed because its prerequisites
+// were not satisfied.
+type skippedQuery struct {
+	key           string
+	prerequisites string
+}
+
 func (o *TraceRequestOptions) Run(ctx context.Context) error {
 	logger := logr.FromContextOrDiscard(ctx)
 
@@ -456,10 +516,13 @@ func (o *TraceRequestOptions) Run(ctx context.Context) error {
 		"toLower":     strings.ToLower,
 	}
 
+	var skipped []skippedQuery
+
 	for _, q := range queries {
 		// If this query has prerequisites, check that they are satisfied.
 		if q.ready != nil && !q.ready(o.templateData) {
 			logger.Info("Skipping query because prerequisites are not satisfied", "query", q.key())
+			skipped = append(skipped, skippedQuery{key: q.key(), prerequisites: q.prerequisites})
 			continue
 		}
 
@@ -481,6 +544,71 @@ func (o *TraceRequestOptions) Run(ctx context.Context) error {
 		}
 	}
 
+	if err := o.writeSummary(skipped); err != nil {
+		return fmt.Errorf("failed to write summary: %w", err)
+	}
+
+	return nil
+}
+
+// writeSummary generates a SUMMARY.md in the output directory containing a table of
+// discovered facts from queries and a list of any queries that were skipped.
+func (o *TraceRequestOptions) writeSummary(skipped []skippedQuery) error {
+	var buf bytes.Buffer
+	buf.WriteString("# Trace Request Summary\n\n")
+
+	// --- Discovered facts table ---
+	buf.WriteString("## Discovered Facts\n\n")
+	buf.WriteString("| Fact | Value |\n")
+	buf.WriteString("|------|-------|\n")
+
+	d := o.templateData
+	// Seed values (always present)
+	buf.WriteString(fmt.Sprintf("| Correlation ID | `%s` |\n", d.CorrelationID))
+	buf.WriteString(fmt.Sprintf("| Start Time | `%s` |\n", d.StartTime.Format(time.RFC3339)))
+	buf.WriteString(fmt.Sprintf("| End Time | `%s` |\n", d.EndTime.Format(time.RFC3339)))
+	buf.WriteString(fmt.Sprintf("| Cluster URI | `%s` |\n", d.ClusterURI))
+
+	// Query-populated values — only include non-empty ones
+	type fact struct {
+		label string
+		value string
+	}
+	facts := []fact{
+		{"Resource ID", d.ResourceID},
+		{"Resource Type", d.ResourceType},
+		{"Resource Group", d.ResourceGroup},
+		{"Resource Name", d.ResourceName},
+		{"Service Provider Resource Type", d.ServiceProviderResourceType},
+		{"Async Operation ID", d.AsyncOperationId},
+		{"Async Operation Path", d.AsyncOperationPath},
+		{"Internal ID", d.InternalID},
+		{"Cluster ID", d.ClusterID},
+		{"Hosted Cluster Namespace", d.HostedClusterNamespace},
+		{"Bundle IDs", strings.Join(d.BundleIDs, ", ")},
+	}
+	for _, f := range facts {
+		if f.value != "" {
+			buf.WriteString(fmt.Sprintf("| %s | `%s` |\n", f.label, f.value))
+		}
+	}
+
+	// --- Skipped queries ---
+	buf.WriteString("\n## Skipped Queries\n\n")
+	if len(skipped) == 0 {
+		buf.WriteString("All queries were executed.\n")
+	} else {
+		buf.WriteString("| Query | Missing Prerequisites |\n")
+		buf.WriteString("|-------|-----------------------|\n")
+		for _, s := range skipped {
+			buf.WriteString(fmt.Sprintf("| %s | %s |\n", s.key, s.prerequisites))
+		}
+	}
+
+	summaryFile := filepath.Join(o.outputDir, "SUMMARY.md")
+	if err := os.WriteFile(summaryFile, buf.Bytes(), 0o644); err != nil {
+		return fmt.Errorf("failed to write summary file %s: %w", summaryFile, err)
+	}
 	return nil
 }
 

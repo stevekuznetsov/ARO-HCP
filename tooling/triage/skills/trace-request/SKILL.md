@@ -131,3 +131,32 @@ Each query directory contains `query.kql` (the rendered query), `output.json`
 (the raw Kusto response), and `output.md` (the results as a Markdown table).
 Use the `kusto-query-table` skill to re-render any `output.json` file as a
 Markdown table if needed.
+
+### Maestro Server Log Messages — Data Flow Reference
+
+```
+Source Client → Server → Agent → Server → Source Client
+```
+
+| Log Message | Flow Stage | Direction |
+|---|---|---|
+| `receive the event from client` | Server receives spec from source client via gRPC `Publish()` | **Inbound** |
+| `Sending event` | Server sends spec CloudEvent to broker (toward agent) | **Outbound to agent** |
+| `Received event` | Server receives status CloudEvent back from agent | **Inbound from agent** |
+| `Updating resource status` | Server persists status to database | **Internal** |
+| `send the event to status subscribers` | Server broadcasts status to gRPC `Subscribe()` streams | **Outbound to source** |
+
+### Maestro Agent Log Messages — Data Flow Reference
+
+```
+Agent receives spec → applies/deletes manifests on target cluster → reports status back
+```
+
+| Log Message | Flow Stage | Description |
+|---|---|---|
+| `Received event` | **Receive — spec** | Agent receives a spec CloudEvent from the broker (OCM SDK `baseClient.subscribe()`) |
+| `Patching resource` | **Apply — ownership** | Agent patches owner references on an existing resource (merge-patch to set/update `AppliedManifestWork` ownership) |
+| `Server side applied` | **Apply — spec** | Agent applied the manifest to the target cluster via server-side apply (`Resource.Apply()`) |
+| `Sending event` | **Report — status** | Agent publishes a status CloudEvent back to the broker (OCM SDK `baseClient.publish()`) |
+| `Deleted resource` | **Delete — issued** | Agent sent a delete request for the resource; it may still be pending finalization |
+| `Resource is removed successfully` | **Delete — confirmed** | Agent confirmed the resource no longer exists on the target cluster (404 on GET) |
