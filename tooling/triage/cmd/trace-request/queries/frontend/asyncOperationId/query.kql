@@ -1,0 +1,7 @@
+database('{{ .ServiceDatabase }}').table('frontendLogs')
+| where timestamp between ({{ kqlDatetime .StartTime }} .. {{ kqlDatetime .EndTime }})
+| where log.correlation_id == '{{ .CorrelationID }}'
+| where log.msg == 'response complete'
+| where log.method == 'put' or log.method == 'post'
+| project replace_regex(tolower(tostring(parse_url(tostring(log["Header---Azure-AsyncOperation"])).Path)), @"/locations/[^/]+", "")
+| limit 1

@@ -156,7 +156,10 @@ func MiddlewareLogging(w http.ResponseWriter, r *http.Request, next http.Handler
 		"Retry-After-Ms",
 		"x-ms-error-code",
 	} {
-		responseContextValues = append(responseContextValues, "Header---"+header, w.Header().Get(header))
+		value := w.Header().Get(header)
+		if value != "" {
+			responseContextValues = append(responseContextValues, "Header---"+header, value)
+		}
 	}
 
 	logger.Info("response complete", responseContextValues...)

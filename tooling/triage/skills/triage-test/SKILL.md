@@ -47,8 +47,9 @@ Create a file ANALYSIS.md which provides:
       server logs that sent it before moving on to figure out why the server had an error.
       Always read the server's source code to understand the context for an error message.
    b. for every substantive claim in a statement, prove without a doubt that the claim is
-      true with a Kusto query deep-link and the logs returned by the query, formatted verbatim
-      as they are returned from Kusto, in a Markdown table. Prune the output of the Kusto query
+       true with a Kusto query deep-link and the logs returned by the query, formatted verbatim
+       as they are returned from Kusto, in a Markdown table. Use the kusto-query-table skill to
+       render raw Kusto JSON output as a Markdown table. Prune the output of the Kusto query
       with `where` clauses or time bounds to make the output as concise as possible.
 4. When a "why?" cannot be definitively proven, STOP and declare as such - do NOT theorize,
    make claims without proof, etc. Provide some insights into what other logs would have been
@@ -73,7 +74,8 @@ query in the analysis document.
 Ensure that the proof is a core part of the prose - follow every single claim with the
 proof for it, using the deep-link tool to fill in the header, ensuring the analysis document
 contains the deep link *and* the KQL Kusto query that was run, and providing the verbatim
-output from Kusto in a table for human review.
+output from Kusto in a table for human review. Use the kusto-query-table skill to convert
+raw Kusto JSON responses into Markdown tables for embedding in the analysis document.
 
 ## Directions
 
@@ -102,10 +104,19 @@ will help guide debugging sessions.
 Review the queries in the `queries` sub-directory, reading the Markdown files for
 queries that seem relevant. In order to execute one, set `KQL_FILE` to the `*.kql`
 path matching the Markdown file (for instance, `frontend.md` matches `frontend.kql`).
-Use the kusto-query skill to run the query and the kusto-deeplink skill to generate a
-deep link to the query for the analysis document. Ensure that queries are as minimal
+Use the kusto-query skill to run the query, the kusto-deeplink skill to generate a
+deep link to the query for the analysis document, and the kusto-query-table skill to
+render the raw Kusto JSON output as a Markdown table. Ensure that queries are as minimal
 as possible - for the smallest time period, filtered to the objects that matter, only
 pertaining to the correlation ID for the single request that failed, etc.
+
+Start by identifying the "core" mutating query that went wrong during the test, and use
+the trace-request skill to grab the associated logs, state snapshots, and pod events to
+determine, for each component in the stack:
+- were there any anomalies in the handling of state, as seen in conditions or logs?
+- do the state snapshots show any irregularities?
+- did the component correctly forward state to the next part of the stack?
+- do any events show issues with running the component at the time?
 
 Review Kusto Table definitions in `dev-infrastructure/modules/logs/kusto/tables/` for
 available tables, their schemas and ingest mappings.

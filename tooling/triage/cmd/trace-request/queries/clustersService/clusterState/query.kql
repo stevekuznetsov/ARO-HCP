@@ -1,0 +1,9 @@
+cluster('{{ .ClusterURI }}').database('{{ .ServiceDatabase }}').table('backendLogs')
+| where timestamp between ({{ kqlDatetime .StartTime }} .. {{ kqlDatetime .EndTime }})
+| where container_name == 'aro-hcp-backend'
+| where log.controller_name == 'csstatedump'
+| where log.controllerKey.resourceGroupName == '{{ .ResourceGroup }}'
+| where log.controllerKey.hcpClusterName == '{{ .ResourceName }}'
+| summarize take_any(log.csCluster) by timestamp
+| sort by timestamp asc
+| project log_csCluster

@@ -2,8 +2,10 @@ package kql
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"os"
+	"strings"
 	"text/template"
 	"time"
 
@@ -33,8 +35,8 @@ func KustoHost(clusterName, region string) string {
 	return fmt.Sprintf("%s.%s.kusto.windows.net", clusterName, region)
 }
 
-// kqlDatetime formats a time.Time as a KQL datetime literal, e.g. datetime(2024-01-15T10:30:00Z).
-func kqlDatetime(t time.Time) string {
+// KQLDatetime formats a time.Time as a KQL datetime literal, e.g. datetime(2024-01-15T10:30:00Z).
+func KQLDatetime(t time.Time) string {
 	return fmt.Sprintf("datetime(%s)", t.UTC().Format(time.RFC3339))
 }
 
@@ -46,7 +48,7 @@ func RenderTemplate(kqlFilePath string, data TemplateData) (string, error) {
 	}
 
 	funcMap := template.FuncMap{
-		"kqlDatetime": kqlDatetime,
+		"kqlDatetime": KQLDatetime,
 	}
 	tmpl, err := template.New("kql").Funcs(funcMap).Parse(string(kqlTemplate))
 	if err != nil {
@@ -173,4 +175,103 @@ func (o *ValidatedTemplateOptions) TemplateData() TemplateData {
 // Render reads the KQL template file and renders it using the validated options.
 func (o *ValidatedTemplateOptions) Render() (string, error) {
 	return RenderTemplate(o.KQLFile, o.TemplateData())
+}
+
+// ParsePrimaryResult extracts column names and row data from the first
+// PrimaryResult DataTable frame in a Kusto v2 JSON response.
+//
+// The Kusto v2 response is a JSON array of frames. A data table frame looks like:
+//
+//	{
+//	  "FrameType": "DataTable",
+//	  "TableKind": "PrimaryResult",
+//	  "Columns": [{"ColumnName": "col1", ...}, ...],
+//	  "Rows": [["value1", ...], ...]
+//	}
+func ParsePrimaryResult(body []byte) (columns []string, rows [][]interface{}) {
+	var frames []json.RawMessage
+	if err := json.Unmarshal(body, &frames); err != nil {
+		return nil, nil
+	}
+
+	for _, raw := range frames {
+		var frame struct {
+			FrameType string `json:"FrameType"`
+			TableKind string `json:"TableKind"`
+			Columns   []struct {
+				ColumnName string `json:"ColumnName"`
+			} `json:"Columns"`
+			Rows []json.RawMessage `json:"Rows"`
+		}
+		if err := json.Unmarshal(raw, &frame); err != nil {
+			continue
+		}
+		if frame.FrameType != "DataTable" || frame.TableKind != "PrimaryResult" {
+			continue
+		}
+		for _, col := range frame.Columns {
+			columns = append(columns, col.ColumnName)
+		}
+		for _, rawRow := range frame.Rows {
+			var row []interface{}
+			if err := json.Unmarshal(rawRow, &row); err != nil {
+				continue
+			}
+			rows = append(rows, row)
+		}
+		return columns, rows
+	}
+	return nil, nil
+}
+
+// RenderMarkdownTable produces a GitHub-flavored markdown table from column
+// headers and row data.
+func RenderMarkdownTable(columns []string, rows [][]interface{}) string {
+	var buf bytes.Buffer
+
+	// Header row
+	buf.WriteString("|")
+	for _, col := range columns {
+		buf.WriteString(" ")
+		buf.WriteString(col)
+		buf.WriteString(" |")
+	}
+	buf.WriteString("\n")
+
+	// Separator row
+	buf.WriteString("|")
+	for range columns {
+		buf.WriteString(" --- |")
+	}
+	buf.WriteString("\n")
+
+	// Data rows
+	for _, row := range rows {
+		buf.WriteString("|")
+		for i := range columns {
+			buf.WriteString(" ")
+			if i < len(row) {
+				buf.WriteString(strings.ReplaceAll(formatCell(row[i]), "|", "\\|"))
+			}
+			buf.WriteString(" |")
+		}
+		buf.WriteString("\n")
+	}
+
+	return buf.String()
+}
+
+// formatCell renders a cell value as a string. Primitive types (strings, numbers,
+// booleans, nil) are formatted directly; objects and arrays are JSON-encoded.
+func formatCell(v interface{}) string {
+	switch v.(type) {
+	case string, float64, bool, nil:
+		return fmt.Sprintf("%v", v)
+	default:
+		b, err := json.Marshal(v)
+		if err != nil {
+			return fmt.Sprintf("%v", v)
+		}
+		return string(b)
+	}
 }

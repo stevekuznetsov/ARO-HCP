@@ -15,6 +15,8 @@ import (
 	jobfailures "github.com/Azure/ARO-HCP/tooling/triage/cmd/job-failures"
 	kustodeeplink "github.com/Azure/ARO-HCP/tooling/triage/cmd/kusto-deeplink"
 	kustoquery "github.com/Azure/ARO-HCP/tooling/triage/cmd/kusto-query"
+	kustoquerytable "github.com/Azure/ARO-HCP/tooling/triage/cmd/kusto-query-table"
+	tracerequest "github.com/Azure/ARO-HCP/tooling/triage/cmd/trace-request"
 )
 
 func main() {
@@ -47,6 +49,8 @@ func main() {
 		jobfailures.NewCommand,
 		kustodeeplink.NewCommand,
 		kustoquery.NewCommand,
+		kustoquerytable.NewCommand,
+		tracerequest.NewCommand,
 	}
 	for _, newCmd := range commands {
 		c, err := newCmd()
