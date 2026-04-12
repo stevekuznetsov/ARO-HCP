@@ -1,0 +1,15 @@
+cluster('{{ .ClusterURI }}').database('{{ .ServiceDatabase }}').table('backendLogs')
+| where timestamp between ({{ kqlDatetime .StartTime }} .. {{ kqlDatetime .EndTime }})
+| where container_name == 'aro-hcp-backend'
+| where log.controller_name == 'datadump'
+| where log.controllerKey.resourceGroupName == '{{ .ResourceGroup }}'
+| where log.controllerKey.hcpClusterName == '{{ .ParentResourceName }}'
+| where log.content.resourceType =~ 'microsoft.redhatopenshift/hcpopenshiftclusters/nodepools/managementclustercontents'
+| summarize take_any(log.content) by tolong(log.content._ts)
+| extend content = parse_json(log_content)
+| mv-expand manifest = content.properties.status.kubeContent.items
+| where manifest.kind == 'NodePool'
+| mv-expand condition = manifest.status.conditions
+| project condition.type, condition.status, condition.reason, condition.message, todatetime(condition.lastTransitionTime)
+| distinct tostring(condition_type), tostring(condition_status), tostring(condition_reason), tostring(condition_message), todatetime(condition_lastTransitionTime)
+| order by condition_lastTransitionTime asc

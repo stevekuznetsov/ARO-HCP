@@ -70,6 +70,9 @@ var queries = []querySpec{
 			d.ResourceGroup = parsed.ResourceGroupName
 			d.ResourceType = parsed.ResourceType.String()
 			d.ResourceName = parsed.Name
+			if parsed.Parent != nil {
+				d.ParentResourceName = parsed.Parent.Name
+			}
 			d.ServiceProviderResourceType = serviceProviderResourceType(d.ResourceType)
 		},
 	},
@@ -206,6 +209,16 @@ var queries = []querySpec{
 	},
 	{
 		component:    "clustersService",
+		queryName:    "nodePoolState",
+		templatePath: "queries/clustersService/nodePoolState/query.kql",
+		database:     "service",
+		ready: func(d templateData) bool {
+			return d.ResourceGroup != "" && d.ParentResourceName != "" && strings.EqualFold(d.ResourceType, "microsoft.redhatopenshift/hcpopenshiftclusters/nodepools")
+		},
+		prerequisites: "ResourceGroup, ParentResourceName, ResourceType is nodepool",
+	},
+	{
+		component:    "clustersService",
 		queryName:    "maestroBundles",
 		templatePath: "queries/clustersService/maestroBundles/query.kql",
 		database:     "service",
@@ -214,8 +227,31 @@ var queries = []querySpec{
 		},
 		prerequisites: "ResourceID",
 		storeResult: func(d *templateData, results []string) {
-			d.BundleIDs = results
+			d.BundleNames = results
 		},
+	},
+	{
+		component:    "clustersService",
+		queryName:    "manifestWorks",
+		templatePath: "queries/clustersService/manifestWorks/query.kql",
+		database:     "service",
+		ready: func(d templateData) bool {
+			return d.ResourceID != ""
+		},
+		prerequisites: "ResourceID",
+		storeResult: func(d *templateData, results []string) {
+			d.ManifestWorkNames = results
+		},
+	},
+	{
+		component:    "clustersService",
+		queryName:    "maestroInteractions",
+		templatePath: "queries/clustersService/maestroInteractions/query.kql",
+		database:     "service",
+		ready: func(d templateData) bool {
+			return d.ResourceID != ""
+		},
+		prerequisites: "ResourceID",
 	},
 	{
 		component:    "clustersService",
@@ -235,9 +271,9 @@ var queries = []querySpec{
 		templatePath: "queries/maestro/serverLogs/query.kql",
 		database:     "service",
 		ready: func(d templateData) bool {
-			return len(d.BundleIDs) > 0
+			return len(d.BundleNames) > 0
 		},
-		prerequisites: "BundleIDs",
+		prerequisites: "BundleNames",
 	},
 	{
 		component:    "maestro",
@@ -245,9 +281,9 @@ var queries = []querySpec{
 		templatePath: "queries/maestro/agentLogs/query.kql",
 		database:     "service",
 		ready: func(d templateData) bool {
-			return len(d.BundleIDs) > 0
+			return len(d.BundleNames) > 0
 		},
-		prerequisites: "BundleIDs",
+		prerequisites: "BundleNames",
 	},
 	{
 		component:    "hypershift",
@@ -302,6 +338,16 @@ var queries = []querySpec{
 		},
 		prerequisites: "ResourceGroup, ResourceName, ResourceType is cluster",
 	},
+	{
+		component:    "hypershift",
+		queryName:    "nodePoolConditions",
+		templatePath: "queries/hypershift/nodePoolConditions/query.kql",
+		database:     "service",
+		ready: func(d templateData) bool {
+			return d.ResourceGroup != "" && d.ParentResourceName != "" && strings.EqualFold(d.ResourceType, "microsoft.redhatopenshift/hcpopenshiftclusters/nodepools")
+		},
+		prerequisites: "ResourceGroup, ParentResourceName, ResourceType is nodepool",
+	},
 }
 
 // templateData is the context available to KQL Go templates for trace-request queries.
@@ -318,6 +364,10 @@ type templateData struct {
 	ResourceType  string
 	ResourceGroup string
 	ResourceName  string
+	// ParentResourceName is the name of the parent resource, populated by the
+	// frontend/resourceId query. For node pool resources, this is the cluster name.
+	// Empty for top-level resources (e.g. clusters).
+	ParentResourceName string
 
 	// AsyncOperationId is the ARM async operation resource ID (with the location segment
 	// stripped), populated by the frontend/asyncOperationId query.
@@ -336,9 +386,12 @@ type templateData struct {
 	// InternalID is the internal (Cluster Service) resource ID, populated by the
 	// backend/resourceInternalId query.
 	InternalID string
-	// BundleIDs is the list of Maestro manifest work bundle resource IDs, populated
-	// by the clustersService/maestroBundles query.
-	BundleIDs []string
+	// BundleNames is the list of Maestro bundle names, populated by the
+	// clustersService/maestroBundles query.
+	BundleNames []string
+	// ManifestWorkNames is the list of ManifestWork resource names (namespace/name),
+	// populated by the clustersService/manifestWorks query.
+	ManifestWorkNames []string
 	// ClusterID is the internal Cluster Service identifier for the cluster, populated
 	// by the clustersService/cid query.
 	ClusterID string
@@ -514,6 +567,12 @@ func (o *TraceRequestOptions) Run(ctx context.Context) error {
 	funcMap := template.FuncMap{
 		"kqlDatetime": kql.KQLDatetime,
 		"toLower":     strings.ToLower,
+		"basename": func(s string) string {
+			if i := strings.LastIndex(s, "/"); i >= 0 {
+				return s[i+1:]
+			}
+			return s
+		},
 	}
 
 	var skipped []skippedQuery
@@ -579,13 +638,15 @@ func (o *TraceRequestOptions) writeSummary(skipped []skippedQuery) error {
 		{"Resource Type", d.ResourceType},
 		{"Resource Group", d.ResourceGroup},
 		{"Resource Name", d.ResourceName},
+		{"Parent Resource Name", d.ParentResourceName},
 		{"Service Provider Resource Type", d.ServiceProviderResourceType},
 		{"Async Operation ID", d.AsyncOperationId},
 		{"Async Operation Path", d.AsyncOperationPath},
 		{"Internal ID", d.InternalID},
 		{"Cluster ID", d.ClusterID},
 		{"Hosted Cluster Namespace", d.HostedClusterNamespace},
-		{"Bundle IDs", strings.Join(d.BundleIDs, ", ")},
+		{"Bundle Names", strings.Join(d.BundleNames, ", ")},
+		{"Manifest Work Names", strings.Join(d.ManifestWorkNames, ", ")},
 	}
 	for _, f := range facts {
 		if f.value != "" {
