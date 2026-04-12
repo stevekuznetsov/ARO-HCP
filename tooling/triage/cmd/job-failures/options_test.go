@@ -6,45 +6,71 @@ import (
 
 func TestParseProwURL(t *testing.T) {
 	tests := []struct {
-		name       string
-		url        string
-		wantJob    string
-		wantProwID string
-		wantErrMsg string
+		name          string
+		url           string
+		wantJob       string
+		wantProwID    string
+		wantGCSPrefix string
+		wantErrMsg    string
 	}{
 		{
-			name:       "standard prow URL with gs prefix",
-			url:        "https://prow.ci.openshift.org/view/gs/test-platform-results/logs/periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel/1234567890",
-			wantJob:    "periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel",
-			wantProwID: "1234567890",
+			name:          "standard prow URL with gs prefix",
+			url:           "https://prow.ci.openshift.org/view/gs/test-platform-results/logs/periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel/1234567890",
+			wantJob:       "periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel",
+			wantProwID:    "1234567890",
+			wantGCSPrefix: "logs/periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel/1234567890",
 		},
 		{
-			name:       "prow URL with gcs prefix",
-			url:        "https://prow.ci.openshift.org/view/gcs/test-platform-results/logs/periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel/1234567890",
-			wantJob:    "periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel",
-			wantProwID: "1234567890",
+			name:          "prow URL with gcs prefix",
+			url:           "https://prow.ci.openshift.org/view/gcs/test-platform-results/logs/periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel/1234567890",
+			wantJob:       "periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel",
+			wantProwID:    "1234567890",
+			wantGCSPrefix: "logs/periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel/1234567890",
 		},
 		{
-			name:       "URL with trailing slash",
-			url:        "https://prow.ci.openshift.org/view/gs/test-platform-results/logs/my-job/999/",
-			wantJob:    "my-job",
-			wantProwID: "999",
+			name:          "URL with trailing slash",
+			url:           "https://prow.ci.openshift.org/view/gs/test-platform-results/logs/my-job/999/",
+			wantJob:       "my-job",
+			wantProwID:    "999",
+			wantGCSPrefix: "logs/my-job/999",
 		},
 		{
-			name:       "minimal URL with just logs path",
-			url:        "https://example.com/logs/some-job/42",
-			wantJob:    "some-job",
-			wantProwID: "42",
+			name:          "minimal URL with just logs path",
+			url:           "https://example.com/logs/some-job/42",
+			wantJob:       "some-job",
+			wantProwID:    "42",
+			wantGCSPrefix: "logs/some-job/42",
+		},
+		{
+			name:          "PR job URL",
+			url:           "https://prow.ci.openshift.org/view/gs/test-platform-results/pr-logs/pull/Azure_ARO-HCP/4845/pull-ci-Azure-ARO-HCP-main-e2e-parallel/2043043812057550848",
+			wantJob:       "pull-ci-Azure-ARO-HCP-main-e2e-parallel",
+			wantProwID:    "2043043812057550848",
+			wantGCSPrefix: "pr-logs/pull/Azure_ARO-HCP/4845/pull-ci-Azure-ARO-HCP-main-e2e-parallel/2043043812057550848",
+		},
+		{
+			name:          "PR job URL with trailing slash",
+			url:           "https://prow.ci.openshift.org/view/gs/test-platform-results/pr-logs/pull/Azure_ARO-HCP/4845/pull-ci-Azure-ARO-HCP-main-e2e-parallel/2043043812057550848/",
+			wantJob:       "pull-ci-Azure-ARO-HCP-main-e2e-parallel",
+			wantProwID:    "2043043812057550848",
+			wantGCSPrefix: "pr-logs/pull/Azure_ARO-HCP/4845/pull-ci-Azure-ARO-HCP-main-e2e-parallel/2043043812057550848",
+		},
+		{
+			name:          "PR job URL with gcs prefix",
+			url:           "https://prow.ci.openshift.org/view/gcs/test-platform-results/pr-logs/pull/Azure_ARO-HCP/100/pull-ci-Azure-ARO-HCP-main-e2e/555",
+			wantJob:       "pull-ci-Azure-ARO-HCP-main-e2e",
+			wantProwID:    "555",
+			wantGCSPrefix: "pr-logs/pull/Azure_ARO-HCP/100/pull-ci-Azure-ARO-HCP-main-e2e/555",
 		},
 		{
 			name:       "empty URL",
 			url:        "",
-			wantErrMsg: "does not contain a \"logs\" segment",
+			wantErrMsg: "does not contain a \"logs\" or \"pr-logs\" segment",
 		},
 		{
 			name:       "URL without logs segment",
 			url:        "https://prow.ci.openshift.org/view/gs/test-platform-results/other/my-job/123",
-			wantErrMsg: "does not contain a \"logs\" segment",
+			wantErrMsg: "does not contain a \"logs\" or \"pr-logs\" segment",
 		},
 		{
 			name:       "URL with logs but missing prow ID",
@@ -66,11 +92,26 @@ func TestParseProwURL(t *testing.T) {
 			url:        "https://prow.ci.openshift.org/view/gs/test-platform-results/logs/my-job/-1",
 			wantErrMsg: "not a valid number",
 		},
+		{
+			name:       "PR URL with missing segments",
+			url:        "https://prow.ci.openshift.org/view/gs/test-platform-results/pr-logs/pull/Azure_ARO-HCP/4845",
+			wantErrMsg: "must contain pr-logs/pull/<org_repo>/<pr-number>/<job-name>/<prow-id>",
+		},
+		{
+			name:       "PR URL with non-numeric prow ID",
+			url:        "https://prow.ci.openshift.org/view/gs/test-platform-results/pr-logs/pull/Azure_ARO-HCP/4845/my-job/not-a-number",
+			wantErrMsg: "not a valid number",
+		},
+		{
+			name:       "PR URL missing pull segment",
+			url:        "https://prow.ci.openshift.org/view/gs/test-platform-results/pr-logs/notpull/Azure_ARO-HCP/4845/my-job/123",
+			wantErrMsg: "expected \"pull\" after \"pr-logs\"",
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotJob, gotProwID, err := parseProwURL(tt.url)
+			gotJob, gotProwID, gotGCSPrefix, err := parseProwURL(tt.url)
 
 			if tt.wantErrMsg != "" {
 				if err == nil {
@@ -90,6 +131,9 @@ func TestParseProwURL(t *testing.T) {
 			}
 			if gotProwID != tt.wantProwID {
 				t.Errorf("prow ID: got %q, want %q", gotProwID, tt.wantProwID)
+			}
+			if gotGCSPrefix != tt.wantGCSPrefix {
+				t.Errorf("GCS prefix: got %q, want %q", gotGCSPrefix, tt.wantGCSPrefix)
 			}
 		})
 	}

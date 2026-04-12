@@ -16,7 +16,8 @@ func downloadArtifacts(ctx context.Context, gcsClient *storage.Client, outputDir
 
 	for _, run := range runs {
 		prowID := fmt.Sprintf("%d", run.ProwID)
-		if err := artifacts.DownloadRunArtifacts(ctx, gcsClient, outputDir, run.Job, prowID); err != nil {
+		gcsPrefix := fmt.Sprintf("logs/%s/%s", run.Job, prowID)
+		if err := artifacts.DownloadRunArtifacts(ctx, gcsClient, outputDir, run.Job, prowID, gcsPrefix); err != nil {
 			logger.Error(err, "Failed to download artifacts, skipping", "job", run.Job, "prowID", prowID)
 			continue
 		}

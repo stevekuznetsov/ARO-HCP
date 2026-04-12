@@ -25,7 +25,7 @@ provided.
 
 | Parameter | Make Variable | Required | Default | Description |
 |-----------|--------------|----------|---------|-------------|
-| URL | `URL` | yes | none | Prow job URL (e.g. `https://prow.ci.openshift.org/view/gs/test-platform-results/logs/<job>/<prow-id>`). |
+| URL | `URL` | yes | none | Prow job URL. Supports both periodic/postsubmit URLs (e.g. `https://prow.ci.openshift.org/view/gs/test-platform-results/logs/<job>/<prow-id>`) and PR (presubmit) URLs (e.g. `https://prow.ci.openshift.org/view/gs/test-platform-results/pr-logs/pull/<org_repo>/<pr>/<job>/<prow-id>`). |
 | Output directory | `OUTPUT_DIR` | yes | none | Local directory to write per-job-run artifacts into. |
 
 ## How to Run

@@ -57,10 +57,13 @@ func NewGCSClient(ctx context.Context) (*storage.Client, error) {
 
 // DownloadRunArtifacts downloads test artifacts for a single Prow job run from GCS
 // and writes per-test failure data (output.log, error.log, metadata.json) to outputDir.
-func DownloadRunArtifacts(ctx context.Context, gcsClient *storage.Client, outputDir, jobName, prowID string) error {
+// The gcsPrefix is the path within the GCS bucket up to the Prow ID, e.g.:
+//   - "logs/<job>/<prow-id>" for periodic/postsubmit jobs
+//   - "pr-logs/pull/<org_repo>/<pr>/<job>/<prow-id>" for presubmit (PR) jobs
+func DownloadRunArtifacts(ctx context.Context, gcsClient *storage.Client, outputDir, jobName, prowID, gcsPrefix string) error {
 	logger := logr.FromContextOrDiscard(ctx)
 
-	artifactDir, err := findArtifactDir(ctx, gcsClient, jobName, prowID)
+	artifactDir, err := findArtifactDir(ctx, gcsClient, jobName, gcsPrefix)
 	if err != nil {
 		return fmt.Errorf("failed to find artifact directory: %w", err)
 	}
@@ -72,7 +75,7 @@ func DownloadRunArtifacts(ctx context.Context, gcsClient *storage.Client, output
 		return fmt.Errorf("failed to create output directory: %w", err)
 	}
 
-	artifactPrefix := fmt.Sprintf("logs/%s/%s/artifacts/%s", jobName, prowID, artifactDir)
+	artifactPrefix := fmt.Sprintf("%s/artifacts/%s", gcsPrefix, artifactDir)
 
 	// Download and write filtered config.yaml
 	configGCSPath := fmt.Sprintf("%s/%s", artifactPrefix, configPath)
@@ -167,8 +170,8 @@ func DownloadRunArtifacts(ctx context.Context, gcsClient *storage.Client, output
 // findArtifactDir lists subdirectories under the artifacts/ prefix for a job run
 // and returns the one whose name is a suffix of the job name. If multiple match,
 // the longest (most specific) suffix wins.
-func findArtifactDir(ctx context.Context, gcsClient *storage.Client, jobName, prowID string) (string, error) {
-	prefix := fmt.Sprintf("logs/%s/%s/artifacts/", jobName, prowID)
+func findArtifactDir(ctx context.Context, gcsClient *storage.Client, jobName, gcsPrefix string) (string, error) {
+	prefix := fmt.Sprintf("%s/artifacts/", gcsPrefix)
 	it := gcsClient.Bucket(GCSBucket).Objects(ctx, &storage.Query{
 		Prefix:    prefix,
 		Delimiter: "/",
