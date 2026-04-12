@@ -96,7 +96,7 @@ func (o *KustoQueryOptions) Run(ctx context.Context) error {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := kql.DoWithRetry(ctx, logger, req)
 	if err != nil {
 		return fmt.Errorf("failed to execute query: %w", err)
 	}

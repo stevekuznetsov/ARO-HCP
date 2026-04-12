@@ -11,6 +11,7 @@ func TestParseProwURL(t *testing.T) {
 		wantJob       string
 		wantProwID    string
 		wantGCSPrefix string
+		wantIsPR      bool
 		wantErrMsg    string
 	}{
 		{
@@ -19,6 +20,7 @@ func TestParseProwURL(t *testing.T) {
 			wantJob:       "periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel",
 			wantProwID:    "1234567890",
 			wantGCSPrefix: "logs/periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel/1234567890",
+			wantIsPR:      false,
 		},
 		{
 			name:          "prow URL with gcs prefix",
@@ -26,6 +28,7 @@ func TestParseProwURL(t *testing.T) {
 			wantJob:       "periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel",
 			wantProwID:    "1234567890",
 			wantGCSPrefix: "logs/periodic-ci-Azure-ARO-HCP-main-aro-hcp-e2e-parallel/1234567890",
+			wantIsPR:      false,
 		},
 		{
 			name:          "URL with trailing slash",
@@ -33,6 +36,7 @@ func TestParseProwURL(t *testing.T) {
 			wantJob:       "my-job",
 			wantProwID:    "999",
 			wantGCSPrefix: "logs/my-job/999",
+			wantIsPR:      false,
 		},
 		{
 			name:          "minimal URL with just logs path",
@@ -40,6 +44,7 @@ func TestParseProwURL(t *testing.T) {
 			wantJob:       "some-job",
 			wantProwID:    "42",
 			wantGCSPrefix: "logs/some-job/42",
+			wantIsPR:      false,
 		},
 		{
 			name:          "PR job URL",
@@ -47,6 +52,7 @@ func TestParseProwURL(t *testing.T) {
 			wantJob:       "pull-ci-Azure-ARO-HCP-main-e2e-parallel",
 			wantProwID:    "2043043812057550848",
 			wantGCSPrefix: "pr-logs/pull/Azure_ARO-HCP/4845/pull-ci-Azure-ARO-HCP-main-e2e-parallel/2043043812057550848",
+			wantIsPR:      true,
 		},
 		{
 			name:          "PR job URL with trailing slash",
@@ -54,6 +60,7 @@ func TestParseProwURL(t *testing.T) {
 			wantJob:       "pull-ci-Azure-ARO-HCP-main-e2e-parallel",
 			wantProwID:    "2043043812057550848",
 			wantGCSPrefix: "pr-logs/pull/Azure_ARO-HCP/4845/pull-ci-Azure-ARO-HCP-main-e2e-parallel/2043043812057550848",
+			wantIsPR:      true,
 		},
 		{
 			name:          "PR job URL with gcs prefix",
@@ -61,6 +68,7 @@ func TestParseProwURL(t *testing.T) {
 			wantJob:       "pull-ci-Azure-ARO-HCP-main-e2e",
 			wantProwID:    "555",
 			wantGCSPrefix: "pr-logs/pull/Azure_ARO-HCP/100/pull-ci-Azure-ARO-HCP-main-e2e/555",
+			wantIsPR:      true,
 		},
 		{
 			name:       "empty URL",
@@ -111,7 +119,7 @@ func TestParseProwURL(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotJob, gotProwID, gotGCSPrefix, err := parseProwURL(tt.url)
+			gotJob, gotProwID, gotGCSPrefix, gotIsPR, err := parseProwURL(tt.url)
 
 			if tt.wantErrMsg != "" {
 				if err == nil {
@@ -134,6 +142,9 @@ func TestParseProwURL(t *testing.T) {
 			}
 			if gotGCSPrefix != tt.wantGCSPrefix {
 				t.Errorf("GCS prefix: got %q, want %q", gotGCSPrefix, tt.wantGCSPrefix)
+			}
+			if gotIsPR != tt.wantIsPR {
+				t.Errorf("isPR: got %v, want %v", gotIsPR, tt.wantIsPR)
 			}
 		})
 	}

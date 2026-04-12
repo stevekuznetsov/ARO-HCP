@@ -2,13 +2,16 @@ package kql
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 	"text/template"
 	"time"
 
+	"github.com/go-logr/logr"
 	"github.com/spf13/cobra"
 )
 
@@ -274,4 +277,59 @@ func formatCell(v interface{}) string {
 		}
 		return string(b)
 	}
+}
+
+const (
+	// maxRetries is the maximum number of times to attempt an HTTP request.
+	maxRetries = 3
+	// retryBaseDelay is the initial delay between retries; subsequent delays
+	// double (1s, 2s, 4s).
+	retryBaseDelay = 1 * time.Second
+)
+
+// DoWithRetry executes an HTTP request with simple exponential-backoff retry
+// for transient network errors (e.g. TLS handshake timeouts). Only errors
+// returned by http.Client.Do are retried; HTTP-level error status codes are
+// the caller's responsibility.
+//
+// The request body must be re-readable across attempts, so callers should use
+// bytes.NewReader (which supports Seek via the underlying ReaderAt) rather than
+// bytes.NewBuffer. The function rewinds the body before each retry by calling
+// GetBody.
+func DoWithRetry(ctx context.Context, logger logr.Logger, req *http.Request) (*http.Response, error) {
+	// Snapshot the body so we can replay it on retries. http.NewRequestWithContext
+	// sets GetBody automatically for *bytes.Reader bodies.
+	if req.GetBody == nil && req.Body != nil {
+		return nil, fmt.Errorf("request body is not re-readable; use bytes.NewReader to construct the request")
+	}
+
+	var lastErr error
+	delay := retryBaseDelay
+	for attempt := range maxRetries {
+		if attempt > 0 {
+			logger.Info("Retrying request after transient error", "attempt", attempt+1, "delay", delay, "error", lastErr)
+			select {
+			case <-ctx.Done():
+				return nil, fmt.Errorf("context cancelled while waiting to retry: %w", ctx.Err())
+			case <-time.After(delay):
+			}
+			delay *= 2
+
+			// Rewind the request body for the retry.
+			if req.GetBody != nil {
+				body, err := req.GetBody()
+				if err != nil {
+					return nil, fmt.Errorf("failed to rewind request body for retry: %w", err)
+				}
+				req.Body = body
+			}
+		}
+
+		resp, err := http.DefaultClient.Do(req)
+		if err == nil {
+			return resp, nil
+		}
+		lastErr = err
+	}
+	return nil, lastErr
 }

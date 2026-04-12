@@ -20,6 +20,13 @@ import (
 const (
 	GCSBucket  = "test-platform-results"
 	configPath = "aro-hcp-write-config/artifacts/config.yaml"
+
+	testStepPersistent = "aro-hcp-test-persistent"
+	testStepLocal      = "aro-hcp-test-local"
+
+	// prKustoRegion is the hard-coded Kusto region for pull-request jobs,
+	// which always run against eastus2 regardless of what the config says.
+	prKustoRegion = "eastus2"
 )
 
 // sourceConfig represents the fields we read from the full config.yaml.
@@ -60,7 +67,10 @@ func NewGCSClient(ctx context.Context) (*storage.Client, error) {
 // The gcsPrefix is the path within the GCS bucket up to the Prow ID, e.g.:
 //   - "logs/<job>/<prow-id>" for periodic/postsubmit jobs
 //   - "pr-logs/pull/<org_repo>/<pr>/<job>/<prow-id>" for presubmit (PR) jobs
-func DownloadRunArtifacts(ctx context.Context, gcsClient *storage.Client, outputDir, jobName, prowID, gcsPrefix string) error {
+//
+// When isPR is true, the test step name is "aro-hcp-test-local" (instead of
+// "aro-hcp-test-persistent") and the Kusto region is hard-coded to "eastus2".
+func DownloadRunArtifacts(ctx context.Context, gcsClient *storage.Client, outputDir, jobName, prowID, gcsPrefix string, isPR bool) error {
 	logger := logr.FromContextOrDiscard(ctx)
 
 	artifactDir, err := findArtifactDir(ctx, gcsClient, jobName, gcsPrefix)
@@ -84,7 +94,7 @@ func DownloadRunArtifacts(ctx context.Context, gcsClient *storage.Client, output
 		return fmt.Errorf("failed to download config.yaml: %w", err)
 	}
 
-	filtered, err := filterConfig(data)
+	filtered, err := filterConfig(data, isPR)
 	if err != nil {
 		return fmt.Errorf("failed to filter config.yaml: %w", err)
 	}
@@ -96,7 +106,11 @@ func DownloadRunArtifacts(ctx context.Context, gcsClient *storage.Client, output
 	logger.V(1).Info("Wrote filtered config", "path", filepath.Join(runDir, "config.yaml"))
 
 	// Find and download all extension test result files
-	testResultsPrefix := fmt.Sprintf("%s/aro-hcp-test-persistent/artifacts/extension_test_result_e2e_", artifactPrefix)
+	testStep := testStepPersistent
+	if isPR {
+		testStep = testStepLocal
+	}
+	testResultsPrefix := fmt.Sprintf("%s/%s/artifacts/extension_test_result_e2e_", artifactPrefix, testStep)
 	testResultFiles, err := listObjects(ctx, gcsClient, testResultsPrefix)
 	if err != nil {
 		return fmt.Errorf("failed to list test result files: %w", err)
@@ -241,14 +255,19 @@ func downloadObject(ctx context.Context, gcsClient *storage.Client, path string)
 	return data, nil
 }
 
-func filterConfig(data []byte) ([]byte, error) {
+func filterConfig(data []byte, isPR bool) ([]byte, error) {
 	var src sourceConfig
 	if err := yaml.Unmarshal(data, &src); err != nil {
 		return nil, fmt.Errorf("failed to parse YAML: %w", err)
 	}
 
+	region := src.Region
+	if isPR {
+		region = prKustoRegion
+	}
+
 	out := filteredConfig{
-		Region: src.Region,
+		Region: region,
 		Kusto: filteredKusto{
 			Name:                           src.Kusto.KustoName,
 			HostedControlPlaneLogsDatabase: src.Kusto.HostedControlPlaneLogsDatabase,

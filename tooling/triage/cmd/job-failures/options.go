@@ -34,6 +34,7 @@ type validatedJobFailuresOptions struct {
 	JobName   string
 	ProwID    string
 	GCSPrefix string
+	IsPR      bool
 	OutputDir string
 }
 
@@ -48,6 +49,7 @@ type completedJobFailuresOptions struct {
 	jobName   string
 	prowID    string
 	gcsPrefix string
+	isPR      bool
 	outputDir string
 }
 
@@ -64,7 +66,7 @@ func (o *RawJobFailuresOptions) Validate() (*ValidatedJobFailuresOptions, error)
 		return nil, fmt.Errorf("--output-dir is required")
 	}
 
-	jobName, prowID, gcsPrefix, err := parseProwURL(o.URL)
+	jobName, prowID, gcsPrefix, isPR, err := parseProwURL(o.URL)
 	if err != nil {
 		return nil, fmt.Errorf("invalid --url %q: %w", o.URL, err)
 	}
@@ -74,6 +76,7 @@ func (o *RawJobFailuresOptions) Validate() (*ValidatedJobFailuresOptions, error)
 			JobName:   jobName,
 			ProwID:    prowID,
 			GCSPrefix: gcsPrefix,
+			IsPR:      isPR,
 			OutputDir: o.OutputDir,
 		},
 	}, nil
@@ -91,6 +94,7 @@ func (o *ValidatedJobFailuresOptions) Complete(ctx context.Context) (*JobFailure
 			jobName:   o.JobName,
 			prowID:    o.ProwID,
 			gcsPrefix: o.GCSPrefix,
+			isPR:      o.IsPR,
 			outputDir: o.OutputDir,
 		},
 	}, nil
@@ -98,15 +102,15 @@ func (o *ValidatedJobFailuresOptions) Complete(ctx context.Context) (*JobFailure
 
 func (o *JobFailuresOptions) Run(ctx context.Context) error {
 	fmt.Printf("Downloading artifacts for job %s (prow ID %s) to %s ...\n", o.jobName, o.prowID, o.outputDir)
-	if err := artifacts.DownloadRunArtifacts(ctx, o.gcsClient, o.outputDir, o.jobName, o.prowID, o.gcsPrefix); err != nil {
+	if err := artifacts.DownloadRunArtifacts(ctx, o.gcsClient, o.outputDir, o.jobName, o.prowID, o.gcsPrefix, o.isPR); err != nil {
 		return err
 	}
 	fmt.Println("Done.")
 	return nil
 }
 
-// parseProwURL extracts the job name, Prow job ID, and GCS prefix from a Prow job URL.
-// It supports two URL formats:
+// parseProwURL extracts the job name, Prow job ID, GCS prefix, and whether the URL is for
+// a pull request (presubmit) job from a Prow job URL. It supports two URL formats:
 //
 // Periodic/postsubmit jobs:
 //
@@ -118,10 +122,10 @@ func (o *JobFailuresOptions) Run(ctx context.Context) error {
 //
 // The returned gcsPrefix is the path within the GCS bucket (everything after the bucket name),
 // e.g. "logs/<job>/<id>" or "pr-logs/pull/<org_repo>/<pr>/<job>/<id>".
-func parseProwURL(rawURL string) (jobName, prowID, gcsPrefix string, err error) {
+func parseProwURL(rawURL string) (jobName, prowID, gcsPrefix string, isPR bool, err error) {
 	u, err := url.Parse(rawURL)
 	if err != nil {
-		return "", "", "", fmt.Errorf("failed to parse URL: %w", err)
+		return "", "", "", false, fmt.Errorf("failed to parse URL: %w", err)
 	}
 
 	// Split path into non-empty segments
@@ -137,37 +141,37 @@ func parseProwURL(rawURL string) (jobName, prowID, gcsPrefix string, err error) 
 		if seg == "pr-logs" {
 			// pr-logs/pull/<org_repo>/<pr-number>/<job-name>/<prow-id>
 			if i+5 >= len(segments) {
-				return "", "", "", fmt.Errorf("URL path must contain pr-logs/pull/<org_repo>/<pr-number>/<job-name>/<prow-id>, got %q", u.Path)
+				return "", "", "", false, fmt.Errorf("URL path must contain pr-logs/pull/<org_repo>/<pr-number>/<job-name>/<prow-id>, got %q", u.Path)
 			}
 			if segments[i+1] != "pull" {
-				return "", "", "", fmt.Errorf("expected \"pull\" after \"pr-logs\" in URL path, got %q", segments[i+1])
+				return "", "", "", false, fmt.Errorf("expected \"pull\" after \"pr-logs\" in URL path, got %q", segments[i+1])
 			}
 			jobName = segments[i+4]
 			prowID = segments[i+5]
 
 			if _, err := strconv.ParseUint(prowID, 10, 64); err != nil {
-				return "", "", "", fmt.Errorf("Prow ID %q is not a valid number", prowID)
+				return "", "", "", false, fmt.Errorf("Prow ID %q is not a valid number", prowID)
 			}
 
 			gcsPrefix = strings.Join(segments[i:i+6], "/")
-			return jobName, prowID, gcsPrefix, nil
+			return jobName, prowID, gcsPrefix, true, nil
 		}
 		if seg == "logs" {
 			// logs/<job-name>/<prow-id>
 			if i+2 >= len(segments) {
-				return "", "", "", fmt.Errorf("URL path must contain logs/<job-name>/<prow-id>, got %q", u.Path)
+				return "", "", "", false, fmt.Errorf("URL path must contain logs/<job-name>/<prow-id>, got %q", u.Path)
 			}
 			jobName = segments[i+1]
 			prowID = segments[i+2]
 
 			if _, err := strconv.ParseUint(prowID, 10, 64); err != nil {
-				return "", "", "", fmt.Errorf("Prow ID %q is not a valid number", prowID)
+				return "", "", "", false, fmt.Errorf("Prow ID %q is not a valid number", prowID)
 			}
 
 			gcsPrefix = strings.Join(segments[i:i+3], "/")
-			return jobName, prowID, gcsPrefix, nil
+			return jobName, prowID, gcsPrefix, false, nil
 		}
 	}
 
-	return "", "", "", fmt.Errorf("URL path does not contain a \"logs\" or \"pr-logs\" segment: %q", u.Path)
+	return "", "", "", false, fmt.Errorf("URL path does not contain a \"logs\" or \"pr-logs\" segment: %q", u.Path)
 }
