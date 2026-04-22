@@ -223,9 +223,9 @@ var queries = []querySpec{
 		templatePath: "queries/clustersService/maestroBundles/query.kql",
 		database:     "service",
 		ready: func(d templateData) bool {
-			return d.ResourceID != ""
+			return d.ClusterID != ""
 		},
-		prerequisites: "ResourceID",
+		prerequisites: "ClusterID",
 		storeResult: func(d *templateData, results []string) {
 			d.BundleNames = results
 		},
@@ -236,9 +236,9 @@ var queries = []querySpec{
 		templatePath: "queries/clustersService/manifestWorks/query.kql",
 		database:     "service",
 		ready: func(d templateData) bool {
-			return d.ResourceID != ""
+			return d.ClusterID != ""
 		},
-		prerequisites: "ResourceID",
+		prerequisites: "ClusterID",
 		storeResult: func(d *templateData, results []string) {
 			d.ManifestWorkNames = results
 		},
@@ -249,9 +249,9 @@ var queries = []querySpec{
 		templatePath: "queries/clustersService/maestroInteractions/query.kql",
 		database:     "service",
 		ready: func(d templateData) bool {
-			return d.ResourceID != ""
+			return d.ClusterID != ""
 		},
-		prerequisites: "ResourceID",
+		prerequisites: "ClusterID",
 	},
 	{
 		component:    "clustersService",

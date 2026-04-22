@@ -1,6 +1,6 @@
 cluster('{{ .ClusterURI }}').database('{{ .ServiceDatabase }}').table('clustersServiceLogs')
 | where timestamp between ({{ kqlDatetime .StartTime }} .. {{ kqlDatetime .EndTime }})
-| where log.aro_hcp_cluster_resource_id =~ '{{ .ResourceID }}'
+| where cid == '{{ .ClusterID }}'
 | where log.msg has 'creating maestro bundle with maestro bundle name'
 | project manifestWork = extract("containing resource '([^']+)'", 1, tostring(log.msg))
 | where isnotempty(manifestWork)
