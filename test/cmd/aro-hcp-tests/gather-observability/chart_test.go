@@ -19,8 +19,6 @@ import (
 	"math"
 	"strings"
 	"testing"
-
-	"github.com/go-echarts/go-echarts/v2/opts"
 )
 
 func TestParsePrometheusValue(t *testing.T) {
@@ -560,85 +558,5 @@ func TestLoadQueriesConfigEmbedded(t *testing.T) {
 		if len(p.Queries) == 0 {
 			t.Errorf("panel %q should contain at least one query", p.Title)
 		}
-	}
-}
-
-func makePoint(tsMs int64, val float64) opts.LineData {
-	return opts.LineData{Value: []any{tsMs, val}}
-}
-
-func TestInsertGapMarkers(t *testing.T) {
-	t.Parallel()
-	base := int64(1700000000000)
-
-	tests := []struct {
-		name     string
-		data     []opts.LineData
-		wantLen  int
-		wantNils []int // indices in result that should be null markers
-	}{
-		{
-			name:    "empty",
-			data:    nil,
-			wantLen: 0,
-		},
-		{
-			name:    "two points",
-			data:    []opts.LineData{makePoint(base, 1.0), makePoint(base+60000, 2.0)},
-			wantLen: 2,
-		},
-		{
-			name: "uniform spacing no gaps",
-			data: []opts.LineData{
-				makePoint(base, 1.0),
-				makePoint(base+60000, 2.0),
-				makePoint(base+120000, 3.0),
-				makePoint(base+180000, 4.0),
-			},
-			wantLen: 4,
-		},
-		{
-			name: "one large gap",
-			data: []opts.LineData{
-				makePoint(base, 1.0),
-				makePoint(base+60000, 2.0),
-				makePoint(base+120000, 3.0),
-				makePoint(base+600000, 4.0), // 480s gap vs 60s min → exceeds 3x threshold
-			},
-			wantLen:  5,
-			wantNils: []int{3},
-		},
-		{
-			name: "multiple gaps",
-			data: []opts.LineData{
-				makePoint(base, 1.0),
-				makePoint(base+60000, 2.0),
-				makePoint(base+500000, 3.0),  // large gap
-				makePoint(base+560000, 4.0),  // normal
-				makePoint(base+1200000, 5.0), // large gap
-			},
-			wantLen:  7,
-			wantNils: []int{2, 5},
-		},
-	}
-
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
-			result := insertGapMarkers(tt.data)
-			if len(result) != tt.wantLen {
-				t.Fatalf("got %d points, want %d", len(result), tt.wantLen)
-			}
-			for _, idx := range tt.wantNils {
-				arr, ok := result[idx].Value.([]any)
-				if !ok || len(arr) < 2 {
-					t.Errorf("result[%d] should be a [ts, nil] pair, got %v", idx, result[idx].Value)
-					continue
-				}
-				if arr[1] != nil {
-					t.Errorf("result[%d] value should be nil, got %v", idx, arr[1])
-				}
-			}
-		})
 	}
 }

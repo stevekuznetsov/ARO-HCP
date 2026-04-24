@@ -161,8 +161,6 @@ func buildChartData(title, description, query, queryErr string, results []Promet
 			continue
 		}
 
-		data = insertGapMarkers(data)
-
 		series = append(series, parsedSeries{
 			metric: result.Metric,
 			data:   data,
@@ -229,8 +227,7 @@ func buildChartData(title, description, query, queryErr string, results []Promet
 	for _, s := range series {
 		line.AddSeries(s.label, s.data,
 			charts.WithLineChartOpts(opts.LineChart{
-				ShowSymbol:   ptr.To(false),
-				ConnectNulls: ptr.To(false),
+				ShowSymbol: ptr.To(false),
 			}),
 		)
 	}
@@ -339,50 +336,6 @@ func parsePrometheusValue(v []any) (ts int64, val float64, ok bool) {
 		val = -math.MaxFloat64
 	}
 	return ts, val, true
-}
-
-// insertGapMarkers inserts null data points where the time between consecutive
-// points is much larger than the typical interval, causing ECharts to break
-// the line instead of drawing a misleading straight line across the gap.
-// The typical interval is inferred as the minimum gap between consecutive points.
-func insertGapMarkers(data []opts.LineData) []opts.LineData {
-	if len(data) < 3 {
-		return data
-	}
-	var minGap int64 = math.MaxInt64
-	for i := 1; i < len(data); i++ {
-		gap := dataPointTimestamp(data[i]) - dataPointTimestamp(data[i-1])
-		if gap > 0 && gap < minGap {
-			minGap = gap
-		}
-	}
-	if minGap == math.MaxInt64 {
-		return data
-	}
-	threshold := 3 * minGap
-	var result []opts.LineData
-	result = append(result, data[0])
-	for i := 1; i < len(data); i++ {
-		gap := dataPointTimestamp(data[i]) - dataPointTimestamp(data[i-1])
-		if gap > threshold {
-			midpoint := (dataPointTimestamp(data[i-1]) + dataPointTimestamp(data[i])) / 2
-			result = append(result, opts.LineData{Value: []any{midpoint, nil}})
-		}
-		result = append(result, data[i])
-	}
-	return result
-}
-
-func dataPointTimestamp(d opts.LineData) int64 {
-	if arr, ok := d.Value.([]any); ok && len(arr) >= 1 {
-		switch v := arr[0].(type) {
-		case int64:
-			return v
-		case float64:
-			return int64(v)
-		}
-	}
-	return 0
 }
 
 // metricLabel builds a display label from Prometheus metric labels.

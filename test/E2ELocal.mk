@@ -42,7 +42,7 @@ e2e-local/gather-observability: $(ARO_HCP_TESTS) $(TEMPLATIZE)
 	  --dev-settings-file $(DEV_SETTINGS_FILE) \
 	  --output "$(OBSERVABILITY_RENDERED_CONFIG)"
 	mkdir -p $(OBSERVABILITY_OUTPUT)
-	AZURE_TOKEN_CREDENTIALS=dev $(ARO_HCP_TESTS) gather-observability \
+	$(ARO_HCP_TESTS) gather-observability \
 		--rendered-config $(OBSERVABILITY_RENDERED_CONFIG) \
 		--subscription-id "$$(az account show --query id -o tsv)" \
 		--output $(OBSERVABILITY_OUTPUT) \

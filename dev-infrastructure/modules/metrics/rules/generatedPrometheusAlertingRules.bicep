@@ -30,20 +30,20 @@ resource prometheusWipRules 'Microsoft.AlertsManagement/prometheusRuleGroups@202
         }
         annotations: {
           correlationId: 'PrometheusJobUp/{{ $labels.cluster }}'
-          description: '''Prometheus has not been reachable for the past 10 minutes.
+          description: '''Prometheus has not been reachable for the past 5 minutes.
 This may indicate that the Prometheus server is down, unreachable due to network issues, or experiencing a crash loop.
 Check the status of the Prometheus pods, service endpoints, and network connectivity.
 '''
-          info: '''Prometheus has not been reachable for the past 10 minutes.
+          info: '''Prometheus has not been reachable for the past 5 minutes.
 This may indicate that the Prometheus server is down, unreachable due to network issues, or experiencing a crash loop.
 Check the status of the Prometheus pods, service endpoints, and network connectivity.
 '''
           runbook_url: 'TBD'
-          summary: 'Prometheus is unreachable for 10 minutes.'
-          title: 'Prometheus is unreachable for 10 minutes.'
+          summary: 'Prometheus is unreachable for 5 minutes.'
+          title: 'Prometheus is unreachable for 5 minutes.'
         }
         expression: 'group by (cluster) (up{job="kube-state-metrics"}) unless on(cluster) group by (cluster) (up{job="prometheus/prometheus",namespace="prometheus"} == 1)'
-        for: 'PT10M'
+        for: 'PT5M'
         severity: 3
       }
       {

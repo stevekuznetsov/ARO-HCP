@@ -39,7 +39,6 @@ import (
 	"github.com/Azure/ARO-HCP/internal/utils"
 	"github.com/Azure/ARO-HCP/test/cmd/aro-hcp-tests/internal/testutil"
 	"github.com/Azure/ARO-HCP/test/util/timing"
-	"github.com/Azure/ARO-HCP/tooling/templatize/pkg/junit"
 )
 
 //go:embed artifacts/*.html.tmpl
@@ -323,14 +322,6 @@ func (o Options) Run(ctx context.Context) error {
 		return utils.TrackError(fmt.Errorf("failed to render alerts HTML: %w", err))
 	}
 	logger.Info("wrote alert HTML artifact", "path", htmlPath)
-
-	// Write JUnit
-	junitPath := filepath.Join(o.OutputDir, "junit_alerts.xml")
-	suites := alertsToJUnit(alerts, o.TimeWindow)
-	if err := junit.Write(junitPath, suites); err != nil {
-		return utils.TrackError(fmt.Errorf("failed to write JUnit output: %w", err))
-	}
-	logger.Info("wrote alert JUnit artifact", "path", junitPath)
 
 	// Execute PromQL queries and render timeseries charts with alert overlays
 	if o.Queries != nil {
