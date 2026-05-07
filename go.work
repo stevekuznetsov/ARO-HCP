@@ -21,5 +21,6 @@ use (
 	./tooling/secret-sync
 	./tooling/templatize
 	./tooling/tenant-quota
+	./tooling/triage
 	./tooling/yamlwrap
 )
