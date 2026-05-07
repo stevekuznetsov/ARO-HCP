@@ -1,0 +1,7 @@
+cluster('{{ .ClusterURI }}').database('{{ .ServiceDatabase }}').table('clustersServiceLogs')
+| where timestamp between ({{ kqlDatetime .StartTime }} .. {{ kqlDatetime .EndTime }})
+| where cid == '{{ .ClusterID }}'
+| where log.msg has 'creating maestro bundle with maestro bundle name'
+| project bundleName = extract("maestro bundle name '([^']+)'", 1, tostring(log.msg))
+| where isnotempty(bundleName)
+| distinct bundleName

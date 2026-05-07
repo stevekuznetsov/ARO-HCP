@@ -1,0 +1,6 @@
+database('{{ .ServiceDatabase }}').table('frontendLogs')
+| where timestamp between ({{ kqlDatetime .StartTime }} .. {{ kqlDatetime .EndTime }})
+| where log.path =~ '{{ .AsyncOperationPath }}'
+| where log.msg == 'response complete'
+| project timestamp, log.method, log.response_status_code, log.msg, log.error
+| order by timestamp
