@@ -249,93 +249,24 @@ func (o *validatedAnalyzeOptions) run(ctx context.Context) error {
 		}
 	}()
 
-	// Phase 1: Initial analysis.
-	logger.Info("Phase 1: Sending initial prompt.")
-	prompt := agent.BuildInitialPrompt(string(manifestData), testError, testOutput, siblingTests, o.dataDir, o.worktreePaths)
-	output, err := session.SendAndWait(ctx, prompt)
-	if err != nil {
-		analysisErr = fmt.Errorf("agent analysis failed: %w", err)
-		return analysisErr
-	}
-
-	// Phase 2: Validate draft loop.
-	logger.Info("Phase 2: Validating.")
-	validRepos := make(map[string]bool, len(o.worktreePaths))
-	for repo := range o.worktreePaths {
-		validRepos[repo] = true
-	}
-	vc := &agent.ValidationContext{
-		ValidRepos:    validRepos,
-		WorktreePaths: o.worktreePaths,
-		DataDir:       o.dataDir,
-		TestError:     testError,
-		TestOutput:    testOutput,
-	}
-
-	draftChain, _, err := validateDraftLoop(ctx, logger, session, cachedKustoClient, vc, output, o.maxRounds)
+	result, err := agent.Analyze(ctx, logger, session, cachedKustoClient, agent.AnalyzeOptions{
+		Manifest:            manifestData,
+		TestName:            manifest.TestName,
+		TestError:           testError,
+		TestOutput:          testOutput,
+		SiblingTests:        siblingTests,
+		DataDir:             o.dataDir,
+		WorktreePaths:       o.worktreePaths,
+		KustoCluster:        manifest.KustoCluster,
+		KustoDatabase:       manifest.KustoDatabase,
+		MaxValidationRounds: o.maxRounds,
+		ReviewRounds:        o.reviewRounds,
+	})
 	if err != nil {
 		analysisErr = err
 		return analysisErr
 	}
-
-	// Phase 3: Hydration.
-	logger.Info("Phase 3: Hydrating.")
-	hydrator := agent.NewHydrator(cachedKustoClient, manifest.KustoCluster, manifest.KustoDatabase, o.worktreePaths, testError, testOutput, o.dataDir)
-	hydratedChain, err := hydrator.Hydrate(ctx, draftChain)
-	if err != nil {
-		analysisErr = fmt.Errorf("hydration failed: %w", err)
-		return analysisErr
-	}
-	if err := agent.Validate(hydratedChain); err != nil {
-		analysisErr = fmt.Errorf("hydrated chain validation failed: %w", err)
-		return analysisErr
-	}
-
-	// Phase 4: Review rounds.
-	for review := 0; review < o.reviewRounds; review++ {
-		logger.Info("Phase 4: Review pass.", "round", review+1)
-
-		rendered := agent.RenderMarkdown(hydratedChain, manifest.TestName)
-		reviewPrompt := fmt.Sprintf(
-			"Below is your analysis rendered as a complete document with query results.\n\n"+
-				"Review it for:\n"+
-				"1. **Narrative coherence** — does each answer directly and completely address its question? "+
-				"Does each subsequent question follow naturally from the previous answer? "+
-				"Do any answers 'jump' more than one layer down the stack, omitting crucial context?\n"+
-				"2. **Evidence quality** — do the query results actually support the answers? "+
-				"Are there unexpected results (empty tables, too many rows, irrelevant columns, repetitive output)?\n"+
-				"3. **Depth** — have you stopped the chain too early? Could you ask another \"why?\" to get deeper?\n"+
-				"4. **Accuracy** — now that you can see the actual query results, do any of your answers need revision?\n\n"+
-				"**Important:** The output you produce is the final document shown to readers. "+
-				"Do not mention the review process, do not add notes about what you changed or why, "+
-				"and do not reference these instructions. The document should read as if it were "+
-				"written correctly the first time.\n\n"+
-				"Re-emit the complete corrected JSON output (even if no changes are needed). "+
-				"---\n\n%s", rendered,
-		)
-
-		output, err = session.SendAndWait(ctx, reviewPrompt)
-		if err != nil {
-			analysisErr = fmt.Errorf("agent review failed at round %d: %w", review+1, err)
-			return analysisErr
-		}
-
-		draftChain, _, err = validateDraftLoop(ctx, logger, session, cachedKustoClient, vc, output, o.maxRounds)
-		if err != nil {
-			analysisErr = err
-			return analysisErr
-		}
-
-		hydratedChain, err = hydrator.Hydrate(ctx, draftChain)
-		if err != nil {
-			analysisErr = fmt.Errorf("hydration failed after review round %d: %w", review+1, err)
-			return analysisErr
-		}
-		if err := agent.Validate(hydratedChain); err != nil {
-			analysisErr = fmt.Errorf("hydrated chain validation failed after review round %d: %w", review+1, err)
-			return analysisErr
-		}
-	}
+	hydratedChain := result.HydratedChain
 
 	// Phase 5: Write output.
 	logger.Info("Phase 5: Writing output.")
@@ -367,55 +298,6 @@ func (o *validatedAnalyzeOptions) run(ctx context.Context) error {
 	)
 
 	return nil
-}
-
-// validateDraftLoop parses and validates the agent's output, sending correction
-// feedback for up to maxRounds iterations. Returns the validated draft chain
-// and the raw output string.
-func validateDraftLoop(
-	ctx context.Context,
-	logger logr.Logger,
-	session *agent.Session,
-	kustoClient agent.KustoClient,
-	vc *agent.ValidationContext,
-	output string,
-	maxRounds int,
-) (*agent.DraftChain, string, error) {
-	var draftChain *agent.DraftChain
-	var err error
-	for attempt := 0; ; attempt++ {
-		draftChain, err = agent.ParseDraftChain(output)
-		if err != nil {
-			if attempt >= maxRounds {
-				return nil, output, fmt.Errorf("failed to parse agent output as draft chain after %d correction rounds: %w", attempt, err)
-			}
-			logger.Info("Failed to parse agent output as JSON; sending correction.", "attempt", attempt+1, "error", err)
-			output, err = session.SendAndWait(ctx, fmt.Sprintf(
-				"Your output could not be parsed as valid JSON: %v\n\nPlease re-emit the complete JSON output.", err,
-			))
-			if err != nil {
-				return nil, output, fmt.Errorf("agent correction failed at attempt %d: %w", attempt+1, err)
-			}
-			continue
-		}
-
-		feedback := agent.ValidateDraft(ctx, kustoClient, draftChain, vc)
-		if feedback == "" {
-			break
-		}
-
-		if attempt >= maxRounds {
-			logger.Info("Validation still has failures after max rounds; proceeding with best-effort.", "attempts", attempt)
-			break
-		}
-
-		logger.Info("Validation found errors; sending corrections.", "attempt", attempt+1)
-		output, err = session.SendAndWait(ctx, feedback)
-		if err != nil {
-			return nil, output, fmt.Errorf("agent correction failed at attempt %d: %w", attempt+1, err)
-		}
-	}
-	return draftChain, output, nil
 }
 
 // setupAnalysisWorkspace creates a temporary directory with symlinks to the
