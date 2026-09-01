@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ARO-HCP Cluster Utilization</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+  body { background:#0b0f19; color:#e5e7eb; }
+  .card { background:#111827; border:1px solid #1f2937; border-radius:0.75rem; }
+  .chart { width:100%; height:340px; }
+  .tree { width:100%; height:480px; }
+  input[type=number] { background:#1f2937; border:1px solid #374151; border-radius:0.375rem; padding:0.25rem 0.5rem; color:#e5e7eb; }
+  .seg { display:inline-flex; border:1px solid #374151; border-radius:0.5rem; overflow:hidden; }
+  .seg button { padding:0.2rem 0.7rem; background:#1f2937; color:#9ca3af; font-size:0.8rem; }
+  .seg button.active { background:#2563eb; color:#fff; }
+  .chip { display:inline-flex; align-items:center; gap:0.35rem; padding:0.15rem 0.5rem; border:1px solid #374151; border-radius:0.5rem; background:#1f2937; font-size:0.8rem; cursor:pointer; }
+  .chip input { accent-color:#2563eb; }
+  .btn { padding:0.15rem 0.6rem; border:1px solid #374151; border-radius:0.375rem; background:#1f2937; color:#9ca3af; font-size:0.75rem; }
+  .btn:hover { background:#374151; color:#fff; }
+  a { color:#60a5fa; }
+  abbr { text-decoration:underline dotted; cursor:help; }
+  .scroll { scrollbar-width:thin; scrollbar-color:#374151 #0b0f19; }
+  .scroll::-webkit-scrollbar { width:10px; height:10px; }
+  .scroll::-webkit-scrollbar-track { background:#0b0f19; }
+  .scroll::-webkit-scrollbar-thumb { background:#374151; border-radius:6px; border:2px solid #0b0f19; }
+  .scroll::-webkit-scrollbar-thumb:hover { background:#4b5563; }
+  thead th { position:sticky; top:0; background:#0f1623; z-index:1; white-space:nowrap; }
+  td { white-space:nowrap; }
+  td.wrap { white-space:normal; }
+  /* two analysis lenses */
+  .peak-lens { border:1px solid #78350f; }
+  .window-lens { border:1px solid #075985; }
+  .lens-banner { display:flex; align-items:center; gap:.6rem; padding:.55rem .9rem; font-weight:600; font-size:.95rem; }
+  .peak-banner { background:linear-gradient(90deg,#2b1c05,#111827); color:#fcd34d; border-bottom:1px solid #78350f; }
+  .window-banner { background:linear-gradient(90deg,#05243b,#111827); color:#7dd3fc; border-bottom:1px solid #075985; }
+  .badge { font-size:.65rem; letter-spacing:.06em; padding:.15rem .5rem; border-radius:.375rem; text-transform:uppercase; font-weight:700; }
+  .badge-peak { background:#f59e0b; color:#1c1207; }
+  .badge-window { background:#38bdf8; color:#04263a; }
+</style>
+</head>
+<body class="min-h-screen">
+<div class="max-w-7xl mx-auto p-6">
+  <header class="mb-4">
+    <h1 class="text-2xl font-semibold">ARO-HCP Cluster Utilization</h1>
+    <p class="text-sm text-gray-400 mt-1">
+      Sustained usage over <span class="font-mono">{{ .Window }}</span>
+      (p{{ printf "%.0f" .Percentile }} over time) &middot; generated {{ .GeneratedAt }}
+    </p>
+  </header>
+
+  <div class="card p-4 mb-6 space-y-4">
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-sm font-semibold mr-1">Clusters</span>
+        <button class="btn" id="clu-all">all</button>
+        <button class="btn" id="clu-none">none</button>
+        <button class="btn" id="clu-mgmt">mgmt</button>
+        <button class="btn" id="clu-svc">svc</button>
+      </div>
+      <div id="clusters" class="max-h-56 overflow-auto scroll grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-2"></div>
+    </div>
+    <div class="flex flex-wrap items-start gap-x-8 gap-y-3">
+      <div>
+        <div class="text-sm font-semibold mb-2">Node pools</div>
+        <div id="pools" class="flex flex-wrap gap-2"></div>
+      </div>
+      <div>
+        <div class="text-sm font-semibold mb-2">Resource</div>
+        <span class="seg" id="res-toggle">
+          <button data-res="cpu" class="active">CPU</button>
+          <button data-res="mem">Memory</button>
+        </span>
+      </div>
+      <div>
+        <div class="text-sm font-semibold mb-2">Top-N</div>
+        <label class="flex items-center gap-2 text-sm">
+          <input id="topn" type="number" value="20" min="1" max="500" class="w-20" />
+          <span class="chip"><input type="checkbox" id="topn-all" /> show all</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <main id="app"></main>
+
+  <footer class="mt-10 text-xs text-gray-500 leading-relaxed">
+    A cluster merges both workspaces: <span class="font-semibold">services</span> (platform workloads) and
+    <span class="font-semibold">hcps</span> (hosted control planes, per-HCP <span class="font-mono">ocm-*</span> namespaces).
+    Requests/limits/usage are summed across a workload's pods &amp; containers; per-cluster namespaces
+    (<span class="font-mono">ocm-*</span>, <span class="font-mono">klusterlet-*</span>) are normalized so families aggregate.
+    Workloads are attributed to the AKS node pool their pods run on (<span class="font-mono">system</span> / <span class="font-mono">infra</span> / <span class="font-mono">user</span>).
+    Usage is each pod's sustained percentile, summed over currently-running pods.
+  </footer>
+</div>
+
+<script id="report" type="application/json">{{ .Data }}</script>
+<script>
+const REPORT = JSON.parse(document.getElementById('report').textContent);
+const UNITS = REPORT.units || [];
+const charts = [];
+const POOL_ORDER = ['system','infra','user','unknown'];
+const state = { clusters:new Set(UNITS.map(u=>u.cluster)), pools:new Set(), res:'cpu', treeMetric:'used', treeView:'treemap', topn:20, topnAll:false };
+UNITS.forEach(u=>{ (u.nodePools||[]).forEach(p=>state.pools.add(p.category));
+  (u.peakWorkloads||[]).forEach(w=>state.pools.add(w.poolCategory)); (u.workloads||[]).forEach(w=>state.pools.add(w.poolCategory)); });
+
+// ---- formatting ----
+function fmtCPU(c){ if(!c) return '0'; if(c<1) return Math.round(c*1000)+'m'; return c.toFixed(2); }
+function fmtMem(b){ if(!b) return '0'; const ki=1024,mi=ki*1024,gi=mi*1024,ti=gi*1024,pi=ti*1024;
+  if(b>=pi) return (b/pi).toFixed(2)+'Pi';
+  if(b>=ti) return (b/ti).toFixed(2)+'Ti';
+  if(b>=gi) return (b/gi).toFixed(2)+'Gi';
+  if(b>=mi) return Math.round(b/mi)+'Mi';
+  return Math.round(b/ki)+'Ki'; }
+function pct(n,d){ if(!d) return '&mdash;'; return (100*n/d).toFixed(0)+'%'; }
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function isMem(){ return state.res==='mem'; }
+function fmt(v){ return isMem()?fmtMem(v):fmtCPU(v); }
+function unitLabel(){ return isMem()?'bytes':'cores'; }
+const wReq=w=>isMem()?w.memRequest:w.cpuRequest;
+const wUse=w=>isMem()?w.memUsage:w.cpuUsage;
+const pAlloc=p=>isMem()?p.memAllocatable:p.cpuAllocatable;
+function distinct(a){ return [...new Set(a)].sort(); }
+function topN(){ return Math.max(1,parseInt(document.getElementById('topn').value||'20',10)); }
+function limitRows(rows){ return state.topnAll?rows:rows.slice(0,topN()); }
+
+// Build a Grafana Explore deep link for a workload client-side (usage/cadvisor
+// lives in the services AMW, so the datasource is services-<region>).
+function exploreURL(w){
+  const base=(w._grafana||REPORT.grafanaURL||'').replace(/\/$/,'');
+  if(!base||!w._region) return '';
+  const uid='services-'+w._region;
+  const pat=REPORT.namespaceMatchers&&REPORT.namespaceMatchers[w.namespace];
+  const nsm=pat?'namespace=~"'+pat+'"':'namespace="'+w.namespace+'"';
+  const sel=w._cluster?nsm+', cluster="'+w._cluster+'"':nsm;
+  const q=(refId,expr)=>({refId,datasource:{type:'prometheus',uid},expr,range:true});
+  const panes={cu:{datasource:uid,queries:[
+    q('A','sum by (namespace, pod) (container_memory_working_set_bytes{'+sel+'})'),
+    q('B','sum by (namespace, pod) (rate(container_cpu_usage_seconds_total{'+sel+'}[5m]))'),
+  ],range:{from:'now-'+REPORT.window,to:'now'}}};
+  return base+'/explore?schemaVersion=1&orgId=1&panes='+encodeURIComponent(JSON.stringify(panes));
+}
+
+// ---- selection ----
+function selectedUnits(){ return UNITS.filter(u=>state.clusters.has(u.cluster)); }
+function wlPasses(w){ return state.pools.has(w.poolCategory); }
+function unitFilteredPeak(u){ return (u.peakWorkloads||[]).filter(wlPasses); }     // concurrent, at peak
+function unitFilteredWindow(u){ return (u.workloads||[]).filter(wlPasses); }        // per-pod, all instances
+function unitFilteredPools(u){ return (u.nodePools||[]).filter(p=>state.pools.has(p.category)); }
+
+// Totals reflect the peak moment: allocatable from pools, requested/used from the
+// concurrent peak composition.
+function unitTotals(u){
+  const t={cpuAllocatable:0,memAllocatable:0,cpuRequests:0,memRequests:0,cpuUsage:0,memUsage:0,nodeCount:0,podCount:0,workloadCount:0};
+  for(const p of unitFilteredPools(u)){ t.cpuAllocatable+=p.cpuAllocatable; t.memAllocatable+=p.memAllocatable; t.nodeCount+=p.nodeCount; }
+  const ws=unitFilteredPeak(u);
+  for(const w of ws){ t.cpuRequests+=w.cpuRequest; t.memRequests+=w.memRequest; t.cpuUsage+=w.cpuUsage; t.memUsage+=w.memUsage; t.podCount+=w.replicas; }
+  t.workloadCount=ws.length;
+  return t;
+}
+function aggTotals(units){
+  const t={cpuAllocatable:0,memAllocatable:0,cpuRequests:0,memRequests:0,cpuUsage:0,memUsage:0,nodeCount:0,podCount:0,workloadCount:0};
+  for(const u of units){ const x=unitTotals(u); for(const k in t) t[k]+=x[k]; }
+  return t;
+}
+const tAlloc=t=>isMem()?t.memAllocatable:t.cpuAllocatable;
+const tReq=t=>isMem()?t.memRequests:t.cpuRequests;
+const tUse=t=>isMem()?t.memUsage:t.cpuUsage;
+
+// Peak composition aggregated across clusters (concurrent per cluster, summed
+// across clusters = fleet peak footprint). Drives the treemap.
+function aggPeak(units){
+  const m=new Map();
+  for(const u of units){
+    for(const w of unitFilteredPeak(u)){
+      const k=w.namespace+'\u0000'+w.workload+'\u0000'+w.workloadType;
+      let a=m.get(k);
+      if(!a){ a={namespace:w.namespace,workload:w.workload,workloadType:w.workloadType,replicas:0,
+        cpuRequest:0,cpuUsage:0,memRequest:0,memUsage:0,clusters:new Set(),pools:new Set(),
+        _cluster:u.cluster,_region:u.region,_grafana:u.grafanaURL}; m.set(k,a); }
+      a.replicas+=w.replicas; a.cpuRequest+=w.cpuRequest; a.cpuUsage+=w.cpuUsage; a.memRequest+=w.memRequest; a.memUsage+=w.memUsage;
+      a.clusters.add(u.cluster); a.pools.add(w.poolCategory);
+    }
+  }
+  return [...m.values()].map(a=>({...a,clusters:a.clusters.size,pools:[...a.pools].sort().join(',')}));
+}
+
+// Window workloads aggregated across clusters: per-pod values are PER-REPLICA, so
+// combine with max (worst cluster) and sum the instance counts. Drives the tables.
+function aggWindow(units){
+  const m=new Map();
+  for(const u of units){
+    for(const w of unitFilteredWindow(u)){
+      const k=w.namespace+'\u0000'+w.workload+'\u0000'+w.workloadType;
+      let a=m.get(k);
+      if(!a){ a={namespace:w.namespace,workload:w.workload,workloadType:w.workloadType,replicas:0,
+        cpuRequest:0,cpuUsage:0,memRequest:0,memUsage:0,clusters:new Set(),pools:new Set(),
+        _cluster:u.cluster,_region:u.region,_grafana:u.grafanaURL}; m.set(k,a); }
+      a.replicas+=w.replicas;
+      a.cpuRequest=Math.max(a.cpuRequest,w.cpuRequest); a.cpuUsage=Math.max(a.cpuUsage,w.cpuUsage);
+      a.memRequest=Math.max(a.memRequest,w.memRequest); a.memUsage=Math.max(a.memUsage,w.memUsage);
+      a.clusters.add(u.cluster); a.pools.add(w.poolCategory);
+    }
+  }
+  return [...m.values()].map(a=>({...a,clusters:a.clusters.size,pools:[...a.pools].sort().join(',')}));
+}
+// per-node-pool-category stats across the selected clusters: node count plus the
+// per-cluster distribution (total / mean / median) of allocatable and used (at peak).
+function poolStats(units){
+  const cats={};
+  for(const u of units){
+    const allocByCat={}, nodeByCat={}, usedByCat={};
+    for(const p of unitFilteredPools(u)){ allocByCat[p.category]=(allocByCat[p.category]||0)+pAlloc(p); nodeByCat[p.category]=(nodeByCat[p.category]||0)+p.nodeCount; }
+    for(const w of unitFilteredPeak(u)){ usedByCat[w.poolCategory]=(usedByCat[w.poolCategory]||0)+wUse(w); }
+    for(const c of new Set([...Object.keys(allocByCat),...Object.keys(usedByCat)])){
+      if(!cats[c]) cats[c]={category:c,nodes:0,allocs:[],useds:[]};
+      cats[c].nodes+=nodeByCat[c]||0;
+      cats[c].allocs.push(allocByCat[c]||0);
+      cats[c].useds.push(usedByCat[c]||0);
+    }
+  }
+  return Object.values(cats).sort((a,b)=>POOL_ORDER.indexOf(a.category)-POOL_ORDER.indexOf(b.category));
+}
+function arrSum(a){ return a.reduce((s,x)=>s+x,0); }
+function arrMean(a){ return a.length?arrSum(a)/a.length:0; }
+function arrMedian(a){ if(!a.length) return 0; const s=[...a].sort((x,y)=>x-y); const m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2; }
+
+// ---- controls ----
+function buildControls(){
+  // clusters grouped by env / region, laid out in a responsive grid
+  const box=document.getElementById('clusters'); box.innerHTML='';
+  const byEnv={};
+  for(const u of UNITS){ (byEnv[u.env]=byEnv[u.env]||{}); (byEnv[u.env][u.region]=byEnv[u.env][u.region]||[]).push(u); }
+  const roleRank=r=>r==='svc'?0:(r==='mgmt'?1:2);
+  for(const env of Object.keys(byEnv).sort()){
+    for(const region of Object.keys(byEnv[env]).sort()){
+      const grp=document.createElement('div'); grp.className='min-w-0';
+      const lab=document.createElement('div'); lab.className='text-xs text-gray-500 mb-1'; lab.textContent=env+' / '+region; grp.appendChild(lab);
+      const chips=document.createElement('div'); chips.className='flex flex-wrap gap-2'; grp.appendChild(chips);
+      // svc first (every region has one), then mgmt-1, mgmt-2, ...
+      for(const u of byEnv[env][region].sort((a,b)=> roleRank(a.role)-roleRank(b.role) || a.cluster.localeCompare(b.cluster))){
+        const chip=document.createElement('label'); chip.className='chip';
+        const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=state.clusters.has(u.cluster);
+        cb.onchange=()=>{ cb.checked?state.clusters.add(u.cluster):state.clusters.delete(u.cluster); render(); };
+        chip.appendChild(cb); chip.appendChild(document.createTextNode(u.cluster.replace(env+'-'+region+'-','')));
+        chips.appendChild(chip);
+      }
+      box.appendChild(grp);
+    }
+  }
+  // node pools
+  const pbox=document.getElementById('pools'); pbox.innerHTML='';
+  const present=distinct(UNITS.flatMap(u=>(u.nodePools||[]).map(p=>p.category)
+    .concat((u.peakWorkloads||[]).map(w=>w.poolCategory)).concat((u.workloads||[]).map(w=>w.poolCategory))));
+  for(const c of POOL_ORDER.filter(c=>present.includes(c))){
+    const chip=document.createElement('label'); chip.className='chip';
+    const cb=document.createElement('input'); cb.type='checkbox'; cb.checked=state.pools.has(c);
+    cb.onchange=()=>{ cb.checked?state.pools.add(c):state.pools.delete(c); render(); };
+    chip.appendChild(cb); chip.appendChild(document.createTextNode(c));
+    pbox.appendChild(chip);
+  }
+}
+function selectRole(role){ state.clusters=new Set(UNITS.filter(u=>u.role===role).map(u=>u.cluster)); buildControls(); render(); }
+
+// ---- charts ----
+function mkChart(el,opt){ const c=echarts.init(el,'dark'); c.setOption(opt); charts.push(c); }
+function barOption(title,cats,alloc,req,use){
+  return { backgroundColor:'transparent', title:{text:title,textStyle:{color:'#e5e7eb',fontSize:14}},
+    tooltip:{trigger:'axis',valueFormatter:v=>fmt(v)}, legend:{top:24,textStyle:{color:'#9ca3af'}},
+    grid:{left:60,right:20,top:60,bottom:90},
+    xAxis:{type:'category',data:cats,axisLabel:{color:'#9ca3af',rotate:40,interval:0}},
+    yAxis:{type:'value',axisLabel:{color:'#9ca3af',formatter:v=>fmt(v)}},
+    series:[
+      {name:'Allocatable',type:'bar',data:alloc,itemStyle:{color:'#374151'}},
+      {name:'Requested',type:'bar',data:req,itemStyle:{color:'#f59e0b'}},
+      {name:'Used',type:'bar',data:use,itemStyle:{color:'#10b981'}},
+    ]};
+}
+function treeOption(title,workloads){
+  const valOf = state.treeMetric==='req' ? wReq : wUse;
+  const byNs={}; let total=0;
+  for(const w of workloads){ const v=valOf(w); if(v<=0) continue; total+=v; (byNs[w.namespace]=byNs[w.namespace]||[]).push({name:w.workload,value:v}); }
+  const data=Object.keys(byNs).map(ns=>({name:ns,children:byNs[ns]}));
+  const tt=p=>{ const path=(p.treePathInfo||[]).map(t=>t.name).filter(Boolean).join(' \u203a ')||p.name||'(total)';
+    return esc(path)+'<br/>'+fmt(p.value)+' &middot; '+pct(p.value,total)+' of total'; };
+  return { backgroundColor:'transparent', title:{text:title,textStyle:{color:'#e5e7eb',fontSize:14}},
+    tooltip:{formatter:tt},
+    series:[{ type:'treemap', top:8, bottom:32, left:6, right:6, leafDepth:2, roam:false, nodeClick:'zoomToNode', zoomToNodeRatio:0.3,
+      breadcrumb:{show:true,bottom:6,height:22,emptyItemWidth:20,
+        itemStyle:{color:'#1f2937',borderColor:'#374151',textStyle:{color:'#e5e7eb'}},
+        emphasis:{itemStyle:{color:'#374151'}}},
+      label:{show:true,color:'#fff',fontSize:12,textBorderColor:'#000',textBorderWidth:2,formatter:p=>p.name},
+      upperLabel:{show:true,height:24,color:'#f9fafb',fontWeight:700,fontSize:13,textBorderColor:'#000',textBorderWidth:3},
+      itemStyle:{borderColor:'#0b0f19',borderWidth:1,gapWidth:1},
+      levels:[
+        {itemStyle:{borderColor:'#0b0f19',borderWidth:4,gapWidth:4},upperLabel:{show:true}},
+        {itemStyle:{gapWidth:1},colorSaturation:[0.35,0.6]},
+      ],
+      data }] };
+}
+
+// Ranked "where compute goes" table (makes small contributors visible).
+function computeGoesTable(workloads){
+  const valOf = state.treeMetric==='req' ? wReq : wUse;
+  const rows=workloads.map(w=>({ns:w.namespace,wl:w.workload,v:valOf(w),w})).filter(r=>r.v>0).sort((a,b)=>b.v-a.v);
+  const total=rows.reduce((s,r)=>s+r.v,0);
+  let cum=0;
+  let h=`<div class="overflow-auto" style="max-height:440px" ><table class="w-full text-sm">
+    <thead><tr class="text-left text-gray-400">
+      ${TH('Namespace','Kubernetes namespace (normalized)')}
+      ${TH('Workload','Workload')}
+      ${TH(state.treeMetric==='req'?'Requested':'Used','Value for the selected metric','text-right')}
+      ${TH('%','Share of the selected total','text-right')}
+      ${TH('Cum %','Cumulative share (sorted desc)','text-right')}
+      <th class="p-2"></th>
+    </tr></thead><tbody>`;
+  for(const r of rows){ cum+=r.v;
+    h+=`<tr class="border-t border-gray-800">
+      <td class="p-2 font-mono text-xs">${esc(r.ns)}</td>
+      <td class="p-2">${esc(r.wl)}</td>
+      <td class="p-2 text-right">${fmt(r.v)}</td>
+      <td class="p-2 text-right">${(100*r.v/total).toFixed(1)}%</td>
+      <td class="p-2 text-right text-gray-400">${(100*cum/total).toFixed(0)}%</td>
+      <td class="p-2">${(()=>{const ex=exploreURL(r.w);return ex?`<a href="${esc(ex)}" target="_blank" rel="noopener">explore</a>`:'';})()}</td>
+    </tr>`;
+  }
+  return h+`</tbody></table></div>`;
+}
+
+// ---- tables ----
+function TH(label,title,extra){ return `<th class="p-2 ${extra||''}"><abbr title="${esc(title)}">${label}</abbr></th>`; }
+// Window tables show PER-POD values across all instances that ran in the window
+// (usage = p95 across instances), so a workload need not be currently running.
+function workloadTable(rows,multiCluster){
+  let h=`<div class="overflow-auto max-h-96 card scroll"><table class="w-full text-sm">
+    <thead><tr class="text-left text-gray-400">
+      ${TH('Namespace','Kubernetes namespace (normalized)')}
+      ${TH('Workload','Deployment / StatefulSet / DaemonSet / Job (CronJobs collapsed)')}
+      ${TH('Type','Workload controller kind')}
+      ${TH('Pool','AKS node pool the pods run on')}
+      ${TH('Inst','Distinct pod instances seen over the window (test runs need not be concurrent)','text-right')}
+      ${multiCluster?TH('Clu','Clusters contributing to this row','text-right'):''}
+      ${TH('Req/pod','Requested per replica','text-right')}
+      ${TH('Used/pod','p95 usage per replica across all instances in the window','text-right')}
+      ${TH('U/R','Used \u00f7 Requested per replica (>100% = under-provisioned)','text-right')}
+      <th class="p-2"></th>
+    </tr></thead><tbody>`;
+  for(const w of rows){
+    const r=wReq(w),u=wUse(w);
+    const ratio=r>0?(u/r):(u>0?Infinity:0);
+    const ratioTxt=r>0?(100*u/r).toFixed(0)+'%':(u>0?'no req':'&mdash;');
+    const color=ratio>=1?'text-red-400':(ratio>0&&ratio<0.3?'text-yellow-400':'text-gray-300');
+    h+=`<tr class="border-t border-gray-800">
+      <td class="p-2 font-mono text-xs">${esc(w.namespace)}</td>
+      <td class="p-2">${esc(w.workload)}</td>
+      <td class="p-2 text-gray-400">${esc(w.workloadType||'')}</td>
+      <td class="p-2 text-gray-400">${esc(w.pools||'')}</td>
+      <td class="p-2 text-right">${w.replicas}</td>
+      ${multiCluster?`<td class="p-2 text-right">${w.clusters}</td>`:''}
+      <td class="p-2 text-right">${fmt(r)}</td>
+      <td class="p-2 text-right">${fmt(u)}</td>
+      <td class="p-2 text-right ${color}">${ratioTxt}</td>
+      <td class="p-2">${(()=>{const ex=exploreURL(w);return ex?`<a href="${esc(ex)}" target="_blank" rel="noopener">explore</a>`:'';})()}</td>
+    </tr>`;
+  }
+  return h+`</tbody></table></div>`;
+}
+function card(label,value,sub){
+  return `<div class="card p-4">
+    <div class="text-xs uppercase tracking-wide text-gray-400">${label}</div>
+    <div class="text-xl font-semibold mt-1">${value}</div>
+    ${sub?`<div class="text-xs text-gray-500 mt-1">${sub}</div>`:''}</div>`;
+}
+function underProvisioned(ws){ return limitRows(ws.filter(w=>wUse(w)>wReq(w)&&wReq(w)>0).sort((a,b)=>(wUse(b)-wReq(b))-(wUse(a)-wReq(a)))); }
+function overProvisioned(ws){ return limitRows(ws.filter(w=>wReq(w)>0&&wUse(w)<wReq(w)).sort((a,b)=>(wReq(b)-wUse(b))-(wReq(a)-wUse(a)))); }
+function noRequests(ws){ return limitRows(ws.filter(w=>wReq(w)===0&&wUse(w)>0).sort((a,b)=>wUse(b)-wUse(a))); }
+
+// ---- render ----
+function render(){
+  charts.forEach(c=>c.dispose()); charts.length=0;
+  const app=document.getElementById('app'); app.innerHTML='';
+  const units=selectedUnits();
+  if(units.length===0){ app.innerHTML='<div class="card p-6 text-gray-400">Select one or more clusters.</div>'; return; }
+  if(state.pools.size===0){ app.innerHTML='<div class="card p-6 text-gray-400">Select one or more node pools.</div>'; return; }
+
+  const totals=aggTotals(units);
+  const peak=aggPeak(units);
+  const windowW=aggWindow(units);
+  const pools=poolStats(units);
+  const multiCluster=units.length>1;
+
+  // Two clearly-distinguished lenses: a peak-moment snapshot (amber) and the
+  // all-history window analysis (sky).
+  const peakSec=document.createElement('section'); peakSec.className='peak-lens rounded-xl overflow-hidden mb-8';
+  peakSec.innerHTML=`<div class="lens-banner peak-banner">
+     <span class="badge badge-peak">Peak snapshot</span>
+     <span>Utilization at each cluster's busiest moment</span>
+     <span class="ml-auto text-xs font-normal text-amber-200/80">${peakNote(units)}</span></div>`;
+  const peakBody=document.createElement('div'); peakBody.className='p-4'; peakSec.appendChild(peakBody);
+
+  const winSec=document.createElement('section'); winSec.className='window-lens rounded-xl overflow-hidden mb-8';
+  winSec.innerHTML=`<div class="lens-banner window-banner">
+     <span class="badge badge-window">Historical</span>
+     <span>Tuning across every instance over the last ${esc(REPORT.window)}</span>
+     <span class="ml-auto text-xs font-normal text-sky-200/80">per-pod p95; short-lived runs count even if not running now</span></div>`;
+  const winBody=document.createElement('div'); winBody.className='p-4'; winSec.appendChild(winBody);
+
+  const summary=document.createElement('div'); summary.className='mb-5';
+  summary.innerHTML=`<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+    ${card('Clusters', units.length, `${totals.nodeCount} nodes`)}
+    ${card('Workloads @ peak', totals.workloadCount, `${totals.podCount} pods concurrent`)}
+    ${card('Allocatable', fmt(tAlloc(totals)), unitLabel())}
+    ${card('Requested @ peak', fmt(tReq(totals)), 'commitment '+pct(tReq(totals),tAlloc(totals)))}
+    ${card('Used @ peak', fmt(tUse(totals)), 'utilization '+pct(tUse(totals),tAlloc(totals)))}
+    ${card('Efficiency @ peak', pct(tUse(totals),tReq(totals)), 'used / requested')}
+  </div>`;
+  peakBody.appendChild(summary);
+
+  if(pools.length){
+    const visible=pools.filter(p=>arrSum(p.allocs)>0||arrSum(p.useds)>0);
+    const allocGrand=arrSum(visible.map(p=>arrSum(p.allocs)));
+    const n=units.length;
+    const rows=visible.map(p=>{
+      const aTot=arrSum(p.allocs), uTot=arrSum(p.useds);
+      return `<tr class="border-t border-gray-800">
+        <td class="p-2 capitalize">${esc(p.category)}</td>
+        <td class="p-2 text-right">${p.nodes}</td>
+        <td class="p-2 text-right">${fmt(aTot)}</td>
+        <td class="p-2 text-right text-gray-400">${fmt(arrMean(p.allocs))}</td>
+        <td class="p-2 text-right text-gray-400">${fmt(arrMedian(p.allocs))}</td>
+        <td class="p-2 text-right">${fmt(uTot)}</td>
+        <td class="p-2 text-right text-gray-400">${fmt(arrMean(p.useds))}</td>
+        <td class="p-2 text-right text-gray-400">${fmt(arrMedian(p.useds))}</td>
+        <td class="p-2 text-right">${pct(uTot,aTot)}</td>
+        <td class="p-2 text-right text-gray-400">${pct(aTot,allocGrand)}</td></tr>`;
+    }).join('');
+    const div=document.createElement('div'); div.className='card p-4 mb-5 overflow-auto scroll';
+    div.innerHTML=`<h3 class="font-semibold mb-2">Node pools
+        <span class="text-gray-500 text-sm font-normal">(${unitLabel()}; mean/median are per-cluster across ${n} cluster${n===1?'':'s'})</span></h3>
+      <table class="text-sm w-full"><thead>
+        <tr class="text-left text-gray-400">
+          <th class="p-2 align-bottom">Role</th>
+          ${TH('Nodes','Total nodes in this pool role across the selection','text-right align-bottom')}
+          ${TH('Alloc \u03a3','Total allocatable across selected clusters','text-right align-bottom')}
+          ${TH('Alloc x\u0304','Mean allocatable per cluster','text-right align-bottom')}
+          ${TH('Alloc M','Median allocatable per cluster','text-right align-bottom')}
+          ${TH('Used \u03a3','Total used (workloads attributed to this pool)','text-right align-bottom')}
+          ${TH('Used x\u0304','Mean used per cluster','text-right align-bottom')}
+          ${TH('Used M','Median used per cluster','text-right align-bottom')}
+          ${TH('Util','Used \u00f7 Allocatable','text-right align-bottom')}
+          ${TH('Share','This role\u2019s share of total allocatable','text-right align-bottom')}
+        </tr></thead><tbody>${rows}</tbody></table>`;
+    peakBody.appendChild(div);
+  }
+
+  // bar chart per cluster (filtered)
+  const cu=units.map(u=>({cluster:u.cluster,t:unitTotals(u)})).sort((a,b)=>tUse(b.t)-tUse(a.t));
+  const barWrap=document.createElement('div'); barWrap.className='card p-3 mb-5';
+  const barEl=document.createElement('div'); barEl.className='chart'; barWrap.appendChild(barEl); peakBody.appendChild(barWrap);
+  mkChart(barEl, barOption('Capacity vs requested vs used at peak, by cluster',
+    cu.map(x=>x.cluster), cu.map(x=>tAlloc(x.t)), cu.map(x=>tReq(x.t)), cu.map(x=>tUse(x.t))));
+
+  // treemap / table with used|requested and view toggles (peak composition)
+  const treeWrap=document.createElement('div'); treeWrap.className='card p-3 mb-5';
+  const metricLabel=state.treeMetric==='req'?'requested':'used';
+  const th=document.createElement('div'); th.className='flex items-center justify-between mb-1';
+  th.innerHTML=`<span class="text-sm font-semibold">Where compute goes at peak <span class="text-gray-500 font-normal">(${metricLabel} ${unitLabel()}, namespace \u2192 workload)</span></span>
+    <span class="flex items-center gap-2">
+      <span class="seg" id="tree-metric">
+        <button data-m="used" class="${state.treeMetric==='used'?'active':''}">Used</button>
+        <button data-m="req" class="${state.treeMetric==='req'?'active':''}">Requested</button></span>
+      <span class="seg" id="tree-view">
+        <button data-v="treemap" class="${state.treeView==='treemap'?'active':''}">Treemap</button>
+        <button data-v="table" class="${state.treeView==='table'?'active':''}">Table</button></span>
+    </span>`;
+  treeWrap.appendChild(th);
+  th.querySelectorAll('#tree-metric button').forEach(b=>b.onclick=()=>{ state.treeMetric=b.dataset.m; render(); });
+  th.querySelectorAll('#tree-view button').forEach(b=>b.onclick=()=>{ state.treeView=b.dataset.v; render(); });
+  if(state.treeView==='table'){
+    const t=document.createElement('div'); t.className='scroll'; t.innerHTML=computeGoesTable(peak); treeWrap.appendChild(t);
+  } else {
+    const treeEl=document.createElement('div'); treeEl.className='tree'; treeWrap.appendChild(treeEl);
+    mkChart(treeEl, treeOption('', peak));
+  }
+  peakBody.appendChild(treeWrap);
+
+  const tables=document.createElement('div'); tables.className='grid grid-cols-1 gap-6';
+  tables.innerHTML=
+    `<div><h3 class="font-semibold mb-2 text-red-300">Under-provisioned &mdash; used exceeds requested</h3>${workloadTable(underProvisioned(windowW),multiCluster)}</div>
+     <div><h3 class="font-semibold mb-2 text-yellow-300">Over-provisioned &mdash; requested far above used</h3>${workloadTable(overProvisioned(windowW),multiCluster)}</div>
+     <div><h3 class="font-semibold mb-2 text-gray-300">No requests set &mdash; consuming without a reservation</h3>${workloadTable(noRequests(windowW),multiCluster)}</div>`;
+  winBody.appendChild(tables); app.appendChild(peakSec); app.appendChild(winSec);
+
+  setTimeout(()=>charts.forEach(c=>c.resize()),0);
+}
+
+// peakNote summarizes the peak moments across the selected clusters.
+function peakNote(units){
+  const fld=isMem()?'peakMem':'peakCPU';
+  const ts=units.map(u=>u[fld]).filter(Boolean).sort();
+  if(!ts.length) return '';
+  const fmtT=t=>new Date(t*1000).toISOString().slice(0,16).replace('T',' ')+'Z';
+  const res=isMem()?'memory':'CPU';
+  if(units.length===1) return `Peak ${res} moment: ${fmtT(ts[0])} (busiest instant in the last ${REPORT.window}).`;
+  return `Peak ${res} moments span ${fmtT(ts[0])} \u2013 ${fmtT(ts[ts.length-1])}; each cluster is snapshotted at its own busiest instant in the last ${REPORT.window}.`;
+}
+
+// ---- wire up ----
+document.getElementById('clu-all').onclick=()=>{ UNITS.forEach(u=>state.clusters.add(u.cluster)); buildControls(); render(); };
+document.getElementById('clu-none').onclick=()=>{ state.clusters.clear(); buildControls(); render(); };
+document.getElementById('clu-mgmt').onclick=()=>selectRole('mgmt');
+document.getElementById('clu-svc').onclick=()=>selectRole('svc');
+document.querySelectorAll('#res-toggle button').forEach(b=>b.addEventListener('click',()=>{
+  state.res=b.dataset.res; document.querySelectorAll('#res-toggle button').forEach(x=>x.classList.toggle('active',x===b)); render(); }));
+document.getElementById('topn').addEventListener('change',render);
+document.getElementById('topn-all').addEventListener('change',e=>{ state.topnAll=e.target.checked; document.getElementById('topn').disabled=e.target.checked; render(); });
+window.addEventListener('resize',()=>charts.forEach(c=>c.resize()));
+
+buildControls();
+render();
+</script>
+</body>
+</html>
