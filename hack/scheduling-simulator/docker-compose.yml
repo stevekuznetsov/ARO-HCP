@@ -1,0 +1,11 @@
+services:
+  simulator:
+    build: .
+    image: hcp-scheduling-simulator:latest
+    ports:
+      - "8099:8099"
+    # Live-reload during development: mount the source over the image copy.
+    volumes:
+      - ./:/app
+      - /app/venv
+    command: ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8099", "--reload"]

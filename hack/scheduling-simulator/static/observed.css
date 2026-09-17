@@ -1,0 +1,13 @@
+/* Observed wrapper only; visualization styling comes from style.css. */
+.observed [hidden] { display: none !important; }
+.observed a { color: var(--accent); }
+.obs-header { display: flex; justify-content: space-between; gap: 16px; }
+.obs-notice { color: #e0b45d; overflow-wrap: anywhere; }
+.observed pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 320px; }
+.observed .side { overflow-wrap: anywhere; }
+@media (max-width: 800px) {
+  .observed { padding: 12px; }
+  .observed .viz-main { flex-direction: column; }
+  .observed .canvas-wrap, .observed .side { width: 100%; }
+  .obs-header { flex-direction: column; gap: 0; }
+}

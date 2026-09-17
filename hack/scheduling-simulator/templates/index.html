@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HCP Scheduling Simulator</title>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <script defer src="/static/tetris.js"></script>
+  <script defer src="/static/config.js"></script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>HCP Scheduling Simulator</h1>
+  <a href="/observed">Observed management clusters &rarr;</a>
+  <p class="sub">Region fleet &rarr; management-cluster node pools (zonal triplet + overflow), minimising scarce balanced-AZ cores.</p>
+</header>
+
+<section id="config" class="card">
+  <div class="stepper" id="stepper">
+    <button type="button" class="step" data-step="fleet"><span class="num">1</span> Fleet <i class="dot"></i></button>
+    <button type="button" class="step" data-step="demand"><span class="num">2</span> Demand <i class="dot"></i></button>
+    <button type="button" class="step" data-step="sharding"><span class="num">3</span> Sharding <i class="dot"></i></button>
+    <button type="button" class="step" data-step="headroom"><span class="num">4</span> Headroom <i class="dot"></i></button>
+    <button type="button" class="step" data-step="capacity"><span class="num">5</span> Node capacity <i class="dot"></i></button>
+    <button type="button" class="step" data-step="topology"><span class="num">6</span> Topology <i class="dot"></i></button>
+  </div>
+
+  <form id="cfgform" hx-post="/solve" hx-target="#results" hx-swap="innerHTML" hx-indicator="#solving" autocomplete="off">
+    <input type="hidden" name="mode" value="exact">
+
+    <div class="panel" data-step="fleet">
+      <p class="phelp">How many hosted clusters of each size make up the region's fleet. Demand for each size comes from observed control-plane usage at that worker-node count.</p>
+      <table class="tight fleet-tbl">
+        <thead><tr><th>size (worker nodes)</th><th>cluster count</th></tr></thead>
+        <tbody>
+        {% for s in sizes %}
+          <tr><td><code>{{ s }}</code></td>
+              <td><input type="number" min="0" step="1" required name="count_{{ s }}" value="{{ distribution.get(s, 0) }}"></td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel" data-step="demand" hidden>
+      <p class="phelp">Turn observed usage into a request each pod reserves: <em>request = multiplier &times; p<sub>N</sub>(per-replica usage)</em> over the whole run.</p>
+      <div class="grid2">
+        <label>Percentile p
+          <select name="percentile">
+            {% for p in [50, 75, 90, 95, 99, 100] %}
+              <option value="{{ p }}" {% if cfg.percentile == p %}selected{% endif %}>p{{ p }}</option>
+            {% endfor %}
+          </select></label>
+        <label>Usage&rarr;request multiplier
+          <input type="number" step="0.05" min="0.1" max="10" required name="multiplier" value="{{ cfg.multiplier }}"></label>
+      </div>
+    </div>
+
+    <div class="panel" data-step="sharding" hidden>
+      <p class="phelp">How hosted clusters are packed into management clusters. Every requested cluster is scheduled; each MC holds up to (cap &minus; reserved) real HCPs plus the reserved placeholder slots that are always held free as growth headroom.</p>
+      <div class="grid2">
+        <label>HCPs per MC (hard cap)
+          <input type="number" min="1" max="1000" step="1" required name="hcps_per_mc" value="{{ cfg.hcps_per_mc }}"></label>
+        <label>Reserved slots per MC
+          <input type="number" min="0" max="99" step="1" required name="reserve_slots" value="{{ cfg.reserve_slots }}"></label>
+        <label>Reserved slot size (worker nodes)
+          <select name="reserve_size">
+            {% for s in sizes %}
+            <option value="{{ s }}" {% if cfg.reserve_size == s %}selected{% endif %}>{{ s }}-node</option>
+            {% endfor %}
+          </select></label>
+      </div>
+    </div>
+
+    <div class="panel" data-step="headroom" hidden>
+      <p class="phelp">Reserve capacity, packed as extra pods, for a rolling upgrade and for surviving the loss of one availability zone (zonal pools only; etcd can't reschedule).</p>
+      <div class="grid2">
+        <label>AZ-failure reserve (fraction of pair load)
+          <input type="number" step="0.05" min="0" max="1" required name="az_failure_reserve" value="{{ cfg.az_failure_reserve }}"></label>
+        <label>Rollout surge (fast-path fraction)
+          <input type="number" step="0.05" min="0" max="1" required name="rollout_surge" value="{{ cfg.rollout_surge }}"></label>
+        <label>Concurrent rolling HCPs (reserve)
+          <input type="number" min="0" step="1" required name="concurrent_rolling_hcps" value="{{ cfg.concurrent_rolling_hcps }}"></label>
+      </div>
+    </div>
+
+    <div class="panel" data-step="capacity" hidden>
+      <p class="phelp">What is unavailable to HCP pods on every worker node: kubelet <code>--system-reserved</code>, non-HCP daemonset overhead, and a held-free buffer per resource.</p>
+      <h3>Kubelet system-reserved</h3>
+      <div class="grid3">
+        <label>Reservation mode
+          <select name="reservation_mode">
+            <option value="flat" {% if cfg.reservation_mode == 'flat' %}selected{% endif %}>flat (same on every node)</option>
+            <option value="scaled" {% if cfg.reservation_mode == 'scaled' %}selected{% endif %}>scaled by vCPU</option>
+          </select></label>
+        <label>System-reserved CPU (m)
+          <input type="number" min="0" step="1" required name="system_reserved_cpu_mc" value="{{ cfg.system_reserved_cpu_mc }}"></label>
+        <label>System-reserved memory (Mi)
+          <input type="number" min="0" step="1" required name="system_reserved_mem_mib" value="{{ cfg.system_reserved_mem_mib }}"></label>
+        <label>Scaled reference vCPU
+          <input type="number" min="1" step="1" required name="scaled_reference_vcpu" value="{{ cfg.scaled_reference_vcpu }}"></label>
+      </div>
+      <h3>Non-HCP daemonset overhead / node</h3>
+      <div class="grid3">
+        <label>CPU (m) <input type="number" min="0" step="1" required name="node_overhead_cpu_mc" value="{{ cfg.node_overhead_cpu_mc }}"></label>
+        <label>Memory (Mi) <input type="number" min="0" step="1" required name="node_overhead_mem_mib" value="{{ cfg.node_overhead_mem_mib }}"></label>
+        <label>Pods <input type="number" min="0" step="1" required name="node_overhead_pods" value="{{ cfg.node_overhead_pods }}"></label>
+        <label>Max pods / node <input type="number" min="1" step="1" required name="max_pods_per_node" value="{{ cfg.max_pods_per_node }}"></label>
+      </div>
+      <h3>Node buffer (fraction held free)</h3>
+      <div class="grid4">
+        <label>CPU <input type="number" step="0.01" min="0" max="0.9" required name="buffer_cpu" value="{{ cfg.buffer_cpu }}"></label>
+        <label>Memory <input type="number" step="0.01" min="0" max="0.9" required name="buffer_mem" value="{{ cfg.buffer_mem }}"></label>
+        <label>NIC <input type="number" step="0.01" min="0" max="0.9" required name="buffer_nic" value="{{ cfg.buffer_nic }}"></label>
+        <label>Pods <input type="number" step="0.01" min="0" max="0.9" required name="buffer_pods" value="{{ cfg.buffer_pods }}"></label>
+      </div>
+    </div>
+
+    <div class="panel" data-step="topology" hidden>
+      <p class="phelp">Zonal pools are an AZ-balanced triplet. Overflow may span one or more AZs. "Unsteered" (CNO/CSI) pods have no node-role in the current dump.</p>
+      <div class="grid2">
+        <label>Overflow AZ span
+          <input type="number" min="1" max="3" name="overflow_az_count" value="{{ cfg.overflow_az_count }}"></label>
+        <label>Unsteered (CNO/CSI) placement
+          <select name="unsteered_placement">
+            <option value="overflow" {% if cfg.unsteered_placement == 'overflow' %}selected{% endif %}>overflow (as in current dump)</option>
+            <option value="zonal" {% if cfg.unsteered_placement == 'zonal' %}selected{% endif %}>zonal webhooks (enhancement target)</option>
+          </select></label>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button type="button" id="prevStep" class="ghost">&larr; Back</button>
+      <span class="step-progress" id="stepProgress"></span>
+      <button type="button" id="nextStep" class="ghost">Next &rarr;</button>
+      <button type="submit" id="runBtn">Run simulation</button>
+    </div>
+  </form>
+</section>
+
+<div id="solving" class="htmx-indicator solving-overlay">
+  <div class="solving-card">
+    <div class="spinner"></div>
+    <div class="solving-title">Solving the region</div>
+    <div class="solving-msg" id="solvingMsg">Expanding the fleet into pods&hellip;</div>
+    <div class="solving-sub">heterogeneous SKU packing can take 10&ndash;20s</div>
+  </div>
+</div>
+
+<div id="decisions" class="decisions" hidden></div>
+
+<div id="stale-note">
+  <span>Editing inputs &mdash; <b>re-run the simulation</b> to refresh the results below.</span>
+  <button type="button" id="cancelEdit" class="cancel-btn">Cancel</button>
+</div>
+
+<div id="results"></div>
+
+<footer class="sku-footer">
+  <details>
+    <summary>SKU catalog &mdash; D/E-series v6 (informational)</summary>
+    <table class="tight">
+      <thead><tr><th>SKU</th><th>vCPU</th><th>mem (GiB)</th><th>max NICs</th><th>swift NIC</th><th>series</th></tr></thead>
+      <tbody>
+      {% for s in skus %}
+        <tr><td><code>{{ s.name }}</code></td><td>{{ s.vcpu }}</td><td>{{ s.memory_gib }}</td>
+            <td>{{ s.max_nics }}</td><td>{{ s.swift_nic }}</td><td>{{ s.series }}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </details>
+</footer>
+</body>
+</html>

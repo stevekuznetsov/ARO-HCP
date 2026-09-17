@@ -1,0 +1,18 @@
+{
+  "source": "https://prices.azure.com/api/retail/prices",
+  "region": "eastus2",
+  "currency": "USD",
+  "purchase_model": "Linux pay-as-you-go (non-Spot)",
+  "retrieved_at": "2026-09-08",
+  "effective_start": "2024-10-01",
+  "hourly": {
+    "Standard_D4s_v6": 0.202,
+    "Standard_D8s_v6": 0.403,
+    "Standard_D16s_v6": 0.806,
+    "Standard_D32s_v6": 1.613,
+    "Standard_E4s_v6": 0.265,
+    "Standard_E8s_v6": 0.529,
+    "Standard_E16s_v6": 1.058,
+    "Standard_E32s_v6": 2.117
+  }
+}

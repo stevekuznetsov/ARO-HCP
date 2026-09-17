@@ -1,0 +1,52 @@
+# Azure VM SKU catalog for the HCP scheduling simulator.
+#
+# Values verified via `az vm list-skus --location eastus2` (v6 generation).
+#   swift_nic = MaxNetworkInterfaces - 1   (one NIC reserved as the primary/host NIC,
+#                                            matching skucache.go and the mgmt-agent NIC controller)
+#   memory_gib is Azure's "MemoryGB" capability, treated as GiB (matches skucache.go lookupQuantityGi).
+#
+# Edit freely in the UI; this file is just the default seed.
+skus:
+  # D-series (general purpose, ~4 GiB/vCPU) — good for lighter "overflow" (float) pools.
+  - name: Standard_D4s_v6
+    vcpu: 4
+    memory_gib: 16
+    max_nics: 2
+    series: D
+  - name: Standard_D8s_v6
+    vcpu: 8
+    memory_gib: 32
+    max_nics: 4
+    series: D
+  - name: Standard_D16s_v6
+    vcpu: 16
+    memory_gib: 64
+    max_nics: 8
+    series: D
+  - name: Standard_D32s_v6
+    vcpu: 32
+    memory_gib: 128
+    max_nics: 8
+    series: D
+  # E-series (memory optimized, ~8 GiB/vCPU) — good for memory- and NIC-heavy "zonal" pools
+  # (kube-apiserver memory + router SWIFT NICs).
+  - name: Standard_E4s_v6
+    vcpu: 4
+    memory_gib: 32
+    max_nics: 2
+    series: E
+  - name: Standard_E8s_v6
+    vcpu: 8
+    memory_gib: 64
+    max_nics: 4
+    series: E
+  - name: Standard_E16s_v6
+    vcpu: 16
+    memory_gib: 128
+    max_nics: 8
+    series: E
+  - name: Standard_E32s_v6
+    vcpu: 32
+    memory_gib: 256
+    max_nics: 8
+    series: E

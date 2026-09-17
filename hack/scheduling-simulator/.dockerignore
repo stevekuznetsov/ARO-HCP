@@ -1,0 +1,10 @@
+# Exclude local dev cruft from the image build context.
+venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+.cache/
+observed-data/raw.json
+observed-data/.processed.json

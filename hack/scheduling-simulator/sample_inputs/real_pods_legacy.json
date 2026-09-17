@@ -1,0 +1,3985 @@
+{
+  "pod_count": 83,
+  "component_count": 45,
+  "components": {
+    "azure-disk-csi-driver-controller": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 110.0,
+        "mem_mib": 400.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "azure-disk-csi-driver-controller"
+              }
+            }
+          }
+        ]
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "azure-disk-csi-driver-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 50.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "CriticalAddonsOnly",
+          "operator": "Exists",
+          "value": null,
+          "effect": null
+        },
+        {
+          "key": "node-role.kubernetes.io/master",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Exists",
+          "value": null,
+          "effect": null
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": null
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "azure-file-csi-driver-controller": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 110.0,
+        "mem_mib": 400.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "azure-file-csi-driver-controller"
+              }
+            }
+          }
+        ]
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "azure-file-csi-driver-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 50.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "CriticalAddonsOnly",
+          "operator": "Exists",
+          "value": null,
+          "effect": null
+        },
+        {
+          "key": "node-role.kubernetes.io/master",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Exists",
+          "value": null,
+          "effect": null
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": null
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "capi-provider-controller-manager": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 10.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "catalog-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 20.0,
+        "mem_mib": 110.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "certified-operators-catalog": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 160.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {
+        "kubernetes.io/os": "linux"
+      },
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cloud-controller-manager": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 75.0,
+        "mem_mib": 60.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cloud-network-config-controller": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 30.0,
+        "mem_mib": 110.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cluster-api": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 40.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cluster-image-registry-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 50.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cluster-network-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 30.0,
+        "mem_mib": 160.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cluster-node-tuning-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 50.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cluster-policy-controller": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 100.0,
+        "mem_mib": 100.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "cluster-policy-controller",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "cluster-policy-controller",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "cluster-policy-controller",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "cluster-policy-controller",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cluster-storage-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 20.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "cluster-version-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 20.0,
+        "mem_mib": 70.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "community-operators-catalog": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 160.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {
+        "kubernetes.io/os": "linux"
+      },
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "control-plane-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 80.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "control-plane-pki-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 80.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "csi-snapshot-controller": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 50.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "csi-snapshot-controller"
+              }
+            }
+          }
+        ]
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "csi-snapshot-controller-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 65.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "dns-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 29.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "etcd": {
+      "replicas": 3,
+      "requests": {
+        "cpu_mc": 160.0,
+        "mem_mib": 400.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "etcd",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "etcd",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster",
+                "hypershift.openshift.io/need-management-kas-access": "true"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "etcd",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "etcd",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster",
+                "hypershift.openshift.io/need-management-kas-access": "true"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "featuregate-generator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 30.0,
+        "mem_mib": 50.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "hosted-cluster-config-operator": {
+      "replicas": 3,
+      "requests": {
+        "cpu_mc": 60.0,
+        "mem_mib": 80.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "ignition-server": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 40.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "ignition-server",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "ignition-server",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster",
+                "hypershift.openshift.io/need-management-kas-access": "true"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "ignition-server",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "ignition-server",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster",
+                "hypershift.openshift.io/need-management-kas-access": "true"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "ignition-server-proxy": {
+      "replicas": 6,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 20.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "ignition-server-proxy",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "ignition-server-proxy",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster",
+                "hypershift.openshift.io/request-serving-component": "true"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "ignition-server-proxy",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "ignition-server-proxy",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster",
+                "hypershift.openshift.io/request-serving-component": "true"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "ingress-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 20.0,
+        "mem_mib": 110.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "konnectivity-agent": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 40.0,
+        "mem_mib": 50.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "konnectivity-agent",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "konnectivity-agent",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "konnectivity-agent",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "konnectivity-agent",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "kube-apiserver": {
+      "replicas": 3,
+      "requests": {
+        "cpu_mc": 145.0,
+        "mem_mib": 205.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "kube-apiserver",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "kube-apiserver",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster",
+                "hypershift.openshift.io/request-serving-component": "true"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "kube-apiserver",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "kube-apiserver",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster",
+                "hypershift.openshift.io/request-serving-component": "true"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "kube-controller-manager": {
+      "replicas": 8,
+      "requests": {
+        "cpu_mc": 100.0,
+        "mem_mib": 100.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "kube-controller-manager",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "kube-controller-manager",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "kube-controller-manager",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "kube-controller-manager",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "kube-scheduler": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 25.0,
+        "mem_mib": 150.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "kube-scheduler",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "kube-scheduler",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "kube-scheduler",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "kube-scheduler",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "kube-state-metrics-hcp-6cd586d788": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 64.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "topologySpreadConstraints": []
+    },
+    "kube-storage-version-migrator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 200.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "machine-approver": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 50.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "multus-admission-controller": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 20.0,
+        "mem_mib": 80.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "multus-admission-controller"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "network-node-identity": {
+      "replicas": 3,
+      "requests": {
+        "cpu_mc": 30.0,
+        "mem_mib": 130.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "network-node-identity"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "olm-operator": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 20.0,
+        "mem_mib": 190.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "openshift-apiserver": {
+      "replicas": 6,
+      "requests": {
+        "cpu_mc": 125.0,
+        "mem_mib": 150.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "openshift-apiserver",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "openshift-apiserver",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "openshift-apiserver",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "openshift-apiserver",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "openshift-controller-manager": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 100.0,
+        "mem_mib": 100.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "openshift-controller-manager",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "openshift-controller-manager",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "openshift-controller-manager",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "openshift-controller-manager",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "openshift-route-controller-manager": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 100.0,
+        "mem_mib": 100.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "openshift-route-controller-manager",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "openshift-route-controller-manager",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "openshift-route-controller-manager",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "openshift-route-controller-manager",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "ovnkube-control-plane": {
+      "replicas": 2,
+      "requests": {
+        "cpu_mc": 30.0,
+        "mem_mib": 240.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "ovnkube-control-plane"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "packageserver": {
+      "replicas": 3,
+      "requests": {
+        "cpu_mc": 30.0,
+        "mem_mib": 290.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {},
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [
+          {
+            "topologyKey": "topology.kubernetes.io/zone",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "packageserver",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "packageserver",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          },
+          {
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "app": "packageserver",
+                "kubernetes.azure.com/managedby": "sub_00000000-0000-0000-0000-000000000001",
+                "hypershift.openshift.io/control-plane-component": "packageserver",
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "redhat-marketplace-catalog": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 340.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {
+        "kubernetes.io/os": "linux"
+      },
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    },
+    "redhat-operators-catalog": {
+      "replicas": 1,
+      "requests": {
+        "cpu_mc": 10.0,
+        "mem_mib": 420.0,
+        "swift_nic": 0
+      },
+      "nodeSelector": {
+        "kubernetes.io/os": "linux"
+      },
+      "tolerations": [
+        {
+          "key": "hypershift.openshift.io/control-plane",
+          "operator": "Equal",
+          "value": "true",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "hypershift.openshift.io/cluster",
+          "operator": "Equal",
+          "value": "ocm-arohcpint-example-example-cluster",
+          "effect": "NoSchedule"
+        },
+        {
+          "key": "node.kubernetes.io/not-ready",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/unreachable",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoExecute"
+        },
+        {
+          "key": "node.kubernetes.io/memory-pressure",
+          "operator": "Exists",
+          "value": null,
+          "effect": "NoSchedule"
+        }
+      ],
+      "podAntiAffinity": {
+        "required": [],
+        "preferred": []
+      },
+      "podAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 100,
+            "topologyKey": "kubernetes.io/hostname",
+            "labelSelector": {
+              "matchLabels": {
+                "hypershift.openshift.io/hosted-control-plane": "ocm-arohcpint-example-example-cluster"
+              }
+            }
+          }
+        ]
+      },
+      "nodeAffinity": {
+        "required": [],
+        "preferred": [
+          {
+            "weight": 50,
+            "key": "hypershift.openshift.io/control-plane",
+            "operator": "In",
+            "values": [
+              "true"
+            ]
+          },
+          {
+            "weight": 100,
+            "key": "hypershift.openshift.io/cluster",
+            "operator": "In",
+            "values": [
+              "ocm-arohcpint-example-example-cluster"
+            ]
+          }
+        ]
+      },
+      "topologySpreadConstraints": []
+    }
+  }
+}

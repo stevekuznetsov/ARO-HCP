@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>preview</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer src="/static/tetris.js"></script>
+  <script>
+    window.__err = [];
+    window.onerror = function (m, s, l, c) { window.__err.push(m + ' @' + l + ':' + c); var d = document.getElementById('jserr'); if (d) d.textContent = window.__err.join(' | '); };
+  </script>
+</head>
+<body style="padding:16px">
+  <div id="jserr" style="color:#ff6b6b;font-family:monospace"></div>
+  {% include "result.html" %}
+</body>
+</html>

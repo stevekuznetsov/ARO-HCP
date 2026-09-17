@@ -1,0 +1,365 @@
+{
+  "source": "minimal-zonal-control-plane-pods dump",
+  "components": {
+    "azure-cloud-controller-manager": {
+      "replicas": 1,
+      "cpu_mc": 75.0,
+      "mem_mib": 60.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "azure-disk-csi-driver-controller": {
+      "replicas": 1,
+      "cpu_mc": 120.0,
+      "mem_mib": 410.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "azure-disk-csi-driver-operator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 50.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "azure-file-csi-driver-controller": {
+      "replicas": 1,
+      "cpu_mc": 120.0,
+      "mem_mib": 410.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "azure-file-csi-driver-operator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 50.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "capi-provider": {
+      "replicas": 1,
+      "cpu_mc": 20.0,
+      "mem_mib": 40.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "catalog-operator": {
+      "replicas": 1,
+      "cpu_mc": 20.0,
+      "mem_mib": 110.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "certified-operators-catalog": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 160.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "cloud-network-config-controller": {
+      "replicas": 1,
+      "cpu_mc": 30.0,
+      "mem_mib": 110.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "cluster-api": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 40.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "cluster-image-registry-operator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 50.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "cluster-network-operator": {
+      "replicas": 1,
+      "cpu_mc": 30.0,
+      "mem_mib": 160.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "cluster-node-tuning-operator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 50.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "cluster-policy-controller": {
+      "replicas": 2,
+      "cpu_mc": 10.0,
+      "mem_mib": 200.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": "ScheduleAnyway"
+    },
+    "cluster-storage-operator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 20.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "cluster-version-operator": {
+      "replicas": 1,
+      "cpu_mc": 20.0,
+      "mem_mib": 70.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "community-operators-catalog": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 160.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "control-plane-operator": {
+      "replicas": 1,
+      "cpu_mc": 20.0,
+      "mem_mib": 110.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "control-plane-pki-operator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 80.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "csi-snapshot-controller": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 50.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "csi-snapshot-controller-operator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 65.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "dns-operator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 29.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "etcd": {
+      "replicas": 3,
+      "cpu_mc": 360.0,
+      "mem_mib": 900.0,
+      "nic": 0,
+      "node_role": "req:zonal",
+      "zone_tsc": "DoNotSchedule"
+    },
+    "featuregate": {
+      "replicas": 1,
+      "cpu_mc": 30.0,
+      "mem_mib": 50.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "hosted-cluster-config-operator": {
+      "replicas": 1,
+      "cpu_mc": 60.0,
+      "mem_mib": 80.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "ignition-server": {
+      "replicas": 4,
+      "cpu_mc": 10.0,
+      "mem_mib": 20.0,
+      "nic": 0,
+      "node_role": "req:zonal",
+      "zone_tsc": "DoNotSchedule"
+    },
+    "ingress-operator": {
+      "replicas": 1,
+      "cpu_mc": 20.0,
+      "mem_mib": 110.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "konnectivity": {
+      "replicas": 2,
+      "cpu_mc": 40.0,
+      "mem_mib": 50.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": "ScheduleAnyway"
+    },
+    "kube-apiserver": {
+      "replicas": 2,
+      "cpu_mc": 385.0,
+      "mem_mib": 2143.0,
+      "nic": 0,
+      "node_role": "req:zonal",
+      "zone_tsc": "DoNotSchedule"
+    },
+    "kube-controller-manager-c5b49b4f": {
+      "replicas": 2,
+      "cpu_mc": 100.0,
+      "mem_mib": 600.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": "ScheduleAnyway"
+    },
+    "kube-scheduler": {
+      "replicas": 2,
+      "cpu_mc": 25.0,
+      "mem_mib": 150.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": "ScheduleAnyway"
+    },
+    "kube-storage-version-migrator": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 200.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "machine-approver": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 50.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "multus-admission-controller": {
+      "replicas": 2,
+      "cpu_mc": 20.0,
+      "mem_mib": 80.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "network-node-identity": {
+      "replicas": 3,
+      "cpu_mc": 30.0,
+      "mem_mib": 130.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "oauth-openshift": {
+      "replicas": 2,
+      "cpu_mc": 50.0,
+      "mem_mib": 110.0,
+      "nic": 0,
+      "node_role": "req:zonal",
+      "zone_tsc": "DoNotSchedule"
+    },
+    "olm-operator": {
+      "replicas": 1,
+      "cpu_mc": 20.0,
+      "mem_mib": 190.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "openshift-apiserver": {
+      "replicas": 2,
+      "cpu_mc": 125.0,
+      "mem_mib": 250.0,
+      "nic": 0,
+      "node_role": "req:zonal",
+      "zone_tsc": "DoNotSchedule"
+    },
+    "openshift-controller-manager": {
+      "replicas": 2,
+      "cpu_mc": 100.0,
+      "mem_mib": 100.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": "ScheduleAnyway"
+    },
+    "openshift-oauth-apiserver": {
+      "replicas": 2,
+      "cpu_mc": 175.0,
+      "mem_mib": 130.0,
+      "nic": 0,
+      "node_role": "req:zonal",
+      "zone_tsc": "DoNotSchedule"
+    },
+    "openshift-route-controller-manager": {
+      "replicas": 2,
+      "cpu_mc": 100.0,
+      "mem_mib": 100.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": "ScheduleAnyway"
+    },
+    "ovnkube-control": {
+      "replicas": 2,
+      "cpu_mc": 30.0,
+      "mem_mib": 240.0,
+      "nic": 0,
+      "node_role": "",
+      "zone_tsc": ""
+    },
+    "packageserver": {
+      "replicas": 2,
+      "cpu_mc": 30.0,
+      "mem_mib": 290.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": "ScheduleAnyway"
+    },
+    "redhat-operators-catalog": {
+      "replicas": 1,
+      "cpu_mc": 10.0,
+      "mem_mib": 420.0,
+      "nic": 0,
+      "node_role": "pref:overflow",
+      "zone_tsc": ""
+    },
+    "router": {
+      "replicas": 2,
+      "cpu_mc": 50.0,
+      "mem_mib": 40.0,
+      "nic": 0,
+      "node_role": "req:zonal",
+      "zone_tsc": "DoNotSchedule"
+    }
+  }
+}

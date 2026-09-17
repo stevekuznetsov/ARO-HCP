@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Observed HCP Placement</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/observed.css">
+  <script defer src="/static/observed.js"></script>
+  <script defer src="/static/tetris.js"></script>
+</head>
+<body class="observed">
+  <header class="obs-header">
+    <div>
+      <h1>Observed placement</h1>
+      <p class="sub">Actual workloads and nodes. No solver, hypothetical reserves, or live queries.</p>
+    </div>
+    <a href="/">Open simulator &rarr;</a>
+  </header>
+  <main>
+    {% if load_error %}
+    <section class="obs-notice obs-error" role="alert">
+      <h2>Snapshot load error</h2>
+      <p>{{ load_error }}</p>
+    </section>
+    {% endif %}
+    <section id="obs-runtime-error" class="obs-notice obs-error" role="alert" hidden></section>
+    {% if view is none %}
+    <section class="card obs-empty">
+      <h2>No observed snapshot available</h2>
+      <p>Collect a snapshot from the scheduling-simulator directory:</p>
+      <pre><code>python -m observed.cli collect --output observed-data</code></pre>
+      <p>Then rebuild and redeploy the simulator image with the generated data and reopen <code>/observed</code>.</p>
+    </section>
+    {% else %}
+    <details class="card" id="obs-provenance">
+      <summary id="obs-summary">Snapshot timestamp, coverage &amp; provenance</summary>
+    </details>
+    <script id="sim-data" type="application/json"></script>
+    <script id="sim-cfg" type="application/json">{}</script>
+    <section class="card viz" id="viz">
+      <div class="viz-controls">
+        <div class="ctl"><span class="ctl-lbl">basis</span>
+          <div class="seg" data-group="policy">
+            <button data-val="usage" class="on">Usage</button><button data-val="requests">Requests</button>
+          </div></div>
+        <div class="ctl"><span class="ctl-lbl">resource</span>
+          <div class="seg" data-group="resource">
+            <button data-val="mem" class="on">mem</button><button data-val="cpu">cpu</button><button data-val="nic">NIC at T</button><button data-val="pods">pods at T</button>
+          </div></div>
+        <div class="ctl"><span class="ctl-lbl">lens</span>
+          <div class="seg" data-group="lens">
+            <button data-val="node" class="on">node</button><button data-val="hcp">HCP</button>
+          </div></div>
+        <div class="ctl"><span class="ctl-lbl">color</span>
+          <div class="seg" data-group="color">
+            <button data-val="hcp" class="on">by HCP</button><button data-val="component">by component</button>
+          </div></div>
+        <div class="ctl"><span class="ctl-lbl">density</span>
+          <div class="seg" data-group="density">
+            <button data-val="5">S</button><button data-val="7" class="on">M</button><button data-val="11">L</button>
+          </div></div>
+        <div class="ctl grow"></div>
+      </div>
+
+      <div class="legend" id="legend"></div>
+
+      <div class="viz-main">
+        <div class="canvas-wrap" id="canvas-wrap">
+          <canvas id="tetris"></canvas>
+        </div>
+        <aside class="side" id="side">
+          <div class="side-empty muted">hover a pod &middot; click an HCP to isolate it &middot; click a node for detail</div>
+        </aside>
+      </div>
+    </section>
+    {% endif %}
+    <noscript><p class="obs-notice">JavaScript is required to render the embedded snapshot. No live data is fetched.</p></noscript>
+  </main>
+  <div id="tooltip" class="tooltip" style="display:none"></div>
+  <script id="observed-data" type="application/json">{{ view | tojson }}</script>
+</body>
+</html>

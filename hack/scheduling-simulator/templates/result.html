@@ -1,0 +1,166 @@
+{% macro pool_row(pool) %}
+  {% if pool %}
+    <td><code>{{ pool.sku }}</code></td>
+    <td>{{ pool.nodes }}{% if pool.role == 'zonal' %}/AZ &times;3 = {{ pool.total_nodes }}{% endif %}</td>
+    <td>{{ pool.total_cores }}</td>
+    <td class="{{ 'bind' if pool.binding=='cpu' else '' }}">{{ '%.0f'|format(pool.util_cpu*100) }}%</td>
+    <td class="{{ 'bind' if pool.binding=='mem' else '' }}">{{ '%.0f'|format(pool.util_mem*100) }}%</td>
+    <td class="{{ 'bind' if pool.binding=='nic' else '' }}">{% if pool.util_nic is not none %}{{ '%.0f'|format(pool.util_nic*100) }}%{% else %}&ndash;{% endif %}</td>
+    <td class="{{ 'bind' if pool.binding=='pods' else '' }}">{{ '%.0f'|format(pool.util_pods*100) }}%</td>
+    <td><span class="tag">{{ pool.binding }}</span></td>
+  {% else %}
+    <td colspan="8" class="muted">&mdash; none &mdash;</td>
+  {% endif %}
+{% endmacro %}
+
+<!-- data for the canvas visualization -->
+<script id="sim-data" type="application/json">{{ result | tojson }}</script>
+<script id="sim-cfg" type="application/json">{{ cfg | tojson }}</script>
+
+<section class="card summary">
+  <h2>Region summary</h2>
+  {% set d = result.delta %}
+  <div class="delta">
+    <div class="big">{{ result.minimal.total_hcps }}</div><div class="lbl">HCPs</div>
+    <div class="big">{{ '%.0f'|format(d.zonal_cores_saved_pct) }}%</div><div class="lbl">scarce zonal cores saved<br>(minimal vs legacy)</div>
+    <div class="big">{{ d.zonal_cores_saved }}</div><div class="lbl">zonal cores saved</div>
+  </div>
+</section>
+
+<!-- ============ tetris dashboard ============ -->
+<section class="card viz" id="viz">
+  <div class="viz-controls">
+    <div class="ctl"><span class="ctl-lbl">policy</span>
+      <div class="seg" data-group="policy">
+        <button data-val="minimal" class="on">minimal</button><button data-val="legacy">legacy</button>
+      </div></div>
+    <div class="ctl"><span class="ctl-lbl">resource</span>
+      <div class="seg" data-group="resource">
+        <button data-val="mem" class="on">mem</button><button data-val="cpu">cpu</button><button data-val="nic">nic</button><button data-val="pods">pods</button>
+      </div></div>
+    <div class="ctl"><span class="ctl-lbl">lens</span>
+      <div class="seg" data-group="lens">
+        <button data-val="node" class="on">node</button><button data-val="hcp">HCP</button>
+      </div></div>
+    <div class="ctl"><span class="ctl-lbl">color</span>
+      <div class="seg" data-group="color">
+        <button data-val="hcp" class="on">by HCP</button><button data-val="component">by component</button>
+      </div></div>
+    <div class="ctl"><span class="ctl-lbl">density</span>
+      <div class="seg" data-group="density">
+        <button data-val="5">S</button><button data-val="7" class="on">M</button><button data-val="11">L</button>
+      </div></div>
+    <div class="ctl grow"></div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="viz-main">
+    <div class="canvas-wrap" id="canvas-wrap">
+      <canvas id="tetris"></canvas>
+    </div>
+    <aside class="side" id="side">
+      <div class="side-empty muted">hover a pod &middot; click an HCP to isolate it &middot; click a node for detail</div>
+    </aside>
+  </div>
+</section>
+
+<div id="tooltip" class="tooltip" style="display:none"></div>
+
+<!-- ============ raw numbers (collapsible) ============ -->
+<details class="card">
+  <summary>Raw numbers &mdash; pools &amp; comparison</summary>
+
+  <table class="tight compare">
+    <thead><tr><th>policy</th><th>MCs</th><th>zonal cores</th><th>overflow cores</th><th>zonal nodes</th><th>overflow nodes</th><th>HCP / zonal core</th></tr></thead>
+    <tbody>
+    {% for pol in ['legacy', 'minimal'] %}
+      {% set r = result[pol] %}
+      <tr class="{{ 'row-min' if pol=='minimal' else '' }}">
+        <td><strong>{{ pol }}</strong></td>
+        <td>{{ r.n_mcs }}</td><td>{{ r.region.zonal_cores }}</td><td>{{ r.region.overflow_cores }}</td>
+        <td>{{ r.region.zonal_nodes }}</td><td>{{ r.region.overflow_nodes }}</td>
+        <td>{% if r.region.hcp_per_zonal_core %}{{ '%.3f'|format(r.region.hcp_per_zonal_core) }}{% else %}&ndash;{% endif %}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% for pol in ['legacy', 'minimal'] %}
+    {% set r = result[pol] %}
+    <h2 class="mc-title">{{ pol }} &mdash; {{ r.n_mcs }} management clusters&ensp;<span class="muted">({{ r.per_mc_hcps }} HCP / full MC)</span></h2>
+    <table class="tight">
+      <thead><tr><th>MC type</th><th>HCPs</th><th>#</th><th>pool</th><th>SKU</th><th>nodes</th><th>cores</th><th>cpu%</th><th>mem%</th><th>nic%</th><th>pods%</th><th>bind</th></tr></thead>
+      <tbody>
+      {% for mc in r.management_clusters %}
+        <tr>
+          <td rowspan="2">{{ mc.kind }}</td><td rowspan="2">{{ mc.hcps }}</td><td rowspan="2">{{ mc.count }}</td>
+          <td>zonal</td>{{ pool_row(mc.zonal_pool) }}
+        </tr>
+        <tr><td>overflow</td>{{ pool_row(mc.overflow_pool) }}</tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+</details>
+
+<section class="card cost-pane" id="compute-cost">
+  <h2>Compute usage &amp; amortized MC cost</h2>
+  <p class="phelp">Per hosted cluster, grouped by worker-node size. Compute figures are modeled
+    control-plane requests from p{{ cfg.percentile|int }} usage &times; {{ cfg.multiplier }},
+    not customer worker-node capacity or provisioned MC cores.</p>
+  <p class="phelp">Prices: <b>{{ prices.region }} &middot; {{ prices.currency }} &middot; {{ prices.purchase_model }}</b>.
+    <a href="{{ prices.source }}" target="_blank" rel="noopener">Azure Retail Prices API</a>
+    snapshot retrieved {{ prices.retrieved_at }} (rates effective {{ prices.effective_start }}).
+    Monthly estimates assume {{ month_hours }} hours; rates are bundled, not refreshed on each solve.</p>
+  {% for pol in ['minimal', 'legacy'] %}
+  {% set c = costs[pol] %}
+  <details {% if pol == 'minimal' %}open{% endif %}>
+    <summary><strong>{{ pol|capitalize }} policy</strong>
+      {% if not c.error %}&mdash; fleet VM bill ${{ '%.2f'|format(c.hourly) }}/hour
+      &middot; ${{ '%.2f'|format(c.monthly) }}/month{% endif %}</summary>
+    {% if c.error %}<p role="alert">{{ c.error }}</p>{% endif %}
+    <div class="cost-table-wrap">
+    <table class="tight">
+      <thead><tr><th>HCP size<br>(workers)</th><th>Real HCPs</th><th>vCPU / HCP</th>
+        <th>GiB / HCP</th><th>Zonal vCPU / GiB</th><th>Pods / HCP</th><th>SWIFT NICs / HCP</th>
+        <th>Zonal $/HCP-h</th><th>Overflow $/HCP-h</th><th>Total $/HCP-h</th><th>$/HCP-month</th></tr></thead>
+      <tbody>
+      {% for row in c.rows %}
+        <tr><td>{{ row.size }}</td><td>{{ row.count }}</td><td>{{ '%.2f'|format(row.cpu) }}</td>
+          <td>{{ '%.2f'|format(row.mem) }}</td><td>{{ '%.2f'|format(row.zonal_cpu) }} / {{ '%.2f'|format(row.zonal_mem) }}</td>
+          <td>{{ row.pods }}</td><td>{{ row.nic }}</td>
+          {% for field in ['zonal_hourly', 'overflow_hourly', 'hourly', 'monthly'] %}
+          <td>{% if row[field] is not none %}${{ ('%.2f' if field == 'monthly' else '%.4f')|format(row[field]) }}{% else %}&ndash;{% endif %}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <details>
+      <summary>Priced node inventory</summary>
+      <div class="cost-table-wrap"><table class="tight">
+        <thead><tr><th>SKU</th><th>Region nodes</th><th>$/node-hour</th></tr></thead>
+        <tbody>{% for sku, count in c.inventory|dictsort %}<tr><td><code>{{ sku }}</code></td><td>{{ count }}</td>
+          <td>{% if sku in prices.hourly %}${{ '%.3f'|format(prices.hourly[sku]) }}{% else %}Unavailable{% endif %}</td></tr>{% endfor %}</tbody>
+      </table></div>
+    </details>
+  </details>
+  {% endfor %}
+  <details>
+    <summary>Allocation method &amp; exclusions</summary>
+    <p class="phelp">For each MC and pool, we sum actual node SKU prices. Each size's weight is its largest
+      fraction of that pool's usable CPU, memory, SWIFT NIC or pod capacity, using only real HCP pods.
+      We normalize those weights to allocate the entire pool bill, including system reservations,
+      daemonsets, buffers, rollout/AZ headroom, growth placeholders and idle/balancing nodes.
+      Costs are averaged across the real HCPs of each size, weighted by identical-MC counts.
+      Count &times; cost per HCP sums to the fleet VM bill (before display rounding).
+      Sizes absent from the fleet show demand only; they have no amortized cost estimate.</p>
+    <p class="phelp">This is a shared-cost allocation, not the marginal price of adding a cluster.
+      The optimizer minimizes cores, not dollars. VM compute only: excludes disks, networking,
+      load balancers, AKS fees, service-cluster infrastructure, licenses, support, labor and taxes.
+      No reservations, savings plans or negotiated discounts are assumed. The two policy tables
+      are labeled independently of the visualizer's policy selection.</p>
+  </details>
+</section>
