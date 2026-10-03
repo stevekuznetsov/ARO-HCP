@@ -70,7 +70,7 @@ var _ = Describe("Customer", func() {
 				By("getting advertised HCP OpenShift version " + *version.Name)
 				got, err := versionsClient.Get(ctx, tc.Location(), *version.Name, nil)
 				Expect(err).NotTo(HaveOccurred(), "failed to get advertised OpenShift version %s", *version.Name)
-				Expect(got.HcpOpenShiftVersion).To(Equal(*version), "get and list should agree for OpenShift version %s", *version.Name)
+				Expect(got.HcpOpenShiftVersion).To(BeComparableTo(*version), "get and list should agree for OpenShift version %s", *version.Name)
 			}
 
 			By("verifying at least one version is available for cluster creation")
