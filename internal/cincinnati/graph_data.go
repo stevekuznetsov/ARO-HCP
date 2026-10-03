@@ -54,11 +54,15 @@ type GraphDataClient struct {
 }
 
 func NewGraphDataClient() *GraphDataClient {
-	return &GraphDataClient{client: &http.Client{Timeout: graphDataTimeout}, url: GraphDataURL}
+	transport := http.DefaultTransport.(*http.Transport).Clone()
+	// Each discovery request owns its connections and releases them before returning.
+	transport.DisableKeepAlives = true
+	return &GraphDataClient{client: &http.Client{Timeout: graphDataTimeout, Transport: transport}, url: GraphDataURL}
 }
 
 // VersionProfiles returns complete, validated minor version and channel group discovery results.
 func (c *GraphDataClient) VersionProfiles(ctx context.Context) ([]coreapi.VersionProfile, error) {
+	defer c.client.CloseIdleConnections()
 	ctx, cancel := context.WithTimeout(ctx, graphDataTimeout)
 	defer cancel()
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.url, nil)
@@ -137,7 +141,7 @@ func ParseGraphData(reader io.Reader) ([]coreapi.VersionProfile, error) {
 		if header.Typeflag == tar.TypeDir {
 			continue
 		}
-		if header.Typeflag != tar.TypeReg && header.Typeflag != tar.TypeRegA {
+		if header.Typeflag != tar.TypeReg {
 			return nil, fmt.Errorf("unsupported graph-data entry type for %q", name)
 		}
 		data, err := io.ReadAll(archive)

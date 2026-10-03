@@ -21,6 +21,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -209,4 +210,53 @@ func TestGraphDataHTTP(t *testing.T) {
 		require.ErrorIs(t, err, context.Canceled)
 		require.Nil(t, profiles)
 	})
+}
+
+func TestGraphDataHTTPClosesConnections(t *testing.T) {
+	archive := graphArchive(t, graphEntry{"version", "1.1.0"}, graphEntry{"channels/stable.yaml", "name: stable-4.20"})
+	for _, http2 := range []bool{false, true} {
+		for _, cancelAt := range []string{"never", "before headers", "during body"} {
+			t.Run(fmt.Sprintf("http2=%t/cancel=%s", http2, cancelAt), func(t *testing.T) {
+				ctx, cancel := context.WithCancel(t.Context())
+				defer cancel()
+				closed := make(chan struct{}, 1)
+				server := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+					require.Equal(t, http2, r.ProtoMajor == 2)
+					if cancelAt != "never" {
+						if cancelAt == "during body" {
+							w.Header().Set("Content-Length", fmt.Sprint(len(archive)))
+							w.WriteHeader(http.StatusOK)
+							w.(http.Flusher).Flush()
+						}
+						cancel()
+						<-r.Context().Done()
+						return
+					}
+					_, _ = w.Write(archive)
+				}))
+				server.EnableHTTP2 = http2
+				server.Config.ConnState = func(_ net.Conn, state http.ConnState) {
+					if state == http.StateClosed {
+						closed <- struct{}{}
+					}
+				}
+				server.StartTLS()
+				defer server.Close()
+				client := NewGraphDataClient()
+				client.url = server.URL
+				client.client.Transport.(*http.Transport).TLSClientConfig = server.Client().Transport.(*http.Transport).TLSClientConfig
+				_, err := client.VersionProfiles(ctx)
+				if cancelAt != "never" {
+					require.Error(t, err)
+				} else {
+					require.NoError(t, err)
+				}
+				select {
+				case <-closed:
+				case <-time.After(5 * time.Second):
+					t.Fatal("graph-data connection remained open after request completed")
+				}
+			})
+		}
+	}
 }
