@@ -11,7 +11,6 @@ use (
 	./fleet
 	./frontend
 	./hack/verify-gomega-assertions
-	./hack/verify-gomega-cmpdiff
 	./hack/verify-mi-containers
 	./hack/verify-schema-additional-properties
 	./internal
