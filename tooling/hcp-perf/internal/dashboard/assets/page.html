@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'none'; font-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>{{.Title}}</title>
+  <style>{{.CSS}}</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to results</a>
+  <aside class="sidebar">
+    <div class="brand"><span class="eyebrow">ARO / Hosted Control Planes</span><strong>Performance<br> field notes<span class="brand-period">.</span></strong><span class="edition">Evidence catalog / offline edition</span></div>
+    <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="navigation" hidden>Browse catalog</button>
+    <nav id="navigation" aria-label="Catalog">
+      <p class="nav-label">01 / Results</p>
+      {{range .Sizes}}<a href="#{{.ID}}" data-size-link="{{.ID}}"><span>{{.Name}}</span><small>{{.Status}}</small></a>{{end}}
+      {{range .Placeholders}}<a href="#{{.}}" data-placeholder="{{.}}"><span>{{.}}</span><small>Not populated</small></a>{{end}}
+      <p class="nav-label">02 / Documentation</p>
+      <a href="#overview" data-doc="Overview">Overview</a>
+      <a href="#methodology" data-doc="Methodology">Methodology</a>
+      <a href="#canary-metrics" data-doc="Canary Metrics">Canary Metrics</a>
+    </nav>
+    <div class="sidebar-foot">A record of measured behavior.<br>Not a production qualification.<span>No network access required</span></div>
+  </aside>
+  <main id="main" tabindex="-1">
+    <header class="masthead"><span>{{.Title}}</span><span>Recorded {{.GeneratedAt}}</span></header>
+    <div id="size-summaries">
+    {{range .Sizes}}
+      <section class="size-summary" data-size="{{.ID}}" id="{{.ID}}" aria-label="{{.Name}} reference summary">
+        <div class="section-kicker"><span>Results / {{.Name}}</span><span>{{.Revision}}</span></div>
+        <div class="title-row"><h1>{{.Name}}</h1><span class="profile-status">{{.Status}}</span></div>
+        <p class="lede">{{.Description}}</p>
+        <div class="summary-grid">
+          <div class="cost-summary"><span class="eyebrow">Modeled cost / HCP hour</span><strong>{{money .Budget.ModeledUSD}}</strong><span>Target {{money .Budget.TargetUSD}} / fee {{money .Budget.FeeUSD}}</span></div>
+          <div><span class="eyebrow">CPU allocation</span><strong>{{number .Budget.ChargedCPUCores}} <small>cores</small></strong><span>Target {{number .Budget.TargetCPUCores}} / requested {{number .Budget.RequestedCPUCores}}</span></div>
+          <div><span class="eyebrow">Memory allocation</span><strong>{{number .Budget.ChargedMemoryGiB}} <small>GiB</small></strong><span>Target {{number .Budget.TargetMemoryGiB}} / requested {{number .Budget.RequestedMemoryGiB}}</span></div>
+        </div>
+        <p class="cost-scope">Cost scope: {{.Budget.Scope}}</p>
+        {{with reference .}}
+        <div class="reference-summary">
+          <p class="eyebrow">{{if eq .Kind "confirmation"}}Reference hour attempt{{else}}Reference run{{end}} / fixed summary</p>
+          <h2>{{.Label}}</h2>
+          <p>{{number .OfferedQPS}} offered QPS / {{.ApplicationPods}} application pods / {{duration .ActualSeconds}} / {{.Population}} / {{.Cohort}}</p>
+          <div class="badges"><span class="badge {{badge .Assessment.RequestQuality}}">Request quality: {{orUnknown .Assessment.RequestQuality}}</span><span class="badge {{badge .Assessment.Health}}">Health: {{orUnknown .Assessment.Health}}</span><span class="badge neutral">Execution: {{orUnknown .Assessment.Execution}}</span><span class="badge neutral">Capture: {{orUnknown .Assessment.Capture}}</span></div>
+          <p class="reference-note">{{percent .Requests}} degraded request union. {{.Assessment.Summary}}</p>
+        </div>
+        {{else}}<p class="empty">No reference run populated.</p>{{end}}
+        <details class="profile-details"><summary>Configuration, pricing scope and limitations</summary>
+          <dl class="facts">{{range .Configuration}}<div><dt>{{.Label}}</dt><dd>{{.Value}}</dd></div>{{end}}<div><dt>Pricing</dt><dd>{{.Budget.PricingSKU}} / {{.Budget.PricingRegion}} / {{.Budget.PriceDate}}</dd></div><div><dt>Execution SKU</dt><dd>{{.Budget.ExecutionSKU}}</dd></div><div><dt>Cost scope</dt><dd>{{.Budget.Scope}}</dd></div></dl>
+          <ul>{{range .Limitations}}<li>{{.}}</li>{{end}}</ul>
+        </details>
+        <details class="run-register"><summary>Run register / available without JavaScript</summary><div class="table-scroll" role="region" aria-label="{{.Name}} run register" tabindex="0"><table><caption>Separate measured cases; repeated QPS values are not pooled.</caption><thead><tr><th scope="col">Run</th><th scope="col">Cohort / evidence</th><th scope="col">Population</th><th scope="col">QPS</th><th scope="col">Duration</th><th scope="col">Request quality</th><th scope="col">Health</th><th scope="col">Capture</th></tr></thead><tbody>{{range .Runs}}<tr><th scope="row">{{.Label}}</th><td>{{.Cohort}} / {{.Kind}}</td><td>{{.Population}} / {{.ApplicationPods}} Pods / {{.Applications}} apps / {{.GuestNodes}} nodes</td><td>{{number .OfferedQPS}}</td><td>{{duration .ActualSeconds}}</td><td>{{orUnknown .Assessment.RequestQuality}} ({{percent .Requests}} degraded)</td><td>{{orUnknown .Assessment.Health}}</td><td>{{orUnknown .Assessment.Capture}}</td></tr>{{else}}<tr><td colspan="8">Not populated. No measured runs supplied.</td></tr>{{end}}</tbody></table></div></details>
+      </section>
+    {{end}}
+    </div>
+    <section id="placeholder" hidden tabindex="-1"><p class="eyebrow">Catalog / coming later</p><h1 id="placeholder-title"></h1><p id="placeholder-copy" class="lede"></p></section>
+    <section id="workspace" hidden aria-label="Interactive evidence explorer">
+      <div class="section-heading"><div><p class="eyebrow">01 / Evidence explorer</p><h2>Operating envelope</h2></div><p>Measured cases, not interpolated capacity.</p></div>
+      <p class="envelope-caption">Application pod residency by offered QPS / all cohorts. Select an individual case to inspect its evidence.</p>
+      <div id="envelope-chart" class="envelope-scroll" role="region" aria-label="Operating envelope chart; scroll horizontally on narrow screens" tabindex="0"></div>
+      <div class="envelope-legend" aria-label="Operating envelope legend"><span class="threshold-met">Request threshold met</span><span class="threshold-exceeded">Request threshold exceeded</span><span class="threshold-unknown">Other / no threshold policy</span><span>Filled circle: short screen</span><span>Ring: full hour attempt</span><span>Cross: interrupted</span></div>
+      <p class="chart-key">Pod counts are discrete lanes, not a continuous y-axis. Repeats are offset vertically within their lane, never combined. Color describes the supplied request assessment, not health or qualification.</p>
+      <p id="envelope-selection" class="envelope-selection" role="status"></p>
+      <details class="all-runs"><summary>All measured runs / select a case</summary><div id="run-points" class="run-points"></div></details>
+      <div class="scope-controls">
+        <label>Cohort<select id="cohort"></select></label>
+        <label>Evidence<select id="kind"><option value="screen">Short screen</option><option value="confirmation">Confirmation</option><option value="all">All evidence</option></select></label>
+        <label>Population<select id="population"><option value="compare">Compare</option><option value="loaded">Loaded</option><option value="unloaded">Unloaded</option></select></label>
+        <label>Duration<select id="duration"><option value="all">All durations</option></select></label>
+      </div>
+      <p id="scope-note" class="scope-note" role="status"></p>
+      <div class="tabs" role="tablist" aria-label="Evidence views">
+        <button id="tab-latency" role="tab" aria-selected="true" aria-controls="panel-latency" tabindex="0">01 <span>Latency &amp; outcomes</span></button>
+        <button id="tab-composition" role="tab" aria-selected="false" aria-controls="panel-composition" tabindex="-1">02 <span>Resource composition</span></button>
+        <button id="tab-resources" role="tab" aria-selected="false" aria-controls="panel-resources" tabindex="-1">03 <span>Resource distributions</span></button>
+      </div>
+      <section id="panel-latency" role="tabpanel" aria-labelledby="tab-latency" tabindex="0">
+        <div class="section-heading"><h2>Latency &amp; outcomes</h2><p class="population-legend"><span class="loaded">Loaded</span><span class="unloaded">Unloaded</span></p></div>
+        <p class="chart-key">Box: p25 to p75 / line: p50 / gold dot: p95 / whiskers: supplied Tukey bounds. Each metric has its own axis; rows share that axis.</p>
+        <div id="latency-charts" class="chart-grid"></div>
+      </section>
+      <section id="panel-composition" role="tabpanel" aria-labelledby="tab-composition" tabindex="0" hidden>
+        <div class="section-heading"><h2>Resource composition</h2><p>One measured run. Component totals.</p></div>
+        <div class="composition-controls">
+          <label class="run-control">Selected run<select id="selected-run"></select></label>
+          <label>Measured point<input type="range" id="run-slider" min="0" max="0" step="1" value="0"><output id="run-output" for="run-slider"></output></label>
+          <label>Percentile <output id="percentile-output" for="percentile">p75</output><input type="range" id="percentile" min="0" max="2" step="1" value="1" aria-valuetext="p75"><span class="range-ticks"><span>p50</span><span>p75</span><span>p99</span></span></label>
+          <label>Memory measure<select id="memory-metric"><option value="memory">Cgroup charge</option><option value="workingSet">Working set</option><option value="rss">RSS</option></select></label>
+        </div>
+        <p class="chart-key">Based on measured points. Slider steps are distinct runs, including repetitions; no interpolation. The selected run can differ from the fixed reference summary.</p>
+        <div id="treemaps" class="chart-grid"></div>
+        <section id="component-detail" class="component-detail" tabindex="-1" aria-label="Selected component detail"><p>Select a tile or legend entry for component requests, limits and coverage.</p></section>
+      </section>
+      <section id="panel-resources" role="tabpanel" aria-labelledby="tab-resources" tabindex="0" hidden>
+        <div class="section-heading"><h2>Resource distributions</h2><p>Every component / every matching case</p></div>
+        <label class="search-control">Find a component<input id="component-search" type="search" placeholder="Name or ID (for example KAS)"></label>
+        <p class="chart-key">All components are available below. CPU and cgroup memory are separate; each component/metric uses one scale across its measured cases. Dashed tick: request / solid tick: limit. Unknown caps are not zero.</p>
+        <p id="resource-count" role="status"></p><div id="resource-charts"></div>
+      </section>
+      <section class="selected-evidence" aria-label="Selected run assessment">
+        <div class="section-heading"><div><p class="eyebrow">02 / Selected case</p><h2 id="selected-title"></h2></div><span id="selected-context"></span></div>
+        <div id="selected-badges" class="badges"></div><div id="incidents" class="incident-strip"></div><div id="request-outcomes"></div><div id="run-notes"></div>
+        <details><summary>Run metadata and evidence citations</summary><div id="run-metadata"></div></details>
+      </section>
+    </section>
+    <noscript><p class="empty">JavaScript is disabled. Reference summaries and the complete run register remain available above. Interactive charts require JavaScript; this file never fetches external data.</p></noscript>
+    <footer>
+      <p class="eyebrow">Reading this record</p><p>{{.Method.Scope}}</p><dl class="method-notes"><div><dt>Quantiles</dt><dd>{{.Method.Quantiles}}</dd></div><div><dt>Whiskers</dt><dd>{{.Method.Whiskers}}</dd></div><div><dt>CPU</dt><dd>{{.Method.CPU}}</dd></div><div><dt>Memory</dt><dd>{{.Method.Memory}}</dd></div></dl>
+      <details><summary>Source labels and SHA-256 / inert citations</summary><div class="table-scroll" role="region" aria-label="Source citations" tabindex="0"><table><thead><tr><th scope="col">Source</th><th scope="col">Label</th><th scope="col">SHA-256</th></tr></thead><tbody>{{range .Sources}}<tr><th scope="row">{{.ID}}</th><td>{{.Label}}</td><td class="hash">{{.SHA256}}</td></tr>{{else}}<tr><td colspan="3">No source citations supplied.</td></tr>{{end}}</tbody></table></div></details>
+      <p class="footer-line">ARO / HCP performance field notes<span>Self-contained evidence. No external requests.</span></p>
+    </footer>
+  </main>
+  <script id="dashboard-data" type="application/json">{{.JSON}}</script>
+  <script>{{.JS}}</script>
+</body>
+</html>

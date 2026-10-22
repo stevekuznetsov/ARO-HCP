@@ -23,6 +23,7 @@ use (
 	./tooling/cleanup-sweeper
 	./tooling/entra-app-credentials
 	./tooling/grafanactl
+	./tooling/hcp-perf
 	./tooling/hcpctl
 	./tooling/helmtest
 	./tooling/image-updater

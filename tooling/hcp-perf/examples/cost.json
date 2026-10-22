@@ -1,0 +1,52 @@
+{
+  "version": "v1",
+  "currency": "USD",
+  "feeMicroUSDPerHCPHour": 250000,
+  "targetPercent": 50,
+  "skus": [
+    {
+      "name": "Standard_D16s_v3",
+      "region": "westus3",
+      "priceMicroUSDPerHour": 806000,
+      "capacityBasis": "raw-illustration",
+      "allocatableCPUMilli": 0,
+      "allocatableMemoryMiB": 0,
+      "rawCPUMilli": 16000,
+      "rawMemoryMiB": 65536,
+      "overheadCPUMilli": 0,
+      "overheadMemoryMiB": 0,
+      "priceSourceURL": "https://prices.azure.com/api/retail/prices?$filter=armRegionName%20eq%20'westus3'%20and%20armSkuName%20eq%20'Standard_D16s_v3'",
+      "priceRetrievedAt": "2026-09-09T00:00:00Z"
+    },
+    {
+      "name": "Standard_E16s_v3",
+      "region": "westus3",
+      "priceMicroUSDPerHour": 1058000,
+      "capacityBasis": "raw-illustration",
+      "allocatableCPUMilli": 0,
+      "allocatableMemoryMiB": 0,
+      "rawCPUMilli": 16000,
+      "rawMemoryMiB": 131072,
+      "overheadCPUMilli": 0,
+      "overheadMemoryMiB": 0,
+      "priceSourceURL": "https://prices.azure.com/api/retail/prices?$filter=armRegionName%20eq%20'westus3'%20and%20armSkuName%20eq%20'Standard_E16s_v3'",
+      "priceRetrievedAt": "2026-09-09T00:00:00Z"
+    }
+  ],
+  "dataPoints": [
+    {
+      "name": "illustrative-3-guests-0-apps",
+      "guestNodes": 3,
+      "apps": 0,
+      "sourceKind": "requests",
+      "demand": {"cpuMilli": 2000, "memoryMiB": 8192, "podSlots": 0, "swiftNICs": 0}
+    },
+    {
+      "name": "illustrative-3-guests-120-apps-600-guest-pods",
+      "guestNodes": 3,
+      "apps": 120,
+      "sourceKind": "requests",
+      "demand": {"cpuMilli": 4000, "memoryMiB": 16384, "podSlots": 0, "swiftNICs": 0}
+    }
+  ]
+}

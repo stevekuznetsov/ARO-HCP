@@ -1,0 +1,498 @@
+{
+  "anchor": {
+    "cpuMilli": 169,
+    "memoryMiB": 535
+  },
+  "containers": [
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 26,
+        "memoryMiB": 217
+      },
+      "identity": {
+        "container": "registry",
+        "kind": "Deployment",
+        "workload": "certified-operators-catalog"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 20,
+        "memoryMiB": 33
+      },
+      "identity": {
+        "container": "manager",
+        "kind": "Deployment",
+        "workload": "cluster-api"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 76,
+        "memoryMiB": 33
+      },
+      "identity": {
+        "container": "cluster-network-operator",
+        "kind": "Deployment",
+        "workload": "cluster-network-operator"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 2,
+        "memoryMiB": 66
+      },
+      "identity": {
+        "container": "cluster-policy-controller",
+        "kind": "Deployment",
+        "workload": "cluster-policy-controller"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 5,
+        "memoryMiB": 33
+      },
+      "identity": {
+        "container": "cluster-storage-operator",
+        "kind": "Deployment",
+        "workload": "cluster-storage-operator"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 52,
+        "memoryMiB": 41
+      },
+      "identity": {
+        "container": "cluster-version-operator",
+        "kind": "Deployment",
+        "workload": "cluster-version-operator"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 29,
+        "memoryMiB": 200
+      },
+      "identity": {
+        "container": "registry",
+        "kind": "Deployment",
+        "workload": "community-operators-catalog"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 160,
+        "memoryMiB": 66
+      },
+      "identity": {
+        "container": "control-plane-operator",
+        "kind": "Deployment",
+        "workload": "control-plane-operator"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 23,
+        "memoryMiB": 66
+      },
+      "identity": {
+        "container": "hosted-cluster-config-operator",
+        "kind": "Deployment",
+        "workload": "hosted-cluster-config-operator"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 43,
+        "memoryMiB": 83
+      },
+      "identity": {
+        "container": "ignition-server",
+        "kind": "Deployment",
+        "workload": "ignition-server"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 2,
+        "memoryMiB": 50
+      },
+      "goMemoryLimitPercent": 0,
+      "identity": {
+        "container": "haproxy",
+        "kind": "Deployment",
+        "workload": "ignition-server-proxy"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 55,
+        "memoryMiB": 41
+      },
+      "identity": {
+        "container": "ingress-operator",
+        "kind": "Deployment",
+        "workload": "ingress-operator"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 5,
+        "memoryMiB": 33
+      },
+      "identity": {
+        "container": "konnectivity-server",
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 1
+      },
+      "floor": {
+        "cpuMilli": 169,
+        "memoryMiB": 535
+      },
+      "identity": {
+        "container": "kube-apiserver",
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 1
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 11,
+        "memoryMiB": 100
+      },
+      "identity": {
+        "container": "kube-controller-manager",
+        "kind": "Deployment",
+        "workload": "kube-controller-manager"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 5,
+        "memoryMiB": 33
+      },
+      "identity": {
+        "container": "kas-readiness-check",
+        "kind": "Deployment",
+        "workload": "openshift-apiserver"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 26,
+        "memoryMiB": 133
+      },
+      "identity": {
+        "container": "openshift-apiserver",
+        "kind": "Deployment",
+        "workload": "openshift-apiserver"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 5,
+        "memoryMiB": 66
+      },
+      "identity": {
+        "container": "openshift-controller-manager",
+        "kind": "Deployment",
+        "workload": "openshift-controller-manager"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 5,
+        "memoryMiB": 33
+      },
+      "identity": {
+        "container": "kas-readiness-check",
+        "kind": "Deployment",
+        "workload": "packageserver"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 67,
+        "memoryMiB": 167
+      },
+      "identity": {
+        "container": "packageserver",
+        "kind": "Deployment",
+        "workload": "packageserver"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 46,
+        "memoryMiB": 318
+      },
+      "identity": {
+        "container": "registry",
+        "kind": "Deployment",
+        "workload": "redhat-operators-catalog"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 2,
+        "memoryMiB": 33
+      },
+      "goMemoryLimitPercent": 0,
+      "identity": {
+        "container": "router",
+        "kind": "Deployment",
+        "workload": "router"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 35,
+        "memoryMiB": 284
+      },
+      "identity": {
+        "container": "etcd",
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 5,
+        "memoryMiB": 33
+      },
+      "identity": {
+        "container": "etcd-metrics",
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    },
+    {
+      "cpuRatio": {
+        "denominator": 1,
+        "numerator": 0
+      },
+      "floor": {
+        "cpuMilli": 5,
+        "memoryMiB": 33
+      },
+      "identity": {
+        "container": "healthz",
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "memoryRatio": {
+        "denominator": 1,
+        "numerator": 0
+      }
+    }
+  ],
+  "cpuLimitEqualsRequest": true,
+  "description": "OFFLINE UNTESTED cost-v3 recommended independent CPU/RAM candidate. Budget $0.125/HCP-hour raw D16s_v6 equivalent. cpuPeriodUS=100000, minQuotaUS=1000, quotaQuantumUS=1000: based on saved startup samples, origin unknown, not universal Kubernetes behavior. Parent-capped stage model extrapolated to source benchmark layout. No original floors. Required render flags: --default-cpu-milli 2 --default-memory-mib 33. No live application authorized.",
+  "goMemLimitPercent": 80,
+  "name": "small-cost-v3",
+  "rounding": {
+    "cpuMilli": 1,
+    "memoryMiB": 1
+  },
+  "safetyLimit": {
+    "denominator": 10,
+    "numerator": 11
+  },
+  "version": "v1"
+}

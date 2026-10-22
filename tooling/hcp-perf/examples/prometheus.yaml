@@ -1,0 +1,35 @@
+# Baseline only: self-metrics do not establish experiment coverage.
+# This configuration needs no credentials and works with kubernetesDiscovery=false.
+global:
+  scrape_interval: 30s
+  scrape_timeout: 10s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Optional direct kubelet cAdvisor scraping of ALL management worker nodes.
+  # Before uncommenting, set kubernetesDiscovery=true in the capture spec.
+  # Verify network access, token audience/authentication, nodes/metrics access,
+  # and that each discovered address matches its kubelet certificate SANs.
+  # This CA path works ONLY if the mounted API CA also trusts kubelet serving
+  # certificates. Otherwise arrange appropriate trust outside this example;
+  # the capture spec does not expose custom CA/Secret volume mounts.
+  # Never disable TLS verification. Discovery does not prove successful scrapes.
+  # - job_name: worker-cadvisor
+  #   scheme: https
+  #   metrics_path: /metrics/cadvisor
+  #   kubernetes_sd_configs:
+  #     - role: node
+  #   authorization:
+  #     type: Bearer
+  #     credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  #   tls_config:
+  #     ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+  #   relabel_configs:
+  #     - source_labels: [__meta_kubernetes_node_label_aro_hcp_azure_com_role]
+  #       regex: worker
+  #       action: keep
+  #     - source_labels: [__meta_kubernetes_node_name]
+  #       target_label: node

@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "id": "observations",
+  "namespace": "hcp-perf-example",
+  "image": "example.azurecr.io/hcp-perf@sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "storageClass": "managed-premium",
+  "storageGi": 32,
+  "cpuRequestMilli": 500,
+  "memoryRequestMi": 512,
+  "memoryLimitMi": 2048,
+  "namespaces": ["future-hcp", "future-hcp-control-plane"],
+  "intervalSeconds": 10,
+  "durationSeconds": 3600,
+  "maxConcurrentLogs": 256,
+  "logRequestQPS": 20,
+  "logRequestBurst": 40,
+  "maxStreamBytes": 8589934592,
+  "maxObservationBytes": 8589934592
+}

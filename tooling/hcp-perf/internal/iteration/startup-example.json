@@ -1,0 +1,66 @@
+{
+  "version": "v1",
+  "environment": {"id": "personal-startup", "incarnation": "fresh-1"},
+  "actions": [
+    {
+      "id": "retain", "kind": "retention-refresh", "recovery": "guarded-mutation",
+      "timeoutNanoseconds": 7500000000000, "maxAttempts": 1,
+      "retention": {
+        "required": {"version": "v1", "resourceGroups": ["/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/customer"]},
+        "optionalResourceGroups": ["/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/explicit-managed-group"],
+        "tokenFile": "/external/arm-token", "intervalNanoseconds": 300000000000, "durationNanoseconds": 7200000000000
+      }
+    },
+    {
+      "id": "candidate", "kind": "candidate-apply", "recovery": "guarded-mutation",
+      "dependsOn": [{"action": "retain", "milestone": "started"}],
+      "timeoutNanoseconds": 300000000000, "maxAttempts": 1,
+      "candidate": {
+        "kubeconfig": "/external/management.kubeconfig", "name": "cluster",
+        "uid": "replace-with-inventory-uid", "resourceVersion": "replace-with-inventory-rv",
+        "emptyHostedClusterSelector": "",
+        "expectedSpec": {"replaceWith": "exact-inventory-spec"},
+        "desiredSpec": {"replaceWith": "reviewed-candidate-spec"}
+      }
+    },
+    {
+      "id": "observe", "kind": "startup-observe", "recovery": "measurement",
+      "dependsOn": [{"action": "candidate", "milestone": "completed"}],
+      "timeoutNanoseconds": 3600000000000, "maxAttempts": 1,
+      "startup": {
+        "kubeconfig": "/external/management.kubeconfig",
+        "resourceID": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/customer/providers/Microsoft.RedHatOpenShift/hcpOpenShiftClusters/fresh-cluster",
+        "candidateName": "cluster", "candidateSpec": {"replaceWith": "reviewed-candidate-spec"},
+        "maxDurationNanoseconds": 3300000000000, "pollIntervalNanoseconds": 15000000000, "healthyWindowNanoseconds": 300000000000,
+        "components": [
+          {"kind": "Deployment", "name": "kube-apiserver", "replicas": 3, "endpoints": "kube-apiserver", "readyEndpoints": 3, "containers": [{"name": "kube-apiserver", "resources": {"requests": {"cpu": "250m", "memory": "1Gi"}, "limits": {"cpu": "250m", "memory": "3Gi"}}}]},
+          {"kind": "Deployment", "name": "openshift-apiserver", "replicas": 3, "endpoints": "openshift-apiserver", "readyEndpoints": 3, "containers": [{"name": "openshift-apiserver", "resources": {"requests": {"cpu": "100m", "memory": "256Mi"}, "limits": {"cpu": "100m", "memory": "768Mi"}}}]},
+          {"kind": "Deployment", "name": "packageserver", "replicas": 3, "endpoints": "packageserver", "readyEndpoints": 3, "containers": [{"name": "packageserver", "resources": {"requests": {"cpu": "100m", "memory": "128Mi"}, "limits": {"cpu": "100m", "memory": "384Mi"}}}]},
+          {"kind": "StatefulSet", "name": "etcd", "replicas": 3, "endpoints": "etcd-client", "readyEndpoints": 3, "containers": [{"name": "etcd", "resources": {"requests": {"cpu": "100m", "memory": "256Mi"}, "limits": {"cpu": "100m", "memory": "768Mi"}}}]},
+          {"kind": "Job", "name": "featuregate-generator", "lifecycle": {"mode": "completed", "reason": "bootstrap feature gates; replace container inventory with reviewed values"}, "containers": [{"name": "replace-with-inventory-container", "resources": {"requests": {"cpu": "100m", "memory": "128Mi"}, "limits": {"cpu": "100m", "memory": "256Mi"}}}]},
+          {"kind": "CronJob", "name": "olm-collect-profiles", "lifecycle": {"mode": "present", "reason": "scheduled profile collection; replace container inventory with reviewed values"}, "containers": [{"name": "replace-with-inventory-container", "resources": {"requests": {"cpu": "100m", "memory": "128Mi"}, "limits": {"cpu": "100m", "memory": "256Mi"}}}]}
+        ]
+      }
+    },
+    {
+      "id": "create", "kind": "rp-create-cluster", "recovery": "remote-mutation",
+      "dependsOn": [{"action": "retain", "milestone": "started"}, {"action": "observe", "milestone": "started"}],
+      "timeoutNanoseconds": 3600000000000, "maxAttempts": 3,
+      "rp": {
+        "config": {"version": "v1", "endpoint": "https://personal-rp.invalid", "subscriptionID": "11111111-1111-1111-1111-111111111111", "tenantID": "22222222-2222-2222-2222-222222222222", "objectID": "33333333-3333-3333-3333-333333333333", "principal": "operator", "apiVersion": "2025-12-23-preview"},
+        "resource": {"resourceGroup": "customer", "cluster": "fresh-cluster"},
+        "payload": {"replaceWith": "existing-customer-resource-create-payload"}
+      }
+    },
+    {
+      "id": "credential", "kind": "rp-admin-credential", "recovery": "guarded-mutation",
+      "dependsOn": [{"action": "create", "milestone": "completed"}],
+      "timeoutNanoseconds": 300000000000, "maxAttempts": 1,
+      "rp": {
+        "config": {"version": "v1", "endpoint": "https://personal-rp.invalid", "subscriptionID": "11111111-1111-1111-1111-111111111111", "tenantID": "22222222-2222-2222-2222-222222222222", "objectID": "33333333-3333-3333-3333-333333333333", "principal": "operator", "apiVersion": "2025-12-23-preview"},
+        "resource": {"resourceGroup": "customer", "cluster": "fresh-cluster"},
+        "credentialPath": "/external/new-guest.kubeconfig"
+      }
+    }
+  ]
+}

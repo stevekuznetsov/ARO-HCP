@@ -1,0 +1,8 @@
+{
+  "version": "v1",
+  "id": "cpu-small",
+  "namespace": "hcp-perf-small",
+  "image": "example.azurecr.io/hcp-perf@sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "targetNamespace": "ocm-example",
+  "durationSeconds": 300
+}

@@ -1,0 +1,8 @@
+{
+  "version": "v1",
+  "resourceGroups": [
+    "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/hcp-underlay-pers-example",
+    "/subscriptions/00000000-0000-0000-0000-000000000002/resourceGroups/example-customer",
+    "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/MC_example_example_westus3"
+  ]
+}

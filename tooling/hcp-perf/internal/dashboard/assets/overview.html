@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'none'; font-src 'none'; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>{{.Title}}</title>
+  <style>{{.CSS}}</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to results</a>
+  <header class="masthead">
+    <a class="brand" href="#main">ARO / HCP <span>Performance field notes.</span></a>
+    <nav aria-label="Overview sections"><a href="#comparison">Comparison</a><a href="#register">Run register</a><a href="#scope">Scope &amp; caveats</a></nav>
+    <span class="edition">Offline evidence catalog</span>
+  </header>
+  <main id="main" tabindex="-1">
+    <div class="opening">
+      <div><p class="eyebrow">Measured envelopes / cross-size reading</p><h1>{{.Title}}</h1></div>
+      <div class="opening-note"><p>{{.Introduction}}</p><p class="record-count">{{.RunCount}} preserved runs / {{len .Groups}} size groups / no pooled maximum</p></div>
+    </div>
+    <section class="size-summaries" aria-label="All size summaries">
+      {{range .Groups}}
+      <article class="size-summary" id="summary-{{.ID}}">
+        <div class="size-heading"><h2>{{.Name}}</h2><span class="budget-percent">{{targetPercent .Budget}}<small>of HCP fee</small></span></div>
+        <p class="headline">{{.Headline}}</p>
+        <dl class="budget"><div><dt>Modeled / HCP-hour</dt><dd>{{money .Budget.ModeledUSD}}</dd></div><div><dt>Target / HCP-hour</dt><dd>{{money .Budget.TargetUSD}}</dd></div><div><dt>Charged allocation</dt><dd>{{number .Budget.ChargedCPUCores}} cores / {{number .Budget.ChargedMemoryGiB}} GiB</dd></div></dl>
+        {{with index .Highlights 0}}<div class="reference"><p class="eyebrow">{{.SelectionLabel}}</p><a class="reference-point" href="#{{.Anchor}}">{{number .OfferedQPS}} QPS <span>/ {{.ApplicationPods}} Pods / {{number .ActualSeconds}} s</span></a><p class="reference-status">Request <strong class="{{tone .Assessment.RequestQuality}}">{{status .Assessment.RequestQuality}}</strong> / health <strong class="{{tone .Assessment.Health}}">{{status .Assessment.Health}}</strong></p><p class="reference-status">Execution {{status .Assessment.Execution}} / capture {{status .Assessment.Capture}}</p></div>{{end}}
+        <p class="group-scope">{{.Scope}}</p>
+        <div class="summary-links"><a href="#register-{{.ID}}">{{.RunCount}} runs / {{len .Panes}} {{if eq (len .Panes) 1}}pane{{else}}panes{{end}}</a><a href="{{.DetailPage}}">Open detail page &rarr;</a></div>
+      </article>
+      {{end}}
+    </section>
+    <section id="comparison" aria-labelledby="comparison-title">
+      <div class="section-heading"><div><p class="eyebrow">01 / Selected evidence</p><h2 id="comparison-title">What held. What did not.</h2></div><p>Different populations, policies and durations.<br>These are observations, not a capacity leaderboard.</p></div>
+      <p class="reading-key">Request = supplied request-quality assessment. Execution = native execution status, not completion of the planned window. Health and capture remain independent. Durations below are actual / planned API offer seconds.</p>
+      <div class="table-scroll" role="region" aria-label="Selected run comparison; scroll horizontally on narrow screens" tabindex="0">
+      <table class="comparison"><caption>Reviewed selection. Follow a case to its full saved assessment and citations.</caption><thead><tr><th scope="col">Size / case</th><th scope="col">Population<br><small>Pods / apps / guest nodes</small></th><th scope="col">Offered<br>QPS</th><th scope="col">Duration<br><small>actual / planned s</small></th><th scope="col">Request</th><th scope="col">Execution</th><th scope="col">Health</th><th scope="col">Capture</th></tr></thead>
+      {{range .Groups}}<tbody aria-label="{{.Name}} selected runs">{{range .Highlights}}<tr><th scope="row"><a href="#{{.Anchor}}">{{.SelectionLabel}}</a><small>{{.PaneName}} / {{date .Start}}</small></th><td>{{.ApplicationPods}} / {{.Applications}} / {{.GuestNodes}}<small>{{.Population}}</small></td><td class="qps">{{number .OfferedQPS}}</td><td>{{number .ActualSeconds}} / {{number .PlannedSeconds}}</td><td><span class="status {{tone .Assessment.RequestQuality}}">{{status .Assessment.RequestQuality}}</span></td><td>{{status .Assessment.Execution}}</td><td><span class="status {{tone .Assessment.Health}}">{{status .Assessment.Health}}</span></td><td>{{status .Assessment.Capture}}</td></tr>{{end}}</tbody>{{end}}</table>
+      </div>
+      <p class="table-note">Short screens cannot qualify an hour. Higher offered QPS at a different population is not a comparable maximum. Full-window request acceptance is not clean health, lossless capture or packed-density qualification.</p>
+      <div class="assessment-notes">
+      {{range .Groups}}<section aria-label="{{.Name}} selected assessments"><h3>{{.Name}} / decision notes</h3>{{range .Highlights}}<div class="decision"><a href="#{{.Anchor}}">{{.SelectionLabel}}</a><p>{{.Assessment.Summary}}</p></div>{{end}}</section>{{end}}
+      </div>
+      <p class="cohort-warning"><strong>Checkpoint fractions are supplied assessment text.</strong> They are not derived from final cutoff/drain counters. The latter, successful-body throughput and latency belong to a different whole-run cohort. No assessment has been rescored here.</p>
+    </section>
+    <section id="scope" aria-labelledby="scope-title">
+      <div class="section-heading"><div><p class="eyebrow">02 / Interpretation boundary</p><h2 id="scope-title">The comparison has limits.</h2></div><p>Read scope before inferring scale.</p></div>
+      <ol class="caveats">{{range .Caveats}}<li>{{.}}</li>{{end}}</ol>
+    </section>
+    <section id="register" aria-labelledby="register-title">
+      <div class="section-heading"><div><p class="eyebrow">03 / Complete evidence register</p><h2 id="register-title">Every run, in its own context.</h2></div><p>{{.RunCount}} cases. Repeats retained.<br>Available without JavaScript.</p></div>
+      <p class="reading-key">Expand a run with Enter or Space for its assessment, notes and inert SHA-256 citations. Detail links open the preserved allocation pane; select the displayed run ID there. Pane links do not pretend to select individual runs.</p>
+      {{range .Groups}}
+      <section class="register-group" id="register-{{.ID}}" aria-label="{{.Name}} run register">
+        <div class="register-heading"><h3>{{.Name}}</h3><p>{{.RunCount}} runs / <a href="{{.Input}}">Portable JSON</a> / recorded {{.GeneratedAt}}</p></div>
+        {{range .Panes}}
+        <section class="pane" aria-label="{{.Name}}">
+          <div class="pane-heading"><h4>{{.Name}}</h4><a href="{{.DetailURL}}">Preserved detail pane &rarr;</a></div><p class="revision">{{.Revision}}</p>
+          <p class="topology"><strong>Management topology:</strong> {{.Budget.ExecutionSKU}}</p>
+          <details class="configuration"><summary>Allocation, catalog / startup context and historical limitations</summary><p>{{.Description}}</p><dl class="facts"><div><dt>Pricing</dt><dd>{{.Budget.PricingSKU}} / {{.Budget.PricingRegion}} / {{.Budget.PriceDate}}</dd></div><div><dt>Cost scope</dt><dd>{{.Budget.Scope}}</dd></div><div><dt>Steady requests</dt><dd>{{number .Budget.RequestedCPUCores}} cores / {{number .Budget.RequestedMemoryGiB}} GiB</dd></div>{{range .Configuration}}<div><dt>{{.Label}}</dt><dd>{{.Value}}</dd></div>{{end}}</dl><ul>{{range .Limitations}}<li>{{.}}</li>{{end}}</ul><p class="reading-key">These are historical pane statements, not a live-state update. Later cohorts do not rewrite earlier limitations.</p></details>
+          {{range .Runs}}
+          <details class="run" id="{{.Anchor}}">
+            <summary><span class="run-name">{{.Label}}<small>{{date .Start}} / {{.Kind}} / {{.Population}}</small></span><span class="run-point">{{.ApplicationPods}} Pods / {{number .OfferedQPS}} QPS<small>{{number .ActualSeconds}} / {{number .PlannedSeconds}} s</small></span><span class="run-gates"><span class="{{tone .Assessment.RequestQuality}}">Request: {{status .Assessment.RequestQuality}}</span><small>Health: {{status .Assessment.Health}}</small></span></summary>
+            <div class="run-body"><p class="run-id"><strong>Run ID:</strong> {{.ID}} / <a href="{{.DetailURL}}">Open {{.PaneName}} detail pane</a> / <a href="#{{.Anchor}}">Permalink</a></p><p class="assessment">{{.Assessment.Summary}}</p>
+              <dl class="facts"><div><dt>Population</dt><dd>{{.ApplicationPods}} Pods / {{.Applications}} apps / {{.GuestNodes}} guest nodes / {{.Population}}</dd></div><div><dt>Policy / cohort</dt><dd>{{.StabilityPolicy}} / {{.Cohort}}</dd></div><div><dt>Offer window (UTC)</dt><dd>{{.Start}} to {{.End}}</dd></div><div><dt>Execution</dt><dd>{{status .Assessment.Execution}}</dd></div><div><dt>Request quality</dt><dd>{{status .Assessment.RequestQuality}}</dd></div><div><dt>Health / capture</dt><dd>{{status .Assessment.Health}} / {{status .Assessment.Capture}}</dd></div><div><dt>Rollouts completed / scheduled</dt><dd>{{.RolloutsCompleted}} / {{.RolloutsScheduled}}</dd></div><div><dt>Successful-body throughput</dt><dd>{{number .Requests.SuccessfulQPS}} QPS. {{.Requests.ThroughputBasis}}</dd></div></dl>
+              <p class="reading-key">Whole-run counters, including cutoff/drain; not a checkpoint decision fraction.</p><p>Offered {{.Requests.Offered}} / dispatched {{.Requests.Dispatched}} / successful {{.Requests.Successful}} / HTTP 429 {{.Requests.Rejected429}} / timeouts {{.Requests.Timeouts}} / degraded union {{.Requests.DegradedUnion}} / canceled {{.Requests.Canceled}} / generator limited {{.Requests.GeneratorLimited}}.</p>
+              <ul class="run-notes">{{range .Notes}}<li>{{.}}</li>{{end}}</ul>
+              <details class="citations"><summary>{{len .Sources}} source references / inert labels and SHA-256</summary><ul>{{range .Sources}}<li><strong>{{.ID}}</strong> / {{.Label}}<code>{{.SHA256}}</code></li>{{end}}</ul></details>
+            </div>
+          </details>
+          {{end}}
+        </section>
+        {{end}}
+      </section>
+      {{end}}
+    </section>
+    <footer><p>ARO / HCP performance field notes.</p><p>Portable summaries, not evidence authentication. No external requests.<br>Source labels are inert, never paths to read or URLs to fetch.</p><a href="#main">Back to overview &uarr;</a></footer>
+  </main>
+  <script>{{.JS}}</script>
+</body>
+</html>

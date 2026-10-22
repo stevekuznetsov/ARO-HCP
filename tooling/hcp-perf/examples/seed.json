@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "id": "seed-small-001",
+  "namespacePrefix": "seed-small-001",
+  "guestNodes": 3,
+  "applications": 0,
+  "image": "registry.k8s.io/pause@sha256:ee6521f290b2168b6e0935a181d4cff9be1ac3f505666ef0e3c98fae8199917a",
+  "perPodCPU": "10m",
+  "perPodMemory": "16Mi",
+  "timeoutSeconds": 3600,
+  "binary": {
+    "path": "/usr/local/bin/kube-burner",
+    "expectedSHA256": "fc5b159960e26e74df0eb10dac058d2f24f8e56b39d71bfd12206e6db8f24f25"
+  }
+}

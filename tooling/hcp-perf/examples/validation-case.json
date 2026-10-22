@@ -1,0 +1,20 @@
+{
+  "version": "v1",
+  "name": "small-validation",
+  "mode": "validation",
+  "expectedProfile": "small",
+  "guestNodes": 3,
+  "applications": 0,
+  "seed": 42,
+  "cpuTreatment": "quiet",
+  "steadySeconds": 300,
+  "canaryCadenceSeconds": 30,
+  "recoverySeconds": 30,
+  "deadlinesSeconds": {
+    "startup": 3600,
+    "seeding": 60,
+    "calibration": 600,
+    "settle": 30,
+    "shutdown": 120
+  }
+}

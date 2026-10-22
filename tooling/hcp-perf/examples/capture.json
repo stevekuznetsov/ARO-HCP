@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "id": "example",
+  "image": "quay.io/prometheus/prometheus@sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "storageClass": "managed-premium",
+  "storageGi": 32,
+  "retentionHours": 24,
+  "cpuRequestMilli": 500,
+  "memoryRequestMi": 1024,
+  "memoryLimitMi": 2048,
+  "kubernetesDiscovery": false
+}

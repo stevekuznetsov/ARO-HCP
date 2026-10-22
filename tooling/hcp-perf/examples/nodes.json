@@ -1,0 +1,59 @@
+{
+  "version": "v1",
+  "collectedAt": "2026-09-08T12:00:00Z",
+  "durationSeconds": 300,
+  "memoryRequestMi": 16,
+  "memoryLimitMi": 32,
+  "nodes": [
+    {
+      "name": "worker-b",
+      "pool": "workers",
+      "role": "worker",
+      "hostsTarget": true,
+      "capacityCPUMilli": 16000,
+      "allocatableCPUMilli": 15500,
+      "committedCPUMilli": 10000,
+      "reserveCPUMilli": 500
+    },
+    {
+      "name": "infra-a",
+      "pool": "infra",
+      "role": "infra",
+      "hostsTarget": false,
+      "capacityCPUMilli": 8000,
+      "allocatableCPUMilli": 7500,
+      "committedCPUMilli": 4000,
+      "reserveCPUMilli": 500
+    },
+    {
+      "name": "worker-a",
+      "pool": "workers",
+      "role": "worker",
+      "hostsTarget": true,
+      "capacityCPUMilli": 8000,
+      "allocatableCPUMilli": 7500,
+      "committedCPUMilli": 6000,
+      "reserveCPUMilli": 500
+    },
+    {
+      "name": "worker-idle",
+      "pool": "workers",
+      "role": "worker",
+      "hostsTarget": false,
+      "capacityCPUMilli": 8000,
+      "allocatableCPUMilli": 7500,
+      "committedCPUMilli": 1000,
+      "reserveCPUMilli": 500
+    },
+    {
+      "name": "system-a",
+      "pool": "system",
+      "role": "system",
+      "hostsTarget": false,
+      "capacityCPUMilli": 4000,
+      "allocatableCPUMilli": 3500,
+      "committedCPUMilli": 2000,
+      "reserveCPUMilli": 500
+    }
+  ]
+}

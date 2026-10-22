@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "name": "small-three-node-zero-apps-quiet",
+  "expectedProfile": "small",
+  "guestNodes": 3,
+  "applications": 0,
+  "seed": 42,
+  "cpuTreatment": "quiet",
+  "deadlinesSeconds": {
+    "startup": 3600,
+    "seeding": 1800,
+    "calibration": 600,
+    "settle": 300,
+    "shutdown": 120
+  }
+}

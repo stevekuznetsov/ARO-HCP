@@ -1,0 +1,16 @@
+{
+  "targetNamespaces": [
+    "ocm-arohcpint-example-cluster"
+  ],
+  "namespaceRegex": "ocm-arohcpint-.*",
+  "clusterID": "int-management-cluster",
+  "prometheusNamespace": "prometheus",
+  "prometheusServiceAccount": "hcp-perf",
+  "workerRole": "worker",
+  "scrapeInterval": "5s",
+  "scrapeTimeout": "5s",
+  "kubeletCAFile": "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt",
+  "nodeExporterServiceNamespace": "prometheus",
+  "nodeExporterServiceName": "node-exporter",
+  "nodeExporterPort": "metrics"
+}

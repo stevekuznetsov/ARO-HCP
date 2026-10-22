@@ -1,0 +1,5 @@
+{
+  "version": "v1",
+  "guestNodes": 3,
+  "applications": [0, 12, 30, 60, 90, 120]
+}

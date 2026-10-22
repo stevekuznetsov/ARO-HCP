@@ -395,7 +395,13 @@ generate-kiota:
 #
 # Build and push all in-repo service images, then record a combined override config
 #
-PERS_OVERRIDE_FILE ?= /tmp/personal-dev-override.yaml
+# Durable checkout-local bootstrap state; use a different directory for each campaign/run.
+# Like the existing Makefile inputs, these paths must not contain spaces.
+PERSONAL_STATE_DIR ?= $(abspath $(dir $(firstword $(MAKEFILE_LIST))))/_artifacts/personal-dev
+PERS_OVERRIDE_FILE ?= $(PERSONAL_STATE_DIR)/personal-dev-override.yaml
+ifeq ($(filter /%,$(PERSONAL_STATE_DIR)),)
+$(error PERSONAL_STATE_DIR must be an absolute path)
+endif
 
 build-services: $(TEMPLATIZE)
 	$(MAKE) $(BUILD_SERVICES_OPTS) build-frontend build-backend build-admin build-sessiongate build-mgmt-agent build-kube-applier build-fleet build-aro-hcp-exporter
@@ -433,51 +439,30 @@ build-aro-hcp-exporter:
 	$(MAKE) -C tooling/aro-hcp-exporter build-and-push
 .PHONY: build-aro-hcp-exporter
 
-record-services-override: $(YQ) $(ORAS)
-	$(MAKE) -C frontend record-override OVERRIDE_CONFIG_FILE=/tmp/_frontend-override.yaml
-	$(MAKE) -C backend record-override OVERRIDE_CONFIG_FILE=/tmp/_backend-override.yaml
-	$(MAKE) -C admin record-override OVERRIDE_CONFIG_FILE=/tmp/_admin-override.yaml
-	$(MAKE) -C sessiongate record-override OVERRIDE_CONFIG_FILE=/tmp/_sessiongate-override.yaml
-	$(MAKE) -C mgmt-agent record-override OVERRIDE_CONFIG_FILE=/tmp/_mgmt-agent-override.yaml
-	$(MAKE) -C kube-applier record-override OVERRIDE_CONFIG_FILE=/tmp/_kube-applier-override.yaml
-	$(MAKE) -C fleet record-override OVERRIDE_CONFIG_FILE=/tmp/_fleet-override.yaml
-	$(MAKE) -C tooling/aro-hcp-exporter record-override OVERRIDE_CONFIG_FILE=/tmp/_aro-hcp-exporter-override.yaml
-	$(YQ) eval-all '. as $$item ireduce ({}; . * $$item)' \
-	  /tmp/_frontend-override.yaml \
-	  /tmp/_backend-override.yaml \
-	  /tmp/_admin-override.yaml \
-	  /tmp/_sessiongate-override.yaml \
-	  /tmp/_mgmt-agent-override.yaml \
-	  /tmp/_kube-applier-override.yaml \
-	  /tmp/_fleet-override.yaml \
-	  /tmp/_aro-hcp-exporter-override.yaml \
-	  > $(PERS_OVERRIDE_FILE)
-.PHONY: record-services-override
-
-#
-# Query ACR for the latest image digest of each service (no build/push)
-#
-latest-services-override: $(YQ)
-	$(MAKE) -C frontend record-latest-override OVERRIDE_CONFIG_FILE=/tmp/_frontend-override.yaml &
-	$(MAKE) -C backend record-latest-override OVERRIDE_CONFIG_FILE=/tmp/_backend-override.yaml &
-	$(MAKE) -C admin record-latest-override OVERRIDE_CONFIG_FILE=/tmp/_admin-override.yaml &
-	$(MAKE) -C sessiongate record-latest-override OVERRIDE_CONFIG_FILE=/tmp/_sessiongate-override.yaml &
-	$(MAKE) -C mgmt-agent record-latest-override OVERRIDE_CONFIG_FILE=/tmp/_mgmt-agent-override.yaml &
-	$(MAKE) -C kube-applier record-latest-override OVERRIDE_CONFIG_FILE=/tmp/_kube-applier-override.yaml &
-	$(MAKE) -C fleet record-latest-override OVERRIDE_CONFIG_FILE=/tmp/_fleet-override.yaml &
-	$(MAKE) -C tooling/aro-hcp-exporter record-latest-override OVERRIDE_CONFIG_FILE=/tmp/_aro-hcp-exporter-override.yaml &
-	wait
-	$(YQ) eval-all '. as $$item ireduce ({}; . * $$item)' \
-	  /tmp/_frontend-override.yaml \
-	  /tmp/_backend-override.yaml \
-	  /tmp/_admin-override.yaml \
-	  /tmp/_sessiongate-override.yaml \
-	  /tmp/_mgmt-agent-override.yaml \
-	  /tmp/_kube-applier-override.yaml \
-	  /tmp/_fleet-override.yaml \
-	  /tmp/_aro-hcp-exporter-override.yaml \
-	  > $(PERS_OVERRIDE_FILE)
-.PHONY: latest-services-override
+record-services-override: $(ORAS)
+# latest-services-override queries ACR without building or pushing images.
+record-services-override latest-services-override: $(YQ)
+	@set -euo pipefail; umask 077; \
+	for dir in "$(abspath $(PERSONAL_STATE_DIR))" "$(abspath $(dir $(PERS_OVERRIDE_FILE)))"; do \
+		mkdir -p "$$dir"; \
+		if [[ -L "$$dir" || ! -O "$$dir" || $$(stat -c %a "$$dir") != 700 ]]; then \
+			echo "State directory must be owned by the current user, non-symlink and mode 0700: $$dir" >&2; exit 1; \
+		fi; \
+	done; \
+	[[ ! -L "$(PERS_OVERRIDE_FILE)" && ( ! -e "$(PERS_OVERRIDE_FILE)" || -f "$(PERS_OVERRIDE_FILE)" ) ]]; \
+	work=$$(mktemp -d "$(PERSONAL_STATE_DIR)/overrides.XXXXXX"); \
+	output=; trap 'rm -rf "$$work"; rm -f "$$output"' EXIT; \
+	files=(); \
+	for component in frontend backend admin sessiongate mgmt-agent kube-applier fleet tooling/aro-hcp-exporter; do \
+		file="$$work/$${component##*/}-override.yaml"; \
+		$(MAKE) -C "$$component" $(if $(filter latest-services-override,$@),record-latest-override,record-override) OVERRIDE_CONFIG_FILE="$$file"; \
+		[[ -s "$$file" ]]; \
+		files+=("$$file"); \
+	done; \
+	output=$$(mktemp "$(PERS_OVERRIDE_FILE).XXXXXX"); \
+	$(YQ) eval-all '. as $$item ireduce ({}; . * $$item)' "$${files[@]}" > "$$output"; \
+	mv -fT "$$output" "$(PERS_OVERRIDE_FILE)"
+.PHONY: record-services-override latest-services-override
 
 #
 # One-Step Personal Dev Environment

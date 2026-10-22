@@ -1,0 +1,6 @@
+.git
+/hcp-perf
+/artifacts
+/new-capture
+*.test
+coverage*

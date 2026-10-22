@@ -1,0 +1,72 @@
+{
+  "version": "v1",
+  "environment": {
+    "id": "offline-local",
+    "incarnation": "demo-v1"
+  },
+  "actions": [
+    {
+      "id": "sizing",
+      "kind": "sizing-resolve",
+      "recovery": "read-only",
+      "timeoutNanoseconds": 10000000000,
+      "maxAttempts": 2,
+      "sizing": {
+        "profile": {
+          "version": "v1",
+          "name": "offline-kas-illustration",
+          "description": "Offline example covering only KAS, not a complete or qualified HCP sizing profile.",
+          "anchor": {"cpuMilli": 250, "memoryMiB": 1024},
+          "rounding": {"cpuMilli": 1, "memoryMiB": 1},
+          "safetyLimit": {"numerator": 3, "denominator": 1},
+          "goMemLimitPercent": 80,
+          "containers": [
+            {
+              "identity": {"kind": "Deployment", "workload": "kube-apiserver", "container": "kube-apiserver"},
+              "cpuRatio": {"numerator": 1, "denominator": 1},
+              "memoryRatio": {"numerator": 1, "denominator": 1},
+              "floor": {"cpuMilli": 250, "memoryMiB": 1024}
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "cost",
+      "kind": "cost-estimate",
+      "recovery": "read-only",
+      "dependsOn": [{"action": "sizing", "milestone": "completed"}],
+      "timeoutNanoseconds": 10000000000,
+      "maxAttempts": 2,
+      "cost": {
+        "version": "v1",
+        "currency": "USD",
+        "feeMicroUSDPerHCPHour": 1000000,
+        "targetPercent": 20,
+        "skus": [
+          {
+            "name": "fictional-offline-sku",
+            "region": "offline",
+            "priceMicroUSDPerHour": 200000,
+            "capacityBasis": "raw-illustration",
+            "rawCPUMilli": 4000,
+            "rawMemoryMiB": 16384,
+            "overheadCPUMilli": 0,
+            "overheadMemoryMiB": 0,
+            "priceSourceURL": "https://example.invalid/fictional-price",
+            "priceRetrievedAt": "2026-01-01T00:00:00Z"
+          }
+        ],
+        "dataPoints": [
+          {
+            "name": "fictional-hcp-request-aggregate",
+            "guestNodes": 0,
+            "apps": 0,
+            "demand": {"cpuMilli": 1000, "memoryMiB": 4096, "podSlots": 0, "swiftNICs": 0},
+            "sourceKind": "requests"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "name": "three-node-population",
+  "guestNodes": 3,
+  "applications": [0, 3, 12, 30, 60, 90, 120],
+  "seed": 42,
+  "mode": "validation",
+  "cpuTreatment": "quiet"
+}

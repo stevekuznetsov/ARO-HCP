@@ -1,0 +1,4115 @@
+{
+  "budgetUSDPerHour": "0.125",
+  "downstream": {
+    "actualLayoutRequests": {
+      "cpuMilli": 470,
+      "memoryMiB": 2090
+    },
+    "basis": "47 running downstream instances from scoped inventory. Historical saved scheduler accounting matched these request totals; missing init requests treated zero only in scheduler arithmetic.",
+    "cpuMilli": 470,
+    "limitations": "Not finite enforced limits; downstream excess (including OVN proxy) excluded from this fixed economic charge. No auto-discovery or unknown downstream inclusion.",
+    "memoryMiB": 2090,
+    "mode": "fixed-requests",
+    "rows": [
+      {
+        "container": "attacher-kube-rbac-proxy",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "csi-attacher",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "csi-driver",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "csi-liveness-probe",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "csi-provisioner",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "csi-resizer",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "csi-snapshotter",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "kube-rbac-proxy-8201",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "provisioner-kube-rbac-proxy",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "resizer-kube-rbac-proxy",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "snapshotter-kube-rbac-proxy",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-disk-csi-driver-controller"
+      },
+      {
+        "container": "azure-disk-csi-driver-operator",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-disk-csi-driver-operator"
+      },
+      {
+        "container": "attacher-kube-rbac-proxy",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "csi-attacher",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "csi-driver",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "csi-liveness-probe",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "csi-provisioner",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "csi-resizer",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "csi-snapshotter",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "kube-rbac-proxy-8211",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "provisioner-kube-rbac-proxy",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "resizer-kube-rbac-proxy",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "snapshotter-kube-rbac-proxy",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 20
+        },
+        "workload": "azure-file-csi-driver-controller"
+      },
+      {
+        "container": "azure-file-csi-driver-operator",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "azure-file-csi-driver-operator"
+      },
+      {
+        "container": "cloud-token",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 30
+        },
+        "workload": "cloud-network-config-controller"
+      },
+      {
+        "container": "controller",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "cloud-network-config-controller"
+      },
+      {
+        "container": "hosted-cluster-token",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 30
+        },
+        "workload": "cloud-network-config-controller"
+      },
+      {
+        "container": "snapshot-controller",
+        "replicas": 1,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "csi-snapshot-controller"
+      },
+      {
+        "container": "hosted-cluster-token",
+        "replicas": 2,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 30
+        },
+        "workload": "multus-admission-controller"
+      },
+      {
+        "container": "multus-admission-controller",
+        "replicas": 2,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "multus-admission-controller"
+      },
+      {
+        "container": "approver",
+        "replicas": 3,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "network-node-identity"
+      },
+      {
+        "container": "token-minter",
+        "replicas": 3,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 30
+        },
+        "workload": "network-node-identity"
+      },
+      {
+        "container": "webhook",
+        "replicas": 3,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 50
+        },
+        "workload": "network-node-identity"
+      },
+      {
+        "container": "ovnkube-control-plane",
+        "replicas": 2,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 200
+        },
+        "workload": "ovnkube-control-plane"
+      },
+      {
+        "container": "socks-proxy",
+        "replicas": 2,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 10
+        },
+        "workload": "ovnkube-control-plane"
+      },
+      {
+        "container": "token-minter",
+        "replicas": 2,
+        "requests": {
+          "cpuMilli": 10,
+          "memoryMiB": 30
+        },
+        "workload": "ovnkube-control-plane"
+      }
+    ],
+    "sha256": "93b36e7369d41ccd2a797281011e8df10bf03efa25e578ca17dffe9d9567d1ce"
+  },
+  "excludedInstrumentation": [
+    {
+      "memoryLimitMiB": 256,
+      "reason": "Benchmark instrumentation excluded from offering economics, reported separately.",
+      "requests": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      },
+      "workload": "kube-state-metrics-hcp"
+    }
+  ],
+  "factorGridDenominator": 1000000000,
+  "fallback": {
+    "cpuMilli": 2,
+    "memoryMiB": 21
+  },
+  "goMemLimitPercent": 80,
+  "inventory": {
+    "baselineSHA256": "989060fff033384527af02ea5f7e0a3977da3c8466e4114783b1207b99e1d11d",
+    "basis": "Validated scoped quiet inventory;97 running controlled instances,6020m/14016Mi source weights;92 selectors. Source paths/hashes are audit receipts, not private runtime dependencies.",
+    "layoutSHA256": "93b36e7369d41ccd2a797281011e8df10bf03efa25e578ca17dffe9d9567d1ce",
+    "limitations": "Saved benchmark Pod layouts only, not full startup concurrency, completed Jobs, absent workloads, changed replicas, rollout surge or actual admission. Missing observations remain explicit.",
+    "scopeMethod": "source-verified-projector",
+    "sha256": "ecf852a25da2ee2d9baab9ca0bbf01012407d78267c1f047ca907c75345e339a",
+    "sourceAuditHashes": {
+      "api/scheduling/v1alpha1/clustersizingconfiguration_types.go": "adedb01cb0b1bc4a2ebb8a6bba83ca65f773639ae8d32801301a10935d289ccd",
+      "cmd/install/assets/crds/hypershift-operator/scheduling.hypershift.openshift.io_clustersizingconfigurations.yaml": "ad45ba893746260a032ee63ce183364e1ee01a8c81f96ce7a92df7e756ae8f50",
+      "control-plane-operator/controllers/hostedcontrolplane/hostedcontrolplane_controller.go": "86749aafbc5a3e888ba406a84abaf9801bb287ca490b4d922741baa5bb40c3e8",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/autoscaler/component.go": "f2978ca17e12dfd2167a51ef3b9f62013864ec6f8f175a3f619f929ef618bcda",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/capi_manager/component.go": "ed8b9e0d8e0b4698b8d2ff1a76c78975c4625126cd2b25d22d0ba93e8bf8a556",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/capi_provider/component.go": "e71ea743917089c8cd9adbc68ce3710bd7885103927bcff1741bd335d6b8c8fc",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/cloud_controller_manager/azure/component.go": "7d4d3ff3009d6876bb520bd63f5b843ca1cfff30ad1182902baaf29e97867c0c",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/clusterpolicy/component.go": "4789111035f112b9d7f3527ef0654a4150f305be0f4367b587f018fbbe1ab59d",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/cno/component.go": "13fd3db6f0f861f67f51fbc9de7b6230c76239e1d831c4af4191495db817bd3a",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/configoperator/component.go": "c332eb47fb804c70255ede5809087d91b58ec148f38e54b1d87677fb173fcfc6",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/controlplaneoperator/component.go": "77a9c8b5b02f89c311968930016fb1bcadbb0268295d3a3c59714f15636e27f5",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/cvo/component.go": "783c4b032c4cb0de9dd241f6d31e0a0e620892bbc3e18d0bc50e86da156e34d6",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/dnsoperator/component.go": "fc4fd47f73c75c4f301f20c9c24291c078feb211ec66d3a4a1a108ec05d6ee96",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/etcd/component.go": "d5a81b741fc06330560f652ebd7eb9e0224e32a50b3b67415773374e4551d142",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/fg/component.go": "b39cc4b0404f151990c01196f0bfe5578c03ef0ea8feb09b533cc5499aef9b3b",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/ignitionserver/component.go": "19998b6942eaf9b625d8fcc09868e01269cc6cc068c99c0351258755f9828b94",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/ignitionserver_proxy/component.go": "eff1be7bfbd164130b1cc39042e215de2b4c041f7ab0e0644f8a435673ca49d5",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/ingressoperator/component.go": "0af8db29807d773eb720b035b1eb54f84b22976fe6e345112219cfa2084956e3",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/kcm/component.go": "9843774aab6727a8b12a09a1ab22f624231e526586d537cc9200beeb93e93f1b",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/konnectivity_agent/component.go": "d70cac80310cc251c767d41dbc2bd1cc825b9b99e972901a1fb0093f109db013",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/kube_scheduler/component.go": "da18cc604992f971093edbde8fd006ab200d01583241fec2ca757c274eb6e0e8",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/kube_storage_version_migrator/component.go": "697636fc291446d4cbd3ecc940390363a245da6b718fa6b75c4079d81dc586ea",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/machine_approver/component.go": "f27b6497e8397607c0fd05c5b921f59dd3dee8927f32eb2e09f885d4c132e8cd",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/nto/component.go": "d3e128fa3636a0cfdf922c8893cf171facc8770980d35bfba45e650771a57300",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/oapi/component.go": "6e278248ed24f0297d6d9af38af683dc2e8222739d0819f03aaa4b5e4d969c83",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/ocm/component.go": "69043b9a1a9def00ccb9b8fd165aefcef92f5cdd8571e8ecb8b7a67a8f7cb024",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalog_operator/component.go": "a4e99d7965f9312dc0575e14344ff665add617c3dd6c04291f92c93bdb3b1dca",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/olm/collect_profiles/component.go": "01fae97c8233880c54a881606c51cec97377c1b8640f68734026cfabb025de06",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/olm/olm_operator/component.go": "792ab12c4099adea539d73320f7d00ffcec7854942ff43b2406b7614574473fd",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/olm/packageserver/component.go": "5ed9a55e156c332af847ef5d88109688fdb3935756eb0f9c1454b8d3ee8b85a1",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/pkioperator/component.go": "1c36d47c2182089907ef607fd13b105234e39551768e443bb18523a29ba93cb2",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/registryoperator/component.go": "4e0990ae47f567e52f50b42615284e7bb3723b8069e343832e4e1e851a1fe63b",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/routecm/component.go": "0706c5c555969241ddfe2f5b9b6776e210c71c4316e6bd198358a096de653a1f",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/router/component.go": "8ff934c8d4c32907e5f9a6e78345cf2f7d298c234542a4e7de89ae1441037d79",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/snapshotcontroller/component.go": "ecfcdfc479d4cdd9f3f0874fdf9a99744267b09fc9877393c694b0a781e43c66",
+      "control-plane-operator/controllers/hostedcontrolplane/v2/storage/component.go": "6acfbbcb3358ad500fc52d8aa7c65086aac36383bcd268ac5b2c4772fdf6907f",
+      "hypershift-operator/controllers/hostedcluster/container_resource_policy.go": "a0551a61ce8bc20547d723ae7cae713e0e4cee52e224da5a8d7c75876128567f",
+      "hypershift-operator/controllers/hostedcluster/etcd_recovery.go": "df0b3da2c0196cb9394fc8127e43721c3660535a9b7dddce8e6b83f48828b063",
+      "hypershift-operator/controllers/hostedcluster/hostedcluster_controller.go": "9ddf974eb50bbf31ee7cd74c09c7e032fafc47017226022f924a3d8b3712e987",
+      "support/controlplane-component/container-resource-policy.go": "c43925d85eb504ff7236a3ff8a389ba6d22307499f0541c3dc818a06ab795227",
+      "support/controlplane-component/controlplane-component.go": "77143d73096b173f5958508e789d0968cd741929ab3965530e49f0fe0977ba28",
+      "support/controlplane-component/cronjob.go": "f9b7238baf2b1a9943f922b58bc84bf62ac4f57795467a64ffa6bc5b1d97f428",
+      "support/controlplane-component/defaults.go": "2f169be70d479f1078f30f4e3ceb19ef1206b311da53b339186a6e754bc32309"
+    },
+    "weightsSHA256": "97b50a5065313a1d18de90310b8a31ff5b0df1733ae1d63c16d47ab4bd02eb68",
+    "windows": [
+      {
+        "end": "2026-09-10T02:36:00Z",
+        "name": "fifteen-application-pods",
+        "start": "2026-09-10T02:28:00Z"
+      },
+      {
+        "end": "2026-09-10T03:10:00Z",
+        "name": "zero-application-pods",
+        "start": "2026-09-10T03:04:00Z"
+      }
+    ]
+  },
+  "name": "budget-small",
+  "node": {
+    "basis": "Linux Consumption on-demand retail, primary meter; not Spot, Low Priority, Windows or reservation",
+    "capacityBasis": "raw",
+    "capacitySource": "https://learn.microsoft.com/azure/virtual-machines/sizes/general-purpose/dsv6-series",
+    "cpuMilli": 16000,
+    "currency": "USD",
+    "memoryMiB": 65536,
+    "priceUSDPerHour": "0.806",
+    "region": "westus3",
+    "retrievedAt": "2026-09-11T14:06:18.998275Z",
+    "sha256": "647ad23701f8317abf74de32e48115f2db8450e3bd9832fdab61a84f07c4ae54",
+    "sku": "Standard_D16s_v6",
+    "sourceURL": "https://prices.azure.com/api/retail/prices?api-version=2023-01-01-preview&currencyCode=%27USD%27&%24filter=serviceName+eq+%27Virtual+Machines%27+and+armRegionName+eq+%27westus3%27+and+armSkuName+eq+%27Standard_D16s_v6%27+and+priceType+eq+%27Consumption%27"
+  },
+  "pods": [
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        0
+      ],
+      "replicas": 1,
+      "workload": "azure-cloud-controller-manager"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        21
+      ],
+      "replicas": 1,
+      "workload": "cluster-node-tuning-operator"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        33
+      ],
+      "replicas": 1,
+      "workload": "control-plane-operator"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        34
+      ],
+      "replicas": 1,
+      "workload": "control-plane-pki-operator"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        43
+      ],
+      "replicas": 2,
+      "workload": "ignition-server-proxy"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        47
+      ],
+      "replicas": 2,
+      "workload": "konnectivity-agent"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        61
+      ],
+      "replicas": 1,
+      "workload": "kube-storage-version-migrator"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        73
+      ],
+      "replicas": 2,
+      "workload": "openshift-controller-manager"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        74
+      ],
+      "replicas": 2,
+      "workload": "openshift-route-controller-manager"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        82
+      ],
+      "replicas": 3,
+      "workload": "router"
+    },
+    {
+      "init": [],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        9
+      ],
+      "replicas": 1,
+      "workload": "cluster-api"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 17
+        },
+        {
+          "restartable": false,
+          "row": 19
+        },
+        {
+          "restartable": false,
+          "row": 18
+        },
+        {
+          "restartable": false,
+          "row": 20
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        15,
+        14,
+        16
+      ],
+      "replicas": 1,
+      "workload": "cluster-network-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 23
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        22
+      ],
+      "replicas": 2,
+      "workload": "cluster-policy-controller"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 25
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        24
+      ],
+      "replicas": 1,
+      "workload": "cluster-storage-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 27
+        },
+        {
+          "restartable": false,
+          "row": 29
+        },
+        {
+          "restartable": false,
+          "row": 28
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        26
+      ],
+      "replicas": 1,
+      "workload": "cluster-version-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 2
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        1
+      ],
+      "replicas": 1,
+      "workload": "capi-provider"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 32
+        },
+        {
+          "restartable": false,
+          "row": 31
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        30
+      ],
+      "replicas": 1,
+      "workload": "community-operators-catalog"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 36
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        35
+      ],
+      "replicas": 1,
+      "workload": "csi-snapshot-controller-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 38
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        37
+      ],
+      "replicas": 1,
+      "workload": "dns-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 40
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        39
+      ],
+      "replicas": 1,
+      "workload": "hosted-cluster-config-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 42
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        41
+      ],
+      "replicas": 2,
+      "workload": "ignition-server"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 46
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        44,
+        45
+      ],
+      "replicas": 1,
+      "workload": "ingress-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 55
+        },
+        {
+          "restartable": false,
+          "row": 54
+        },
+        {
+          "restartable": false,
+          "row": 56
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        53,
+        51,
+        52,
+        48,
+        50,
+        49
+      ],
+      "replicas": 3,
+      "workload": "kube-apiserver"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 58
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        57
+      ],
+      "replicas": 2,
+      "workload": "kube-controller-manager"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 5
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        3,
+        4
+      ],
+      "replicas": 1,
+      "workload": "catalog-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 60
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        59
+      ],
+      "replicas": 2,
+      "workload": "kube-scheduler"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 63
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        62
+      ],
+      "replicas": 1,
+      "workload": "machine-approver"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 66
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        65,
+        64
+      ],
+      "replicas": 1,
+      "workload": "olm-operator"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 71
+        },
+        {
+          "restartable": false,
+          "row": 72
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        70,
+        67,
+        68,
+        69
+      ],
+      "replicas": 3,
+      "workload": "openshift-apiserver"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 78
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        77,
+        75,
+        76
+      ],
+      "replicas": 3,
+      "workload": "packageserver"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 81
+        },
+        {
+          "restartable": false,
+          "row": 80
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        79
+      ],
+      "replicas": 1,
+      "workload": "redhat-operators-catalog"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 8
+        },
+        {
+          "restartable": false,
+          "row": 7
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        6
+      ],
+      "replicas": 1,
+      "workload": "certified-operators-catalog"
+    },
+    {
+      "init": [
+        {
+          "restartable": false,
+          "row": 90
+        },
+        {
+          "restartable": false,
+          "row": 91
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        86,
+        88,
+        89,
+        87
+      ],
+      "replicas": 3,
+      "workload": "etcd"
+    },
+    {
+      "init": [
+        {
+          "restartable": true,
+          "row": 13
+        }
+      ],
+      "overhead": {
+        "cpuMilli": 0,
+        "memoryMiB": 0
+      },
+      "regular": [
+        12
+      ],
+      "replicas": 1,
+      "workload": "cluster-image-registry-operator"
+    }
+  ],
+  "quota": {
+    "basis": "Saved2026-09-11 startup sample:24 matched containers and17 Pod parents; all matched quantum model. Extrapolated to benchmark52Pods. Runtime origin/deployed source unverified; not universal Kubernetes behavior.",
+    "minimumUS": 1000,
+    "periodUS": 100000,
+    "quantumUS": 1000,
+    "sha256": "24b108ee92cf6da632fa669e9157e20403589a18d29e2fbcafc730534448cfb9"
+  },
+  "rows": [
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "cloud-controller-manager",
+        "kind": "Deployment",
+        "workload": "azure-cloud-controller-manager"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "1684576815082221/1000000000000000",
+      "quietPeakMemoryMiB": "3591/128",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cloud_controller_manager/azure/component.go",
+        "sha256": "7d4d3ff3009d6876bb520bd63f5b843ca1cfff30ad1182902baaf29e97867c0c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "manager",
+        "kind": "Deployment",
+        "workload": "capi-provider"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "5921191790714483/1000000000000000",
+      "quietPeakMemoryMiB": "1615/32",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/capi_provider/component.go",
+        "sha256": "e71ea743917089c8cd9adbc68ce3710bd7885103927bcff1741bd335d6b8c8fc"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "capi-provider"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/capi_provider/component.go",
+        "sha256": "e71ea743917089c8cd9adbc68ce3710bd7885103927bcff1741bd335d6b8c8fc"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "catalog-operator",
+        "kind": "Deployment",
+        "workload": "catalog-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "5040702062308053/1000000000000000",
+      "quietPeakMemoryMiB": "8619/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalog_operator/component.go",
+        "sha256": "a4e99d7965f9312dc0575e14344ff665add617c3dd6c04291f92c93bdb3b1dca"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "konnectivity-proxy-socks5",
+        "kind": "Deployment",
+        "workload": "catalog-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "5395287859261413/12500000000000000",
+      "quietPeakMemoryMiB": "5253/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalog_operator/component.go",
+        "sha256": "a4e99d7965f9312dc0575e14344ff665add617c3dd6c04291f92c93bdb3b1dca"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "catalog-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalog_operator/component.go",
+        "sha256": "a4e99d7965f9312dc0575e14344ff665add617c3dd6c04291f92c93bdb3b1dca"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 22,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "registry",
+        "kind": "Deployment",
+        "workload": "certified-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 22,
+        "memoryMiB": 142
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "7275899050942669/100000000000000",
+      "quietPeakMemoryMiB": "23951/64",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 90,
+        "memoryMiB": 416
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "extract-content",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "certified-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "extract-utilities",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "certified-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "manager",
+        "kind": "Deployment",
+        "workload": "cluster-api"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 15,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "5301082264754849/100000000000000",
+      "quietPeakMemoryMiB": "13049/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/capi_manager/component.go",
+        "sha256": "ed8b9e0d8e0b4698b8d2ff1a76c78975c4625126cd2b25d22d0ba93e8bf8a556"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 70,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "cluster-autoscaler",
+        "kind": "Deployment",
+        "workload": "cluster-autoscaler"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/autoscaler/component.go",
+        "sha256": "f2978ca17e12dfd2167a51ef3b9f62013864ec6f8f175a3f619f929ef618bcda"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-autoscaler"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/autoscaler/component.go",
+        "sha256": "f2978ca17e12dfd2167a51ef3b9f62013864ec6f8f175a3f619f929ef618bcda"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "cluster-image-registry-operator",
+        "kind": "Deployment",
+        "workload": "cluster-image-registry-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "8026386186770453/5000000000000000",
+      "quietPeakMemoryMiB": "5417/128",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/registryoperator/component.go",
+        "sha256": "4e0990ae47f567e52f50b42615284e7bb3723b8069e343832e4e1e851a1fe63b"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 10,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "apiserver-token-minter",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-image-registry-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 10,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "23872967792318403/50000000000000000",
+      "quietPeakMemoryMiB": "2789/128",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/registryoperator/component.go",
+        "sha256": "4e0990ae47f567e52f50b42615284e7bb3723b8069e343832e4e1e851a1fe63b"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 10,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "client-token-minter",
+        "kind": "Deployment",
+        "workload": "cluster-network-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 10,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "34682385575589573/100000000000000000",
+      "quietPeakMemoryMiB": "2747/128",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cno/component.go",
+        "sha256": "13fd3db6f0f861f67f51fbc9de7b6230c76239e1d831c4af4191495db817bd3a"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 80
+      },
+      "identity": {
+        "container": "cluster-network-operator",
+        "kind": "Deployment",
+        "workload": "cluster-network-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 57,
+        "memoryMiB": 80
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "21354152073927177/100000000000000",
+      "quietPeakMemoryMiB": "6863/128",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cno/component.go",
+        "sha256": "13fd3db6f0f861f67f51fbc9de7b6230c76239e1d831c4af4191495db817bd3a"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 260,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "konnectivity-proxy-socks5",
+        "kind": "Deployment",
+        "workload": "cluster-network-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "8673440944682397/20000000000000000",
+      "quietPeakMemoryMiB": "2667/128",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cno/component.go",
+        "sha256": "13fd3db6f0f861f67f51fbc9de7b6230c76239e1d831c4af4191495db817bd3a"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-network-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cno/component.go",
+        "sha256": "13fd3db6f0f861f67f51fbc9de7b6230c76239e1d831c4af4191495db817bd3a"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 10,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "init-client-token-minter",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-network-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 10,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cno/component.go",
+        "sha256": "13fd3db6f0f861f67f51fbc9de7b6230c76239e1d831c4af4191495db817bd3a"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "remove-old-cno",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-network-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cno/component.go",
+        "sha256": "13fd3db6f0f861f67f51fbc9de7b6230c76239e1d831c4af4191495db817bd3a"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "rewrite-config",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-network-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cno/component.go",
+        "sha256": "13fd3db6f0f861f67f51fbc9de7b6230c76239e1d831c4af4191495db817bd3a"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "cluster-node-tuning-operator",
+        "kind": "Deployment",
+        "workload": "cluster-node-tuning-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "8427742898168047/5000000000000000",
+      "quietPeakMemoryMiB": "2099/64",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/nto/component.go",
+        "sha256": "d3e128fa3636a0cfdf922c8893cf171facc8770980d35bfba45e650771a57300"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 80
+      },
+      "identity": {
+        "container": "cluster-policy-controller",
+        "kind": "Deployment",
+        "workload": "cluster-policy-controller"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 80
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "30904706132879093/5000000000000000",
+      "quietPeakMemoryMiB": "22195/256",
+      "replicas": 2,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/clusterpolicy/component.go",
+        "sha256": "4789111035f112b9d7f3527ef0654a4150f305be0f4367b587f018fbbe1ab59d"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 128
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-policy-controller"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/clusterpolicy/component.go",
+        "sha256": "4789111035f112b9d7f3527ef0654a4150f305be0f4367b587f018fbbe1ab59d"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "cluster-storage-operator",
+        "kind": "Deployment",
+        "workload": "cluster-storage-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 4,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "1695963561435853/200000000000000",
+      "quietPeakMemoryMiB": "2957/64",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/storage/component.go",
+        "sha256": "6acfbbcb3358ad500fc52d8aa7c65086aac36383bcd268ac5b2c4772fdf6907f"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-storage-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/storage/component.go",
+        "sha256": "6acfbbcb3358ad500fc52d8aa7c65086aac36383bcd268ac5b2c4772fdf6907f"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "cluster-version-operator",
+        "kind": "Deployment",
+        "workload": "cluster-version-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 39,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "7240974453113043/50000000000000",
+      "quietPeakMemoryMiB": "17631/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cvo/component.go",
+        "sha256": "783c4b032c4cb0de9dd241f6d31e0a0e620892bbc3e18d0bc50e86da156e34d6"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 180,
+        "memoryMiB": 80
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-version-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cvo/component.go",
+        "sha256": "783c4b032c4cb0de9dd241f6d31e0a0e620892bbc3e18d0bc50e86da156e34d6"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "bootstrap",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-version-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cvo/component.go",
+        "sha256": "783c4b032c4cb0de9dd241f6d31e0a0e620892bbc3e18d0bc50e86da156e34d6"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "prepare-payload",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "cluster-version-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/cvo/component.go",
+        "sha256": "783c4b032c4cb0de9dd241f6d31e0a0e620892bbc3e18d0bc50e86da156e34d6"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 24,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "registry",
+        "kind": "Deployment",
+        "workload": "community-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 24,
+        "memoryMiB": 131
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "392920432321153/5000000000000",
+      "quietPeakMemoryMiB": "87421/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 100,
+        "memoryMiB": 384
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "extract-content",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "community-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "extract-utilities",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "community-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 60,
+        "memoryMiB": 65
+      },
+      "identity": {
+        "container": "control-plane-operator",
+        "kind": "Deployment",
+        "workload": "control-plane-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 60,
+        "memoryMiB": 65
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "442171641555823/1250000000000",
+      "quietPeakMemoryMiB": "11995/128",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/controlplaneoperator/component.go",
+        "sha256": "77a9c8b5b02f89c311968930016fb1bcadbb0268295d3a3c59714f15636e27f5"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 550,
+        "memoryMiB": 128
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "control-plane-pki-operator",
+        "kind": "Deployment",
+        "workload": "control-plane-pki-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "7466574092441971/1000000000000000",
+      "quietPeakMemoryMiB": "2605/64",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/pkioperator/component.go",
+        "sha256": "1c36d47c2182089907ef607fd13b105234e39551768e443bb18523a29ba93cb2"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "csi-snapshot-controller-operator",
+        "kind": "Deployment",
+        "workload": "csi-snapshot-controller-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "4586718814341759/1000000000000000",
+      "quietPeakMemoryMiB": "4641/128",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/snapshotcontroller/component.go",
+        "sha256": "ecfcdfc479d4cdd9f3f0874fdf9a99744267b09fc9877393c694b0a781e43c66"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "csi-snapshot-controller-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/snapshotcontroller/component.go",
+        "sha256": "ecfcdfc479d4cdd9f3f0874fdf9a99744267b09fc9877393c694b0a781e43c66"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "dns-operator",
+        "kind": "Deployment",
+        "workload": "dns-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "196977441236789/200000000000000",
+      "quietPeakMemoryMiB": "1257/64",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/dnsoperator/component.go",
+        "sha256": "fc4fd47f73c75c4f301f20c9c24291c078feb211ec66d3a4a1a108ec05d6ee96"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "dns-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/dnsoperator/component.go",
+        "sha256": "fc4fd47f73c75c4f301f20c9c24291c078feb211ec66d3a4a1a108ec05d6ee96"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 80
+      },
+      "identity": {
+        "container": "hosted-cluster-config-operator",
+        "kind": "Deployment",
+        "workload": "hosted-cluster-config-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 17,
+        "memoryMiB": 80
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "6188787755022639/100000000000000",
+      "quietPeakMemoryMiB": "21453/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/configoperator/component.go",
+        "sha256": "c332eb47fb804c70255ede5809087d91b58ec148f38e54b1d87677fb173fcfc6"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 80,
+        "memoryMiB": 128
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "hosted-cluster-config-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/configoperator/component.go",
+        "sha256": "c332eb47fb804c70255ede5809087d91b58ec148f38e54b1d87677fb173fcfc6"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "ignition-server",
+        "kind": "Deployment",
+        "workload": "ignition-server"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 32,
+        "memoryMiB": 54
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "1998801739901359/250000000000000",
+      "quietPeakMemoryMiB": "36705/256",
+      "replicas": 2,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/ignitionserver/component.go",
+        "sha256": "19998b6942eaf9b625d8fcc09868e01269cc6cc068c99c0351258755f9828b94"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 150,
+        "memoryMiB": 160
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "fetch-feature-gate",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "ignition-server"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/ignitionserver/component.go",
+        "sha256": "19998b6942eaf9b625d8fcc09868e01269cc6cc068c99c0351258755f9828b94"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 96
+      },
+      "identity": {
+        "container": "haproxy",
+        "kind": "Deployment",
+        "workload": "ignition-server-proxy"
+      },
+      "nonGo": true,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 96
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "557738753121263/500000000000000",
+      "quietPeakMemoryMiB": "9327/128",
+      "replicas": 2,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/ignitionserver_proxy/component.go",
+        "sha256": "eff1be7bfbd164130b1cc39042e215de2b4c041f7ab0e0644f8a435673ca49d5"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 96
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 96
+      },
+      "identity": {
+        "container": "ingress-operator",
+        "kind": "Deployment",
+        "workload": "ingress-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 41,
+        "memoryMiB": 96
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "3118835978835981/20000000000000",
+      "quietPeakMemoryMiB": "2229/32",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/ingressoperator/component.go",
+        "sha256": "0af8db29807d773eb720b035b1eb54f84b22976fe6e345112219cfa2084956e3"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 190,
+        "memoryMiB": 80
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "konnectivity-proxy-https",
+        "kind": "Deployment",
+        "workload": "ingress-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "41952531566757/40000000000000",
+      "quietPeakMemoryMiB": "6265/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/ingressoperator/component.go",
+        "sha256": "0af8db29807d773eb720b035b1eb54f84b22976fe6e345112219cfa2084956e3"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "ingress-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/ingressoperator/component.go",
+        "sha256": "0af8db29807d773eb720b035b1eb54f84b22976fe6e345112219cfa2084956e3"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "konnectivity-agent",
+        "kind": "Deployment",
+        "workload": "konnectivity-agent"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "6745337592816549/1000000000000000",
+      "quietPeakMemoryMiB": "1551/128",
+      "replicas": 2,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/konnectivity_agent/component.go",
+        "sha256": "d70cac80310cc251c767d41dbc2bd1cc825b9b99e972901a1fb0093f109db013"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "audit-logs",
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "5511694170723013/50000000000000000",
+      "quietPeakMemoryMiB": "391/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "azure-kms-provider-active",
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "278828084960993/1000000000000000",
+      "quietPeakMemoryMiB": "287/32",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "azure-workload-identity-webhook",
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "2634416855355569/2000000000000000",
+      "quietPeakMemoryMiB": "4277/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "User-selected combined floor50m/64Mi retains diagnosed bootstrap deadline allowance; prior candidate reduced it to30m/40Mi. Not a proven minimum.",
+      "floors": {
+        "cpuMilli": 50,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "bootstrap",
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 30,
+        "memoryMiB": 40
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "11479191096754221/25000000000000000",
+      "quietPeakMemoryMiB": "5879/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "konnectivity-server",
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 4,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "2512045590141339/250000000000000",
+      "quietPeakMemoryMiB": "3159/128",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 99,
+        "memoryMiB": 560
+      },
+      "identity": {
+        "container": "kube-apiserver",
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 99,
+        "memoryMiB": 560
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "120138971039881/250000000000",
+      "quietPeakMemoryMiB": "212273/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 580,
+        "memoryMiB": 1024
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "init-bootstrap-render",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "pre-pull-image-kube-apiserver",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "wait-for-etcd",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "kube-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kas/component.go",
+        "sha256": "601225d322856b42ea19c11e51bebaaa4da2760a4506e4488478daf7b180ebe8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 20,
+        "memoryMiB": 144
+      },
+      "identity": {
+        "container": "kube-controller-manager",
+        "kind": "Deployment",
+        "workload": "kube-controller-manager"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 20,
+        "memoryMiB": 144
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "27953485724693757/1000000000000000",
+      "quietPeakMemoryMiB": "18445/128",
+      "replicas": 2,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kcm/component.go",
+        "sha256": "9843774aab6727a8b12a09a1ab22f624231e526586d537cc9200beeb93e93f1b"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 40,
+        "memoryMiB": 192
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "kube-controller-manager"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kcm/component.go",
+        "sha256": "9843774aab6727a8b12a09a1ab22f624231e526586d537cc9200beeb93e93f1b"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "kube-scheduler",
+        "kind": "Deployment",
+        "workload": "kube-scheduler"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "7030999746349141/1000000000000000",
+      "quietPeakMemoryMiB": "12603/256",
+      "replicas": 2,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kube_scheduler/component.go",
+        "sha256": "da18cc604992f971093edbde8fd006ab200d01583241fec2ca757c274eb6e0e8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "kube-scheduler"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kube_scheduler/component.go",
+        "sha256": "da18cc604992f971093edbde8fd006ab200d01583241fec2ca757c274eb6e0e8"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "migrator",
+        "kind": "Deployment",
+        "workload": "kube-storage-version-migrator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "19660871869075537/100000000000000000",
+      "quietPeakMemoryMiB": "531/64",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/kube_storage_version_migrator/component.go",
+        "sha256": "697636fc291446d4cbd3ecc940390363a245da6b718fa6b75c4079d81dc586ea"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "machine-approver",
+        "kind": "Deployment",
+        "workload": "machine-approver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "6230355503082767/10000000000000000",
+      "quietPeakMemoryMiB": "6133/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/machine_approver/component.go",
+        "sha256": "f27b6497e8397607c0fd05c5b921f59dd3dee8927f32eb2e09f885d4c132e8cd"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "machine-approver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/machine_approver/component.go",
+        "sha256": "f27b6497e8397607c0fd05c5b921f59dd3dee8927f32eb2e09f885d4c132e8cd"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "konnectivity-proxy-socks5",
+        "kind": "Deployment",
+        "workload": "olm-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "2760980438571953/5000000000000000",
+      "quietPeakMemoryMiB": "663/32",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/olm_operator/component.go",
+        "sha256": "792ab12c4099adea539d73320f7d00ffcec7854942ff43b2406b7614574473fd"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "olm-operator",
+        "kind": "Deployment",
+        "workload": "olm-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "7827710789963593/1000000000000000",
+      "quietPeakMemoryMiB": "10445/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/olm_operator/component.go",
+        "sha256": "792ab12c4099adea539d73320f7d00ffcec7854942ff43b2406b7614574473fd"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "olm-operator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/olm_operator/component.go",
+        "sha256": "792ab12c4099adea539d73320f7d00ffcec7854942ff43b2406b7614574473fd"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "audit-logs",
+        "kind": "Deployment",
+        "workload": "openshift-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "7873335580650579/100000000000000000",
+      "quietPeakMemoryMiB": "195/128",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/oapi/component.go",
+        "sha256": "6e278248ed24f0297d6d9af38af683dc2e8222739d0819f03aaa4b5e4d969c83"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 50,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "kas-readiness-check",
+        "kind": "Deployment",
+        "workload": "openshift-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 50,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "4179497321610207/500000000000000",
+      "quietPeakMemoryMiB": "795/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/oapi/component.go",
+        "sha256": "6e278248ed24f0297d6d9af38af683dc2e8222739d0819f03aaa4b5e4d969c83"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "konnectivity-proxy-https",
+        "kind": "Deployment",
+        "workload": "openshift-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "1385950772391451/400000000000000",
+      "quietPeakMemoryMiB": "6185/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/oapi/component.go",
+        "sha256": "6e278248ed24f0297d6d9af38af683dc2e8222739d0819f03aaa4b5e4d969c83"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 192
+      },
+      "identity": {
+        "container": "openshift-apiserver",
+        "kind": "Deployment",
+        "workload": "openshift-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 19,
+        "memoryMiB": 192
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "1477577778268453/20000000000000",
+      "quietPeakMemoryMiB": "53711/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/oapi/component.go",
+        "sha256": "6e278248ed24f0297d6d9af38af683dc2e8222739d0819f03aaa4b5e4d969c83"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 90,
+        "memoryMiB": 256
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "openshift-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/oapi/component.go",
+        "sha256": "6e278248ed24f0297d6d9af38af683dc2e8222739d0819f03aaa4b5e4d969c83"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "oas-trust-anchor-generator",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "openshift-apiserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/oapi/component.go",
+        "sha256": "6e278248ed24f0297d6d9af38af683dc2e8222739d0819f03aaa4b5e4d969c83"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 20,
+        "memoryMiB": 96
+      },
+      "identity": {
+        "container": "openshift-controller-manager",
+        "kind": "Deployment",
+        "workload": "openshift-controller-manager"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 20,
+        "memoryMiB": 96
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "4110549825116141/250000000000000",
+      "quietPeakMemoryMiB": "6835/64",
+      "replicas": 2,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/ocm/component.go",
+        "sha256": "69043b9a1a9def00ccb9b8fd165aefcef92f5cdd8571e8ecb8b7a67a8f7cb024"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 20,
+        "memoryMiB": 128
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "openshift-route-controller-manager",
+        "kind": "Deployment",
+        "workload": "openshift-route-controller-manager"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "6965842486333067/1000000000000000",
+      "quietPeakMemoryMiB": "6163/128",
+      "replicas": 2,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/routecm/component.go",
+        "sha256": "0706c5c555969241ddfe2f5b9b6776e210c71c4316e6bd198358a096de653a1f"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 50,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "kas-readiness-check",
+        "kind": "Deployment",
+        "workload": "packageserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 50,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "9657335976498059/1000000000000000",
+      "quietPeakMemoryMiB": "1097/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/packageserver/component.go",
+        "sha256": "5ed9a55e156c332af847ef5d88109688fdb3935756eb0f9c1454b8d3ee8b85a1"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "konnectivity-proxy-socks5",
+        "kind": "Deployment",
+        "workload": "packageserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "2992663088066391/5000000000000000",
+      "quietPeakMemoryMiB": "667/32",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/packageserver/component.go",
+        "sha256": "5ed9a55e156c332af847ef5d88109688fdb3935756eb0f9c1454b8d3ee8b85a1"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 176
+      },
+      "identity": {
+        "container": "packageserver",
+        "kind": "Deployment",
+        "workload": "packageserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 50,
+        "memoryMiB": 176
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "9541007684077431/50000000000000",
+      "quietPeakMemoryMiB": "24079/128",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/packageserver/component.go",
+        "sha256": "5ed9a55e156c332af847ef5d88109688fdb3935756eb0f9c1454b8d3ee8b85a1"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 230,
+        "memoryMiB": 320
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "identity": {
+        "container": "availability-prober",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "packageserver"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 64
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/packageserver/component.go",
+        "sha256": "5ed9a55e156c332af847ef5d88109688fdb3935756eb0f9c1454b8d3ee8b85a1"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 39,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "registry",
+        "kind": "Deployment",
+        "workload": "redhat-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 39,
+        "memoryMiB": 208
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "13075998917651319/100000000000000",
+      "quietPeakMemoryMiB": "141325/256",
+      "replicas": 1,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 160,
+        "memoryMiB": 608
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "extract-content",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "redhat-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "extract-utilities",
+        "initContainer": true,
+        "kind": "Deployment",
+        "workload": "redhat-operators-catalog"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/catalogs/component.go",
+        "sha256": "6e79df7bac3281fb2ce6b37d53ca325212ea914a51e47d3ccbfa43096971226c"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "router",
+        "kind": "Deployment",
+        "workload": "router"
+      },
+      "nonGo": true,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "3387250749753931/500000000000000",
+      "quietPeakMemoryMiB": "1795/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/router/component.go",
+        "sha256": "8ff934c8d4c32907e5f9a6e78345cf2f7d298c234542a4e7de89ae1441037d79"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "apply",
+        "kind": "Job",
+        "workload": "featuregate-generator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/fg/component.go",
+        "sha256": "b39cc4b0404f151990c01196f0bfe5578c03ef0ea8feb09b533cc5499aef9b3b"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "render-feature-gates",
+        "initContainer": true,
+        "kind": "Job",
+        "workload": "featuregate-generator"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/fg/component.go",
+        "sha256": "b39cc4b0404f151990c01196f0bfe5578c03ef0ea8feb09b533cc5499aef9b3b"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "collect-profiles",
+        "kind": "CronJob",
+        "workload": "olm-collect-profiles"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/olm/collect_profiles/component.go",
+        "sha256": "01fae97c8233880c54a881606c51cec97377c1b8640f68734026cfabb025de06"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 26,
+        "memoryMiB": 203
+      },
+      "identity": {
+        "container": "etcd",
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 26,
+        "memoryMiB": 203
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "9430901457367141/100000000000000",
+      "quietPeakMemoryMiB": "61697/128",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/etcd/component.go",
+        "sha256": "d5a81b741fc06330560f652ebd7eb9e0224e32a50b3b67415773374e4551d142"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 120,
+        "memoryMiB": 544
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "etcd-defrag",
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "336604819549723/125000000000000",
+      "quietPeakMemoryMiB": "427/16",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/etcd/component.go",
+        "sha256": "d5a81b741fc06330560f652ebd7eb9e0224e32a50b3b67415773374e4551d142"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "etcd-metrics",
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 4,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "11436130764640801/1000000000000000",
+      "quietPeakMemoryMiB": "3917/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/etcd/component.go",
+        "sha256": "d5a81b741fc06330560f652ebd7eb9e0224e32a50b3b67415773374e4551d142"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Consolidated protected/targeted allocation from historical cost candidates through v13; latest row requests supersede stale inherited maps. Floors, not fixed ceilings; not proven minima.",
+      "floors": {
+        "cpuMilli": 20,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "healthz",
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 20,
+        "memoryMiB": 21
+      },
+      "quietObserved": true,
+      "quietP95CPUMilli": "5056229198699853/500000000000000",
+      "quietPeakMemoryMiB": "8089/256",
+      "replicas": 3,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/etcd/component.go",
+        "sha256": "d5a81b741fc06330560f652ebd7eb9e0224e32a50b3b67415773374e4551d142"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "p95 CPU / peak charge with original floors",
+      "weights": {
+        "cpuMilli": 20,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "ensure-dns",
+        "initContainer": true,
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/etcd/component.go",
+        "sha256": "d5a81b741fc06330560f652ebd7eb9e0224e32a50b3b67415773374e4551d142"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    },
+    {
+      "floorBasis": "Explicit representability floors1m/1Mi only, not startup minima.",
+      "floors": {
+        "cpuMilli": 1,
+        "memoryMiB": 1
+      },
+      "identity": {
+        "container": "reset-member",
+        "initContainer": true,
+        "kind": "StatefulSet",
+        "workload": "etcd"
+      },
+      "nonGo": false,
+      "oldRequests": {
+        "cpuMilli": 2,
+        "memoryMiB": 21
+      },
+      "quietObserved": false,
+      "quietP95CPUMilli": null,
+      "quietPeakMemoryMiB": null,
+      "replicas": 0,
+      "source": {
+        "basis": "Historical scoped source audit: component.New registration and policy projection, not policy-hash annotation; deployed image not verified.",
+        "method": "source-verified-projector",
+        "path": "control-plane-operator/controllers/hostedcontrolplane/v2/etcd/component.go",
+        "sha256": "d5a81b741fc06330560f652ebd7eb9e0224e32a50b3b67415773374e4551d142"
+      },
+      "startupNote": "Fresh startup unqualified; unchanged probes/deadlines. Quiet weights are allocation proportions, not simultaneous demand or startup peaks.",
+      "weightBasis": "baseline retained; startup untested",
+      "weights": {
+        "cpuMilli": 10,
+        "memoryMiB": 64
+      }
+    }
+  ],
+  "version": "hcp-perf.budget/v1"
+}

@@ -1,0 +1,41 @@
+{
+  "version": "v1",
+  "name": "small",
+  "description": "INCOMPLETE illustrative experiment profile for selected components only: KAS, etcd, KCM, OAS, and packageserver. Ratios and floors are example inputs to validate against measurements, not measured recommendations or an all-workload operational profile. Sidecars, init containers, and other workloads are not covered. This is not a HyperShift API object.",
+  "anchor": {"cpuMilli": 250, "memoryMiB": 1024},
+  "rounding": {"cpuMilli": 10, "memoryMiB": 16},
+  "safetyLimit": {"numerator": 3, "denominator": 1},
+  "goMemLimitPercent": 80,
+  "containers": [
+    {
+      "identity": {"kind": "Deployment", "workload": "kube-apiserver", "container": "kube-apiserver"},
+      "cpuRatio": {"numerator": 1, "denominator": 1},
+      "memoryRatio": {"numerator": 1, "denominator": 1},
+      "floor": {"cpuMilli": 250, "memoryMiB": 1024}
+    },
+    {
+      "identity": {"kind": "StatefulSet", "workload": "etcd", "container": "etcd"},
+      "cpuRatio": {"numerator": 2, "denominator": 5},
+      "memoryRatio": {"numerator": 1, "denominator": 2},
+      "floor": {"cpuMilli": 100, "memoryMiB": 256}
+    },
+    {
+      "identity": {"kind": "Deployment", "workload": "kube-controller-manager", "container": "kube-controller-manager"},
+      "cpuRatio": {"numerator": 1, "denominator": 5},
+      "memoryRatio": {"numerator": 1, "denominator": 4},
+      "floor": {"cpuMilli": 50, "memoryMiB": 128}
+    },
+    {
+      "identity": {"kind": "Deployment", "workload": "openshift-apiserver", "container": "openshift-apiserver"},
+      "cpuRatio": {"numerator": 1, "denominator": 5},
+      "memoryRatio": {"numerator": 1, "denominator": 4},
+      "floor": {"cpuMilli": 50, "memoryMiB": 128}
+    },
+    {
+      "identity": {"kind": "Deployment", "workload": "packageserver", "container": "packageserver"},
+      "cpuRatio": {"numerator": 1, "denominator": 10},
+      "memoryRatio": {"numerator": 1, "denominator": 8},
+      "floor": {"cpuMilli": 20, "memoryMiB": 64}
+    }
+  ]
+}

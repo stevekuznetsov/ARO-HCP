@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "guestNodes": 3,
+  "applications": 0,
+  "seed": 42,
+  "namespacePrefix": "hcp-perf-apps",
+  "durationSeconds": 7200,
+  "turnoverPeriodSeconds": 3600,
+  "recoverySeconds": 600,
+  "maxOutstanding": 20
+}
